@@ -4,19 +4,28 @@ using UnityEngine;
 
 namespace Presentation.Objects {
     public class Player : Entity<PlayerData>, IPlayer {
-        private int rotateFlag;
         private bool moveFlag;
+        private bool isMoving;
+
+        private bool rotateFlag;
+        private int rotateDirection;
+
+        [Space]
+        public SpriteRenderer spriteRenderer;
+        public Sprite idleSprite;
+        public Sprite moveSprite;
 
         public override float Radius => data.colliderRadius;
 
-        public void Rotate(bool left) {
-            rotateFlag = left ? -1 : 1;
+        public void Rotate(bool actionFlag, bool left) {
+            rotateFlag = actionFlag;
+            rotateDirection = left ? 1 : -1;
         }
 
         // Move must have inertia and the screen - is infinity
 
-        public void Move() {
-            moveFlag = true;
+        public void Move(bool actionFlag) {
+            moveFlag = actionFlag;
         }
 
 
@@ -31,13 +40,24 @@ namespace Presentation.Objects {
             float deltaTime = Time.deltaTime;
 
             if (moveFlag) {
-                transform.Translate(transform.up * (data.speed * deltaTime));
-                moveFlag = false;
+                // transform.Translate(transform.up * (data.speed * deltaTime));
+                Vector3 position = transform.position;
+                position += transform.up * (data.speed * deltaTime);
+                transform.position = position;
+
+                if (!isMoving) {
+                    spriteRenderer.sprite = moveSprite;
+                    isMoving = true;
+                }
+            } else {
+                if (isMoving) {
+                    spriteRenderer.sprite = idleSprite;
+                    isMoving = false;
+                }
             }
 
-            if (rotateFlag != 0) {
-                transform.Rotate(0, 0, data.rotationSpeed * deltaTime);
-                rotateFlag = 0;
+            if (rotateFlag) {
+                transform.Rotate(0, 0, data.rotationSpeed * deltaTime * rotateDirection);
             }
 
         }

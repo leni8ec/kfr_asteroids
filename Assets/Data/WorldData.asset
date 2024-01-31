@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13c90f62a811473980a0286a7940b3ed, type: 3}
-  m_Name: PlayerData
+  m_Script: {fileID: 11500000, guid: 5ff49255d7814d08be7e50099aca063b, type: 3}
+  m_Name: WorldData
   m_EditorClassIdentifier: 
-  speed: 3
-  fireRateGun: 3
-  fireRateLaser: 0.3
-  rotationSpeed: 180
-  colliderRadius: 10
+  asteroidsSpawnRate: 3
+  ufoSpawnRate: 0.1

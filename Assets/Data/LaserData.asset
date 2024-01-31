@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13c90f62a811473980a0286a7940b3ed, type: 3}
-  m_Name: PlayerData
+  m_Script: {fileID: 11500000, guid: e3705952d0cd48768e2fb6315d835d22, type: 3}
+  m_Name: LaserData
   m_EditorClassIdentifier: 
-  speed: 3
-  fireRateGun: 3
-  fireRateLaser: 0.3
-  rotationSpeed: 180
+  duration: 1
+  maxDistance: 10
   colliderRadius: 10

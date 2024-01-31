@@ -30,10 +30,10 @@ namespace Domain.Systems.Gameplay {
             GameObject playerObject = Object.Instantiate(playerPrefab);
             Player targetPlayer = playerObject.GetComponent<Player>();
             targetPlayer.SetData(playerData);
-            return player;
+            return targetPlayer;
         }
 
-        private void Fire(Player.Weapon weapon) {
+        private void Fire(bool actionFlag, Player.Weapon weapon) {
             if (weapon == Player.Weapon.Gun) FireBullet();
             else if (weapon == Player.Weapon.Laser) FireLaser();
             else Debug.LogError("Weapon isn't specified!");

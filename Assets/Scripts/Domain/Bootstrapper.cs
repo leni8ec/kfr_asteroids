@@ -13,7 +13,7 @@ namespace Domain {
 
         private UpdateProcessor updateProcessor;
         private CollisionSystem collisionSystem;
-        private WorldController worldController;
+        private WorldSystem worldSystem;
         private PlayerSystem playerSystem;
         private InputController inputController;
         private GameStateController gameStateController;
@@ -25,8 +25,7 @@ namespace Domain {
 
             updateProcessor = new UpdateProcessor();
             collisionSystem = new CollisionSystem(player);
-            inputController = new InputController();
-            worldController = new WorldController(guiController.dataCollector, guiController.prefabCollector);
+            worldSystem = new WorldSystem(guiController.dataCollector, guiController.prefabCollector);
             playerSystem = new PlayerSystem(guiController.dataCollector, guiController.prefabCollector);
             gameStateController = new GameStateController();
 

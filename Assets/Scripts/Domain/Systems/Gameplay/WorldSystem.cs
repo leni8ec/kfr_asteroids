@@ -8,24 +8,24 @@ using Presentation.Objects;
 using Vector3 = UnityEngine.Vector3;
 
 namespace Domain.Systems.Gameplay {
-    public class WorldController : IUpdate {
+    public class WorldSystem : IUpdate {
         private readonly EntityPool<Asteroid, AsteroidData> asteroidsPool;
         private readonly EntityPool<Ufo, UfoData> ufosPool;
 
-        private readonly EnvironmentData environmentData;
+        private readonly WorldData worldData;
 
         private float nextAsteroidSpawn;
         private float nextUfoSpawn;
 
-        public WorldController(DataCollector dataCollector, PrefabCollector prefabCollector) {
+        public WorldSystem(DataCollector dataCollector, PrefabCollector prefabCollector) {
             // Pools
             asteroidsPool = new EntityPool<Asteroid, AsteroidData>(prefabCollector.asteroid, dataCollector.asteroidData);
             ufosPool = new EntityPool<Ufo, UfoData>(prefabCollector.ufo, dataCollector.ufoData);
 
-            // Environment
-            environmentData = dataCollector.environmentData;
-            nextAsteroidSpawn = 1 / environmentData.asteroidsSpawnRate;
-            nextAsteroidSpawn = 1 / environmentData.ufoSpawnRate;
+            // World
+            worldData = dataCollector.worldData;
+            nextAsteroidSpawn = 1 / worldData.asteroidsSpawnRate;
+            nextAsteroidSpawn = 1 / worldData.ufoSpawnRate;
 
             // Subscribe
             CollisionSystem.enemyHit += EnemyHitHandler;
@@ -33,12 +33,12 @@ namespace Domain.Systems.Gameplay {
 
         public void Upd(float deltaTime) {
             if ((nextAsteroidSpawn -= deltaTime) <= 0) {
-                nextAsteroidSpawn = 1 / environmentData.asteroidsSpawnRate;
+                nextAsteroidSpawn = 1 / worldData.asteroidsSpawnRate;
                 SpawnAsteroid();
             }
 
             if ((nextUfoSpawn -= deltaTime) <= 0) {
-                nextUfoSpawn = 1 / environmentData.ufoSpawnRate;
+                nextUfoSpawn = 1 / worldData.ufoSpawnRate;
                 SpawnUfo();
             }
         }
