@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a3b348a92b4c2d8750333fbaee1bc8, type: 3}
   m_Name: BulletData
   m_EditorClassIdentifier: 
-  speed: 5
-  maxDistance: 10
+  fireRate: 5
+  speed: 7
+  lifetime: 1
   colliderRadius: 10

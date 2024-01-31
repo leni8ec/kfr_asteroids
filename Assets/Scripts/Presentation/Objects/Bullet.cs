@@ -1,17 +1,22 @@
 ﻿using Framework.Objects;
 using Presentation.Data;
+using UnityEngine;
 
 namespace Presentation.Objects {
     public class Bullet : Ammo<BulletData>, IBullet {
 
         public override float Radius => data.colliderRadius;
 
-        public void Fire() { }
+        private float lifetime;
 
-        public override void Reset() { }
+        public void Fire() {
+            lifetime = data.lifetime;
+        }
 
         private void Update() {
-            transform.Translate(transform.up * data.speed);
+            transform.Translate(direction * (data.speed * Time.deltaTime));
+
+            if ((lifetime -= Time.deltaTime) <= 0) Reset();
         }
 
     }

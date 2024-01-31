@@ -4,14 +4,12 @@ namespace Presentation.Data {
     [CreateAssetMenu(menuName = "Data/PlayerData")]
     public class PlayerData : ScriptableObject {
         public float speed = 3f;
-        [Tooltip("Shots in sec")]
-        public float fireRateGun = 3;
-        [Tooltip("Shots in sec")]
-        public float fireRateLaser = 0.3f;
+        [Tooltip("in sec to full speed")]
+        public float inertia = 0.5f;
         [Tooltip("Degrees in sec")]
         public float rotationSpeed = 180;
 
-        [Space]
+        [Header("Collision")]
         public float colliderRadius = 10;
     }
 

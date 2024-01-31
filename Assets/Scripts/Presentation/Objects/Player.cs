@@ -10,12 +10,18 @@ namespace Presentation.Objects {
         private bool rotateFlag;
         private int rotateDirection;
 
+        private float inertialSpeed;
+        private float inertialTime;
+
         [Space]
         public SpriteRenderer spriteRenderer;
         public Sprite idleSprite;
         public Sprite moveSprite;
 
         public override float Radius => data.colliderRadius;
+
+        // position of bullet start
+        public Vector3 WeaponWorldPosition => transform.position + transform.up * 0.2f;
 
         public void Rotate(bool actionFlag, bool left) {
             rotateFlag = actionFlag;
@@ -34,28 +40,39 @@ namespace Presentation.Objects {
             Laser = 1,
         }
 
-        public override void Reset() { }
-
         private void Update() {
             float deltaTime = Time.deltaTime;
 
+            // Moving
             if (moveFlag) {
-                // transform.Translate(transform.up * (data.speed * deltaTime));
-                Vector3 position = transform.position;
-                position += transform.up * (data.speed * deltaTime);
-                transform.position = position;
-
+                if (inertialTime < 1) {
+                    inertialTime = Mathf.Min(1, inertialTime + deltaTime * (1 / data.inertia));
+                    inertialSpeed = Mathf.Lerp(0, data.speed, inertialTime);
+                }
                 if (!isMoving) {
-                    spriteRenderer.sprite = moveSprite;
                     isMoving = true;
+                    spriteRenderer.sprite = moveSprite;
                 }
             } else {
+                if (inertialTime > 0) {
+                    inertialTime = Mathf.Max(0, inertialTime - deltaTime * (1 / data.inertia));
+                    inertialSpeed = Mathf.Lerp(0, data.speed, inertialTime);
+                }
                 if (isMoving) {
-                    spriteRenderer.sprite = idleSprite;
                     isMoving = false;
+                    spriteRenderer.sprite = idleSprite;
                 }
             }
 
+            if (inertialTime > 0) {
+                // transform.Translate(transform.up * (data.speed * deltaTime));
+                Transform t = transform;
+                Vector3 position = t.position;
+                position += t.up * (inertialSpeed * deltaTime);
+                t.position = position;
+            }
+
+            // Rotation
             if (rotateFlag) {
                 transform.Rotate(0, 0, data.rotationSpeed * deltaTime * rotateDirection);
             }

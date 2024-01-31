@@ -37,8 +37,10 @@ namespace Domain {
         // Update is called once per frame
         private void Update() {
             float deltaTime = Time.deltaTime;
+            worldSystem.Upd(deltaTime);
             updateProcessor.Upd(deltaTime);
             collisionSystem.Upd(deltaTime);
+            playerSystem.Upd(deltaTime);
         }
     }
 }

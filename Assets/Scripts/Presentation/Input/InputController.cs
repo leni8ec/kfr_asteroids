@@ -54,12 +54,10 @@ namespace Domain.Systems.Input {
         }
 
         private void OnFire1Action(bool actionFlag, InputAction.CallbackContext context) {
-            Debug.Log("[Input] OnFire1Action");
             fire(actionFlag, Player.Weapon.Gun);
         }
 
         private void OnFire2Action(bool actionFlag, InputAction.CallbackContext context) {
-            Debug.Log("[Input] OnFire2Action");
             fire(actionFlag, Player.Weapon.Laser);
         }
 

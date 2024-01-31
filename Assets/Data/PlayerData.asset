@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   speed: 3
-  fireRateGun: 3
-  fireRateLaser: 0.3
+  inertia: 0.5
   rotationSpeed: 180
   colliderRadius: 10

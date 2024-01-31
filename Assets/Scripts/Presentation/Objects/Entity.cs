@@ -2,7 +2,10 @@
 using UnityEngine;
 
 namespace Presentation.Objects {
-    public abstract class Entity<T> : EntityBase, IEntity where T : ScriptableObject {
+    public abstract class Entity<T> : EntityBase, IEntity where T : ScriptableObject, new() {
+
+        public delegate void Dispose(Entity<T> entity);
+        public Dispose dispose;
 
         protected T data;
 
@@ -13,7 +16,9 @@ namespace Presentation.Objects {
         public abstract float Radius { get; }
         public Vector2 Pos => transform.position;
 
-        public abstract void Reset();
+        public virtual void Reset() {
+            dispose(this);
+        }
 
     }
 }

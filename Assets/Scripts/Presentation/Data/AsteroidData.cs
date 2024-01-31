@@ -5,7 +5,7 @@ namespace Presentation.Data {
     public class AsteroidData : ScriptableObject {
         public float speed = 0.5f;
 
-        [Space]
+        [Header("Collision")]
         public float colliderRadius = 10;
 
     }

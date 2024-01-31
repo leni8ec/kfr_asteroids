@@ -8,7 +8,5 @@ namespace Presentation.Objects {
 
         public void Fire() { }
 
-        public override void Reset() { }
-
     }
 }

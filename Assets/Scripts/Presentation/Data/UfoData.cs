@@ -11,7 +11,7 @@ namespace Presentation.Data {
         [Tooltip("in seconds")]
         public float huntDelay = 3;
 
-        [Space]
+        [Header("Collision")]
         public float colliderRadius = 10;
     }
 }

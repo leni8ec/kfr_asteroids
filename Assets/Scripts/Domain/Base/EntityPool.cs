@@ -16,17 +16,16 @@ namespace Domain.Base {
 
 
         public TEntity Take() {
-            if (stack.TryPop(out TEntity entity)) {
-                entity.gameObject.SetActive(true);
-                return entity;
+            if (!stack.TryPop(out TEntity entity)) {
+                // Instantiate new object
+                GameObject go = Object.Instantiate(prefab);
+                entity = go.GetComponent<TEntity>();
+                entity.SetData(data);
+                entity.dispose += e => Return(entity);
+                // stack.Push(entity);
             }
 
-            // Instantiate new object
-            GameObject go = Object.Instantiate(prefab);
-            entity = go.GetComponent<TEntity>();
-            entity.SetData(data);
-
-            stack.Push(entity);
+            if (!entity.gameObject.activeSelf) entity.gameObject.SetActive(true);
             return entity;
         }
 
