@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Domain.Data {
+namespace Presentation.Data {
     [CreateAssetMenu(menuName = "Data/UfoData")]
     public class UfoData : ScriptableObject {
         [FormerlySerializedAs("speed")]
-        public float startSpeed;
-        public float huntSpeed;
+        public float startSpeed = 1;
+        public float huntSpeed = 1.2f;
 
         [Tooltip("in seconds")]
-        public float huntDelay;
+        public float huntDelay = 3;
+
+        [Space]
+        public float colliderRadius = 10;
     }
 }

@@ -1,10 +1,12 @@
-﻿namespace Framework.Objects {
+﻿using UnityEngine;
+
+namespace Framework.Objects {
     public interface IUfo : IEntity {
 
         /**
-         * Stay on player and go to him
+         * Stay on target and go to him
          */
-        void Hunt();
+        void Hunt(Transform target);
 
     }
 }

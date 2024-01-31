@@ -1,7 +1,7 @@
 ﻿using Framework.Base;
 
 namespace Framework.Objects {
-    public interface IEntity : IUpdate {
 
-    }
+    public interface IEntity : ICollider, IReset { }
+
 }

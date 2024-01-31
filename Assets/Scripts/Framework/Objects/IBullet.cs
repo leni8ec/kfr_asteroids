@@ -1,3 +1,3 @@
 ﻿namespace Framework.Objects {
-    public interface IBullet : IEntity { }
+    public interface IBullet : IAmmo { }
 }
