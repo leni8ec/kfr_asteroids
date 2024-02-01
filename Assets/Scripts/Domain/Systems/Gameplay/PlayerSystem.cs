@@ -1,6 +1,9 @@
-﻿using Domain.Base;
+﻿using System.Collections.Generic;
+using Domain.Base;
+using Domain.Systems.Collision;
 using Domain.Systems.Input;
 using Framework.Base;
+using Framework.Objects;
 using Presentation.Data;
 using Presentation.GUI;
 using Presentation.Objects;
@@ -8,9 +11,12 @@ using UnityEngine;
 
 namespace Domain.Systems.Gameplay {
     public class PlayerSystem : IUpdate {
-        private readonly Player player;
+        public Player Player { get; }
+
         private readonly EntityPool<Bullet, BulletData> ammo1Pool;
         private readonly EntityPool<Laser, LaserData> ammo2Pool;
+
+        public List<Bullet> ActiveBullets => ammo1Pool.active;
 
         private readonly BulletData ammo1Data;
         private readonly LaserData ammo2Data;
@@ -34,12 +40,14 @@ namespace Domain.Systems.Gameplay {
             ammo2Data = dataCollector.laserData;
 
             // Player
-            player = CreatePlayer(prefabCollector.player, dataCollector.playerData);
+            Player = CreatePlayer(prefabCollector.player, dataCollector.playerData);
 
             // Subscribe
             InputController.fire += Fire;
-            InputController.move += player.Move;
-            InputController.rotate += player.Rotate;
+            InputController.move += Player.Move;
+            InputController.rotate += Player.Rotate;
+
+            CollisionSystem.playerHit += PlayerHitHandler;
         }
 
         private Player CreatePlayer(GameObject playerPrefab, PlayerData playerData) {
@@ -55,13 +63,17 @@ namespace Domain.Systems.Gameplay {
             else Debug.LogError("Weapon isn't specified!");
         }
 
+        private void PlayerHitHandler(ICollider enemy) {
+            // Player.gameObject.SetActive(false);
+        }
+
         public void Upd(float deltaTime) {
             if (fire1Flag && fire1Countdown <= 0) {
                 fire1Countdown = Fire1Delay;
 
                 Bullet bullet = ammo1Pool.Take();
-                Transform playerTransform = player.transform;
-                bullet.Set(player.WeaponWorldPosition, playerTransform.up);
+                Transform playerTransform = Player.transform;
+                bullet.Set(Player.WeaponWorldPosition, playerTransform.up);
                 bullet.Fire();
             }
 
@@ -69,7 +81,7 @@ namespace Domain.Systems.Gameplay {
                 fire2Countdown = Fire2Delay;
 
                 Laser laser = ammo2Pool.Take();
-                Transform transform = player.transform;
+                Transform transform = Player.transform;
                 laser.Set(transform.position, transform.up);
                 laser.Fire();
             }

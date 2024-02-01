@@ -6,7 +6,7 @@ namespace Presentation.Data {
         public float speed = 1f;
 
         [Header("Collision")]
-        public float colliderRadius = 10;
+        public float colliderRadius = 0.1f;
 
     }
 

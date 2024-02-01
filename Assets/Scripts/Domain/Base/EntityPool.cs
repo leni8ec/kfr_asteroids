@@ -8,6 +8,7 @@ namespace Domain.Base {
         private readonly TData data;
 
         private readonly Stack<TEntity> stack = new();
+        public readonly List<TEntity> active = new();
 
         public EntityPool(GameObject prefab, TData data) {
             this.prefab = prefab;
@@ -26,11 +27,13 @@ namespace Domain.Base {
             }
 
             if (!entity.gameObject.activeSelf) entity.gameObject.SetActive(true);
+            active.Add(entity);
             return entity;
         }
 
         public void Return(TEntity entity) {
             entity.gameObject.SetActive(false);
+            active.Remove(entity);
             stack.Push(entity);
         }
 

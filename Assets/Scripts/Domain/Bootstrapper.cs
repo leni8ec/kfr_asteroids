@@ -21,12 +21,11 @@ namespace Domain {
         private void Awake() {
             // Gui - Init first
             guiController = GuiController.Handler;
-            Player player = guiController.prefabCollector.player.GetComponent<Player>();
 
             updateProcessor = new UpdateProcessor();
-            collisionSystem = new CollisionSystem(player);
             worldSystem = new WorldSystem(guiController.dataCollector, guiController.prefabCollector);
             playerSystem = new PlayerSystem(guiController.dataCollector, guiController.prefabCollector);
+            collisionSystem = new CollisionSystem(playerSystem.Player, worldSystem.ActiveAsteroids, worldSystem.ActiveUfos, playerSystem.ActiveBullets);
             gameStateController = new GameStateController();
 
         }
@@ -38,9 +37,9 @@ namespace Domain {
         private void Update() {
             float deltaTime = Time.deltaTime;
             worldSystem.Upd(deltaTime);
+            playerSystem.Upd(deltaTime);
             updateProcessor.Upd(deltaTime);
             collisionSystem.Upd(deltaTime);
-            playerSystem.Upd(deltaTime);
         }
     }
 }

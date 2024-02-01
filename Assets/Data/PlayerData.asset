@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13c90f62a811473980a0286a7940b3ed, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  speed: 8
-  accelerationInertia: 0.2
-  brakingInertia: 5
+  speed: 10
+  accelerationInertia: 2
+  brakingInertia: 2000
   leftOverInertia: 2
   rotationSpeed: 180
-  colliderRadius: 10
+  colliderRadius: 0.3

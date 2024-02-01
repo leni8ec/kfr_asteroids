@@ -12,6 +12,6 @@ namespace Presentation.Data {
         public float huntDelay = 3;
 
         [Header("Collision")]
-        public float colliderRadius = 10;
+        public float colliderRadius = 0.1f;
     }
 }

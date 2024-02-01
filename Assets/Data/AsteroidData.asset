@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 576818c3ae864eda8e6342113f8199de, type: 3}
   m_Name: AsteroidData
   m_EditorClassIdentifier: 
-  speed: 0.5
-  colliderRadius: 10
+  speed: 1
+  colliderRadius: 0.7

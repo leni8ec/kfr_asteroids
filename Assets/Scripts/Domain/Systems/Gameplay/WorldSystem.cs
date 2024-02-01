@@ -1,4 +1,5 @@
-﻿using Domain.Base;
+﻿using System.Collections.Generic;
+using Domain.Base;
 using Domain.Systems.Collision;
 using Framework.Base;
 using Framework.Objects;
@@ -13,10 +14,16 @@ namespace Domain.Systems.Gameplay {
         private readonly EntityPool<Asteroid, AsteroidData> asteroidsPool;
         private readonly EntityPool<Ufo, UfoData> ufosPool;
 
+        public List<Asteroid> ActiveAsteroids => asteroidsPool.active;
+        public List<Ufo> ActiveUfos => ufosPool.active;
+
         private readonly WorldData worldData;
 
         private float asteroidSpawnCountdown;
         private float ufoSpawnCountdown;
+
+        private readonly float disposeInterval = 1;
+        private float disposeCountdown = 10;
 
         public WorldSystem(DataCollector dataCollector, PrefabCollector prefabCollector) {
             // Pools
@@ -33,6 +40,7 @@ namespace Domain.Systems.Gameplay {
         }
 
         public void Upd(float deltaTime) {
+            // Spawn
             if ((asteroidSpawnCountdown -= deltaTime) <= 0) {
                 asteroidSpawnCountdown = 1 / worldData.asteroidsSpawnRate;
                 SpawnAsteroid();
@@ -42,6 +50,27 @@ namespace Domain.Systems.Gameplay {
                 ufoSpawnCountdown = 1 / worldData.ufoSpawnRate;
                 SpawnUfo();
             }
+
+            // Dispose checking
+            if ((disposeCountdown -= deltaTime) <= 0) {
+                disposeCountdown = disposeInterval;
+
+                for (int index = asteroidsPool.active.Count - 1; index >= 0; index--) {
+                    Asteroid asteroid = asteroidsPool.active[index];
+                    if (asteroid.Lifetime < 10) continue;
+
+                    // Check if asteroid is outside world
+                    Vector3 point = GuiController.Handler.mainCamera.WorldToViewportPoint(asteroid.transform.position);
+                    Vector2 borders = worldData.viewportOutsideBorders;
+                    if (point.x < borders.x || point.x > borders.y || point.y < borders.x || point.y > borders.y) {
+                        asteroid.Reset();
+                    }
+                }
+
+                foreach (Ufo ufo in ufosPool.active) { }
+            }
+
+
         }
 
         private void SpawnAsteroid() {
@@ -62,13 +91,12 @@ namespace Domain.Systems.Gameplay {
 
 
         private Vector3 GetRandomSpawnPoint() {
-            Vector2 borders = new(-0.1f, 1.1f);
             Vector2 vector = new(Random.value, Random.value);
             Vector2 viewportBorderPoint;
             if (Random.value >= 0.5f)
-                viewportBorderPoint = new Vector2(vector.x < 0.5f ? borders.x : borders.y, vector.y); // left/right
+                viewportBorderPoint = new Vector2(vector.x < 0.5f ? worldData.viewportOutsideBorders.x : worldData.viewportOutsideBorders.y, vector.y); // left/right
             else
-                viewportBorderPoint = new Vector2(vector.x, vector.y < 0.5f ? borders.x : borders.y); // top/bottom
+                viewportBorderPoint = new Vector2(vector.x, vector.y < 0.5f ? worldData.viewportOutsideBorders.x : worldData.viewportOutsideBorders.y); // top/bottom
 
             Vector3 worldPoint = GuiController.Handler.mainCamera.ViewportToWorldPoint(viewportBorderPoint);
             worldPoint.z = 0;
@@ -84,10 +112,15 @@ namespace Domain.Systems.Gameplay {
         }
 
         private void EnemyHitHandler(ICollider enemy, ICollider ammo) {
-            if (enemy is Asteroid asteroid) {
-                asteroidsPool.Return(asteroid);
-            } else if (enemy is Ufo ufo) {
-                ufosPool.Return(ufo);
+            Debug.Log("EnemyHitHandler");
+            if (ammo is Bullet bullet) bullet.Reset();
+            switch (enemy) {
+                case Asteroid asteroid:
+                    asteroid.Reset();
+                    break;
+                case Ufo ufo:
+                    ufo.Reset();
+                    break;
             }
         }
 

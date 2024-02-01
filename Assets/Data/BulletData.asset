@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: BulletData
   m_EditorClassIdentifier: 
   fireRate: 5
-  speed: 7
-  lifetime: 1
-  colliderRadius: 10
+  speed: 8
+  lifetime: 1.5
+  colliderRadius: 0.05

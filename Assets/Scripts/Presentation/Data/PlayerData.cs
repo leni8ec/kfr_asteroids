@@ -12,7 +12,7 @@ namespace Presentation.Data {
         public float rotationSpeed = 180;
 
         [Header("Collision")]
-        public float colliderRadius = 10;
+        public float colliderRadius = 0.1f;
     }
 
 }

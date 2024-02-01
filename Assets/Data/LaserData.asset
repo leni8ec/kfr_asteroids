@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3705952d0cd48768e2fb6315d835d22, type: 3}
   m_Name: LaserData
   m_EditorClassIdentifier: 
+  fireRate: 0.3
   duration: 1
   maxDistance: 10
-  colliderRadius: 10
+  colliderRadius: 0.1

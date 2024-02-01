@@ -70,9 +70,10 @@ namespace Presentation.Objects {
                 // transform.Translate(transform.up * (data.speed * deltaTime));
                 Transform t = transform;
                 Vector3 direction;
-                if (moveFlag) direction = Vector3.Lerp(lastDirection, t.up, deltaTime / data.leftOverInertia); // leftover inertia
-                else direction = lastDirection; // don't change direction without acceleration
-                lastDirection = direction;
+                if (moveFlag) {
+                    direction = Vector3.Lerp(lastDirection, t.up, deltaTime / data.leftOverInertia); // leftover inertia
+                } else direction = lastDirection; // don't change direction without acceleration
+                lastDirection = direction * inertialTime;
 
                 Vector3 position = t.position;
                 position += direction * (inertialSpeed * deltaTime);

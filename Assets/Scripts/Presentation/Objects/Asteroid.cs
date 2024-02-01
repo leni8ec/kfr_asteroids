@@ -1,5 +1,6 @@
 ﻿using Framework.Objects;
 using Presentation.Data;
+using Presentation.GUI;
 using UnityEngine;
 
 namespace Presentation.Objects {
@@ -7,8 +8,18 @@ namespace Presentation.Objects {
 
         public override float Radius => data.colliderRadius;
 
+        public float Lifetime { get; private set; }
+
         private void Update() {
-            transform.Translate(direction * (data.speed * Time.deltaTime));
+            Transform t = transform;
+            t.Translate(direction * (data.speed * Time.deltaTime));
+
+            Lifetime += Time.deltaTime;
+        }
+
+        public override void Reset() {
+            base.Reset();
+            Lifetime = 0;
         }
 
     }

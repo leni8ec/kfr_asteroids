@@ -15,4 +15,4 @@ MonoBehaviour:
   startSpeed: 1
   huntSpeed: 1.2
   huntDelay: 3
-  colliderRadius: 10
+  colliderRadius: 0.4

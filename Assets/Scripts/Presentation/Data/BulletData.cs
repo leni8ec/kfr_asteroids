@@ -11,7 +11,7 @@ namespace Presentation.Data {
         public float lifetime = 2;
 
         [Header("Collision")]
-        public float colliderRadius = 10;
+        public float colliderRadius = 0.1f;
     }
 
 }

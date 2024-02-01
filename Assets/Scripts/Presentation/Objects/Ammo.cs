@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Framework.Objects;
+using UnityEngine;
 
 namespace Presentation.Objects {
     public abstract class Ammo<T> : Entity<T> where T : ScriptableObject, new() {
