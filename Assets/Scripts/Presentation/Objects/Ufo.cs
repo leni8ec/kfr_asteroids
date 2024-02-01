@@ -9,5 +9,9 @@ namespace Presentation.Objects {
 
         public override float Radius => data.colliderRadius;
 
+        private void Update() {
+            transform.Translate(direction * (data.startSpeed * Time.deltaTime));
+        }
+
     }
 }

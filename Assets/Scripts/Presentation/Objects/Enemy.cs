@@ -2,10 +2,9 @@
 
 namespace Presentation.Objects {
     public abstract class Enemy<T> : Entity<T> where T : ScriptableObject, new() {
-        protected Vector2 direction;
+        protected Vector3 direction;
 
-        public void Set(Vector2 startPoint, Vector2 direction) {
-            transform.position = startPoint;
+        public void Set(Vector3 direction) {
             this.direction = direction;
         }
         

@@ -608,6 +608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb5d80bcdf194a8b92e2f4a85950150b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 519420031}
   dataCollector: {fileID: 325981402}
   prefabCollector: {fileID: 1178423395}
 --- !u!1 &1178423393
@@ -655,10 +656,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 9208547464476760760}
-  bullet: {fileID: 0}
+  bullet: {fileID: 7001093951915556816, guid: 6bb580bf4b8658d4cb0bc0e0c5b277a7, type: 3}
   laser: {fileID: 0}
-  asteroid: {fileID: 0}
-  ufo: {fileID: 0}
+  asteroid: {fileID: 213431155882708080, guid: 2eef800ec3ea9f64289b10def9bb6294, type: 3}
+  ufo: {fileID: 8989679548496450127, guid: 3b74ec33eeef57c4cb8dc1bb457393da, type: 3}
 --- !u!1 &1729905642
 GameObject:
   m_ObjectHideFlags: 0

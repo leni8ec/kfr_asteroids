@@ -13,6 +13,8 @@ namespace Presentation.Objects {
         private float inertialSpeed;
         private float inertialTime;
 
+        private Vector3 lastDirection;
+
         [Space]
         public SpriteRenderer spriteRenderer;
         public Sprite idleSprite;
@@ -46,7 +48,7 @@ namespace Presentation.Objects {
             // Moving
             if (moveFlag) {
                 if (inertialTime < 1) {
-                    inertialTime = Mathf.Min(1, inertialTime + deltaTime * (1 / data.inertia));
+                    inertialTime = Mathf.Min(1, inertialTime + deltaTime * (1 / data.accelerationInertia));
                     inertialSpeed = Mathf.Lerp(0, data.speed, inertialTime);
                 }
                 if (!isMoving) {
@@ -55,7 +57,7 @@ namespace Presentation.Objects {
                 }
             } else {
                 if (inertialTime > 0) {
-                    inertialTime = Mathf.Max(0, inertialTime - deltaTime * (1 / data.inertia));
+                    inertialTime = Mathf.Max(0, inertialTime - deltaTime * (1 / data.brakingInertia));
                     inertialSpeed = Mathf.Lerp(0, data.speed, inertialTime);
                 }
                 if (isMoving) {
@@ -67,8 +69,13 @@ namespace Presentation.Objects {
             if (inertialTime > 0) {
                 // transform.Translate(transform.up * (data.speed * deltaTime));
                 Transform t = transform;
+                Vector3 direction;
+                if (moveFlag) direction = Vector3.Lerp(lastDirection, t.up, deltaTime / data.leftOverInertia); // leftover inertia
+                else direction = lastDirection; // don't change direction without acceleration
+                lastDirection = direction;
+
                 Vector3 position = t.position;
-                position += t.up * (inertialSpeed * deltaTime);
+                position += direction * (inertialSpeed * deltaTime);
                 t.position = position;
             }
 

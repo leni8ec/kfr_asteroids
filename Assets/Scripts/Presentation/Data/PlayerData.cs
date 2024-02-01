@@ -5,7 +5,9 @@ namespace Presentation.Data {
     public class PlayerData : ScriptableObject {
         public float speed = 3f;
         [Tooltip("in sec to full speed")]
-        public float inertia = 0.5f;
+        public float accelerationInertia = 0.5f;
+        public float brakingInertia = 5f;
+        public float leftOverInertia = 2f;
         [Tooltip("Degrees in sec")]
         public float rotationSpeed = 180;
 

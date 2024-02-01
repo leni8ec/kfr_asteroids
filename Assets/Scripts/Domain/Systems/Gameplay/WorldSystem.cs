@@ -5,6 +5,7 @@ using Framework.Objects;
 using Presentation.Data;
 using Presentation.GUI;
 using Presentation.Objects;
+using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
 namespace Domain.Systems.Gameplay {
@@ -14,8 +15,8 @@ namespace Domain.Systems.Gameplay {
 
         private readonly WorldData worldData;
 
-        private float nextAsteroidSpawn;
-        private float nextUfoSpawn;
+        private float asteroidSpawnCountdown;
+        private float ufoSpawnCountdown;
 
         public WorldSystem(DataCollector dataCollector, PrefabCollector prefabCollector) {
             // Pools
@@ -24,48 +25,61 @@ namespace Domain.Systems.Gameplay {
 
             // World
             worldData = dataCollector.worldData;
-            nextAsteroidSpawn = 1 / worldData.asteroidsSpawnRate;
-            nextAsteroidSpawn = 1 / worldData.ufoSpawnRate;
+            asteroidSpawnCountdown = 1 / worldData.asteroidsSpawnRate;
+            ufoSpawnCountdown = 1 / worldData.ufoSpawnRate;
 
             // Subscribe
             CollisionSystem.enemyHit += EnemyHitHandler;
         }
 
         public void Upd(float deltaTime) {
-            if ((nextAsteroidSpawn -= deltaTime) <= 0) {
-                nextAsteroidSpawn = 1 / worldData.asteroidsSpawnRate;
+            if ((asteroidSpawnCountdown -= deltaTime) <= 0) {
+                asteroidSpawnCountdown = 1 / worldData.asteroidsSpawnRate;
                 SpawnAsteroid();
             }
 
-            if ((nextUfoSpawn -= deltaTime) <= 0) {
-                nextUfoSpawn = 1 / worldData.ufoSpawnRate;
+            if ((ufoSpawnCountdown -= deltaTime) <= 0) {
+                ufoSpawnCountdown = 1 / worldData.ufoSpawnRate;
                 SpawnUfo();
             }
         }
 
         private void SpawnAsteroid() {
-            SpawnEntity(asteroidsPool.Take());
+            Asteroid asteroid = asteroidsPool.Take();
+            Vector3 spawnPoint = GetRandomSpawnPoint();
+            Vector3 direction = GetRandomDirection(spawnPoint);
+            asteroid.transform.position = spawnPoint;
+            asteroid.Set(direction);
         }
 
         private void SpawnUfo() {
-            SpawnEntity(ufosPool.Take());
+            Ufo ufo = ufosPool.Take();
+            Vector3 spawnPoint = GetRandomSpawnPoint();
+            Vector3 direction = GetRandomDirection(spawnPoint);
+            ufo.transform.position = spawnPoint;
+            ufo.Set(direction);
         }
 
-        private void SpawnEntity(EntityBase entity) {
-            Vector3 spawnPoint = GetRandomSpawnPoint();
-            entity.transform.localPosition = spawnPoint;
-            entity.transform.forward = GetStartDirection(spawnPoint);
-        }
 
         private Vector3 GetRandomSpawnPoint() {
-            Vector3 spawnPoint = new Vector3(0, 0);
-            // todo..
-            return spawnPoint;
+            Vector2 borders = new(-0.1f, 1.1f);
+            Vector2 vector = new(Random.value, Random.value);
+            Vector2 viewportBorderPoint;
+            if (Random.value >= 0.5f)
+                viewportBorderPoint = new Vector2(vector.x < 0.5f ? borders.x : borders.y, vector.y); // left/right
+            else
+                viewportBorderPoint = new Vector2(vector.x, vector.y < 0.5f ? borders.x : borders.y); // top/bottom
+
+            Vector3 worldPoint = GuiController.Handler.mainCamera.ViewportToWorldPoint(viewportBorderPoint);
+            worldPoint.z = 0;
+            return worldPoint;
         }
 
-        private Vector3 GetStartDirection(Vector3 spawnPoint) {
-            Vector3 direction = new Vector3(0, 0);
-            // todo..
+        private Vector3 GetRandomDirection(Vector3 spawnPoint) {
+            float randomAngle = (Random.value - 0.5f) * 90f;
+            Vector2 direction = -spawnPoint.normalized;
+            direction = Quaternion.AngleAxis(randomAngle, Vector3.forward) * direction;
+
             return direction;
         }
 
