@@ -30,6 +30,10 @@ namespace Domain.Systems.Gameplay {
         public float Fire1Delay => 1 / ammo1Data.fireRate;
         public float Fire2Delay => 1 / ammo2Data.fireRate;
 
+        public delegate void FireEvent();
+        public static event FireEvent Fire1Event;
+        public static event FireEvent Fire2Event;
+
 
         public PlayerSystem(DataCollector dataCollector, PrefabCollector prefabCollector) {
             // Pools
@@ -75,6 +79,8 @@ namespace Domain.Systems.Gameplay {
                 Transform playerTransform = Player.transform;
                 bullet.Set(Player.WeaponWorldPosition, playerTransform.up);
                 bullet.Fire();
+
+                Fire1Event?.Invoke();
             }
 
             if (fire2Flag && fire2Countdown <= 0) {
@@ -84,6 +90,8 @@ namespace Domain.Systems.Gameplay {
                 Transform transform = Player.transform;
                 laser.Set(transform.position, transform.up);
                 laser.Fire();
+
+                Fire2Event?.Invoke();
             }
 
             if (fire1Countdown > 0) fire1Countdown -= deltaTime;

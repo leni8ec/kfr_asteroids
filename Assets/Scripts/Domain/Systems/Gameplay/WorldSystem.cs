@@ -29,7 +29,7 @@ namespace Domain.Systems.Gameplay {
         public WorldSystem(Player player, DataCollector dataCollector, PrefabCollector prefabCollector) {
             this.player = player;
             // Pools
-            asteroidsPool = new EntityPool<Asteroid, AsteroidData>(prefabCollector.asteroid, dataCollector.asteroidData);
+            asteroidsPool = new EntityPool<Asteroid, AsteroidData>(prefabCollector.asteroidLarge, dataCollector.asteroidLargeData);
             ufosPool = new EntityPool<Ufo, UfoData>(prefabCollector.ufo, dataCollector.ufoData);
 
             // World

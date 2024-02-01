@@ -1,4 +1,5 @@
-﻿using Framework.Objects;
+﻿using System;
+using Framework.Objects;
 using Presentation.Data;
 using UnityEngine;
 
@@ -25,6 +26,9 @@ namespace Presentation.Objects {
         // position of bullet start
         public Vector3 WeaponWorldPosition => transform.position + transform.up * 0.2f;
 
+        [Space]
+        public AudioSource moveAudio;
+
         public void Rotate(bool actionFlag, bool left) {
             rotateFlag = actionFlag;
             rotateDirection = left ? 1 : -1;
@@ -34,6 +38,9 @@ namespace Presentation.Objects {
 
         public void Move(bool actionFlag) {
             moveFlag = actionFlag;
+
+            if (moveFlag) moveAudio.Play();
+            else moveAudio.Stop();
         }
 
 

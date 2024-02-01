@@ -1,3 +1,4 @@
+using Domain.Systems.Audio;
 using Domain.Systems.Collision;
 using Domain.Systems.Gameplay;
 using Domain.Systems.GameState;
@@ -15,6 +16,7 @@ namespace Domain {
         private CollisionSystem collisionSystem;
         private WorldSystem worldSystem;
         private PlayerSystem playerSystem;
+        private AudioSystem audioSystem;
         private InputController inputController;
         private GameStateController gameStateController;
 
@@ -26,6 +28,7 @@ namespace Domain {
             playerSystem = new PlayerSystem(guiController.dataCollector, guiController.prefabCollector);
             worldSystem = new WorldSystem(playerSystem.Player, guiController.dataCollector, guiController.prefabCollector);
             collisionSystem = new CollisionSystem(playerSystem.Player, worldSystem.ActiveAsteroids, worldSystem.ActiveUfos, playerSystem.ActiveBullets);
+            audioSystem = new AudioSystem(guiController.dataCollector.soundsData);
             gameStateController = new GameStateController();
 
         }

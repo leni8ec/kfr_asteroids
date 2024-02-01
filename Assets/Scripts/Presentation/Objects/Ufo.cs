@@ -9,6 +9,9 @@ namespace Presentation.Objects {
         private Transform target;
         private float huntCountdown;
 
+        public delegate void ExplosionEvent();
+        public static event ExplosionEvent Explosion;
+
         public void SetTarget(Transform target) {
             this.target = target;
             huntCountdown = data.huntDelay;
@@ -19,6 +22,7 @@ namespace Presentation.Objects {
         public override void Reset() {
             base.Reset();
             target = null;
+            Explosion?.Invoke();
         }
 
 
