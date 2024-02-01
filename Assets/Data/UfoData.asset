@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab74bd9ee624f308f27bfb490b5f93e, type: 3}
   m_Name: UfoData
   m_EditorClassIdentifier: 
-  startSpeed: 1
-  huntSpeed: 1.2
-  huntDelay: 3
+  startSpeed: 2
+  huntSpeed: 3
+  huntDelay: 4
   colliderRadius: 0.4

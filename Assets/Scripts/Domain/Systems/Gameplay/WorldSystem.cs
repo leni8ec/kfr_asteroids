@@ -11,6 +11,7 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace Domain.Systems.Gameplay {
     public class WorldSystem : IUpdate {
+        private readonly Player player;
         private readonly EntityPool<Asteroid, AsteroidData> asteroidsPool;
         private readonly EntityPool<Ufo, UfoData> ufosPool;
 
@@ -25,7 +26,8 @@ namespace Domain.Systems.Gameplay {
         private readonly float disposeInterval = 1;
         private float disposeCountdown = 10;
 
-        public WorldSystem(DataCollector dataCollector, PrefabCollector prefabCollector) {
+        public WorldSystem(Player player, DataCollector dataCollector, PrefabCollector prefabCollector) {
+            this.player = player;
             // Pools
             asteroidsPool = new EntityPool<Asteroid, AsteroidData>(prefabCollector.asteroid, dataCollector.asteroidData);
             ufosPool = new EntityPool<Ufo, UfoData>(prefabCollector.ufo, dataCollector.ufoData);
@@ -87,6 +89,7 @@ namespace Domain.Systems.Gameplay {
             Vector3 direction = GetRandomDirection(spawnPoint);
             ufo.transform.position = spawnPoint;
             ufo.Set(direction);
+            ufo.SetTarget(player.transform);
         }
 
 

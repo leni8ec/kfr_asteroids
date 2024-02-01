@@ -4,13 +4,31 @@ using UnityEngine;
 
 namespace Presentation.Objects {
     public class Ufo : Enemy<UfoData>, IUfo {
-
-        public void Hunt(Transform target) { }
-
         public override float Radius => data.colliderRadius;
 
+        private Transform target;
+        private float huntCountdown;
+
+        public void SetTarget(Transform target) {
+            this.target = target;
+            huntCountdown = data.huntDelay;
+        }
+
+        public void Hunt() { }
+
+        public override void Reset() {
+            base.Reset();
+            target = null;
+        }
+
+
         private void Update() {
-            transform.Translate(direction * (data.startSpeed * Time.deltaTime));
+            if ((huntCountdown -= Time.deltaTime) > 0) {
+                transform.Translate(direction * (data.startSpeed * Time.deltaTime));
+            } else {
+                Vector3 huntDirection = -(transform.position - target.position).normalized;
+                transform.Translate(huntDirection * (data.huntSpeed * Time.deltaTime));
+            }
         }
 
     }
