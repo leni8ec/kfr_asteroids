@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
+using Domain.Base;
 using Framework.Base;
 using Framework.Objects;
+using Presentation.Data;
 using Presentation.Objects;
 using UnityEngine;
 
 namespace Domain.Systems.Collision {
     public class CollisionSystem : IUpdate {
-        private ICollider player;
-        private readonly List<Asteroid> asteroids;
+        private readonly ICollider player;
+        private readonly Dictionary<Asteroid.Size, EntityPool<Asteroid, AsteroidData>> asteroidPools;
         private readonly List<Ufo> ufos;
         private readonly List<Bullet> bullets;
 
@@ -17,27 +19,31 @@ namespace Domain.Systems.Collision {
         public static event PlayerHitEvent PlayerHit;
         public static event EnemyHitEvent EnemyHit;
 
-        public CollisionSystem(ICollider player, List<Asteroid> asteroids, List<Ufo> ufos, List<Bullet> bullets) {
+        public CollisionSystem(ICollider player, Dictionary<Asteroid.Size, EntityPool<Asteroid, AsteroidData>> asteroidPools, List<Ufo> ufos, List<Bullet> bullets) {
             this.player = player;
-            this.asteroids = asteroids;
+            this.asteroidPools = asteroidPools;
             this.ufos = ufos;
             this.bullets = bullets;
         }
 
         public void Upd(float deltaTime) {
 
-            List<Asteroid>.Enumerator asteroidsEnum = asteroids.GetEnumerator();
+            List<Asteroid>.Enumerator asteroidsLargeEnum = asteroidPools[Asteroid.Size.Large].active.GetEnumerator();
+            List<Asteroid>.Enumerator asteroidsMediumEnum = asteroidPools[Asteroid.Size.Medium].active.GetEnumerator();
+            List<Asteroid>.Enumerator asteroidsSmallEnum = asteroidPools[Asteroid.Size.Small].active.GetEnumerator();
             List<Ufo>.Enumerator ufosEnum = ufos.GetEnumerator();
 
             ICollider enemy;
             do {
-                if (asteroidsEnum.MoveNext()) enemy = asteroidsEnum.Current;
+                if (asteroidsLargeEnum.MoveNext()) enemy = asteroidsLargeEnum.Current;
+                else if (asteroidsMediumEnum.MoveNext()) enemy = asteroidsMediumEnum.Current;
+                else if (asteroidsSmallEnum.MoveNext()) enemy = asteroidsSmallEnum.Current;
                 else if (ufosEnum.MoveNext()) enemy = ufosEnum.Current;
                 else break;
 
                 // Check player
                 if (intersect(enemy, player)) {
-                    PlayerHit(enemy);
+                    PlayerHit?.Invoke(enemy);
                     break;
                 }
 
@@ -45,7 +51,7 @@ namespace Domain.Systems.Collision {
                 bool toBreak = false;
                 foreach (ICollider ammo in bullets) {
                     if (intersect(enemy, ammo)) {
-                        EnemyHit(enemy, ammo);
+                        EnemyHit?.Invoke(enemy, ammo);
                         toBreak = true;
                         break;
                     }
@@ -53,7 +59,9 @@ namespace Domain.Systems.Collision {
                 if (toBreak) break;
 
             } while (enemy != null);
-            asteroidsEnum.Dispose();
+            asteroidsLargeEnum.Dispose();
+            asteroidsMediumEnum.Dispose();
+            asteroidsSmallEnum.Dispose();
             ufosEnum.Dispose();
         }
 

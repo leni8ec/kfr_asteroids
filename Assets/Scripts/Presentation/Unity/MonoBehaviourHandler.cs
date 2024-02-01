@@ -4,7 +4,6 @@ namespace Presentation.Unity {
     /// <summary>
     /// It's roughly similar to Singleton, except that it does not create a new object
     /// </summary>
-    // note: Is it possible - Handler property need to be initialized in Awake or set manually (to avoid performance load)!
     public abstract class MonoBehaviourHandler<T> : MonoBehaviour where T : MonoBehaviour {
 
         private static T s_handler;

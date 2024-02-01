@@ -18,10 +18,10 @@ namespace Domain.Systems.Audio {
             PlayerSystem.Fire1Event += () => Play(data.fire1);
             PlayerSystem.Fire2Event += () => Play(data.fire2);
 
-            Asteroid.Explosion += size => {
-                if (size == Asteroid.Size.Large) Play(data.explosionLarge);
-                else if (size == Asteroid.Size.Medium) Play(data.explosionMedium);
-                else if (size == Asteroid.Size.Small) Play(data.explosionSmall);
+            Asteroid.Explosion += asteroid => {
+                if (asteroid.size == Asteroid.Size.Large) Play(data.explosionLarge);
+                else if (asteroid.size == Asteroid.Size.Medium) Play(data.explosionMedium);
+                else if (asteroid.size == Asteroid.Size.Small) Play(data.explosionSmall);
             };
 
             Ufo.Explosion += () => Play(data.explosionMedium);

@@ -12,71 +12,89 @@ using Vector3 = UnityEngine.Vector3;
 namespace Domain.Systems.Gameplay {
     public class WorldSystem : IUpdate {
         private readonly Player player;
-        private readonly EntityPool<Asteroid, AsteroidData> asteroidsPool;
         private readonly EntityPool<Ufo, UfoData> ufosPool;
+        private readonly Dictionary<Asteroid.Size, EntityPool<Asteroid, AsteroidData>> asteroidPools;
 
-        public List<Asteroid> ActiveAsteroids => asteroidsPool.active;
         public List<Ufo> ActiveUfos => ufosPool.active;
+        public Dictionary<Asteroid.Size, EntityPool<Asteroid, AsteroidData>> AsteroidPools => asteroidPools;
 
-        private readonly WorldData worldData;
+        private readonly WorldData data;
+
 
         private float asteroidSpawnCountdown;
         private float ufoSpawnCountdown;
 
-        private readonly float disposeInterval = 1;
+        private const float DisposeInterval = 1;
         private float disposeCountdown = 10;
+
+        private const int AsteroidDestroyFragments = 4;
 
         public WorldSystem(Player player, DataCollector dataCollector, PrefabCollector prefabCollector) {
             this.player = player;
             // Pools
-            asteroidsPool = new EntityPool<Asteroid, AsteroidData>(prefabCollector.asteroidLarge, dataCollector.asteroidLargeData);
             ufosPool = new EntityPool<Ufo, UfoData>(prefabCollector.ufo, dataCollector.ufoData);
+            asteroidPools = new Dictionary<Asteroid.Size, EntityPool<Asteroid, AsteroidData>> {
+                { Asteroid.Size.Large, new EntityPool<Asteroid, AsteroidData>(prefabCollector.asteroidLarge, dataCollector.asteroidLargeData) },
+                { Asteroid.Size.Medium, new EntityPool<Asteroid, AsteroidData>(prefabCollector.asteroidMedium, dataCollector.asteroidMediumData) },
+                { Asteroid.Size.Small, new EntityPool<Asteroid, AsteroidData>(prefabCollector.asteroidSmall, dataCollector.asteroidSmallData) }
+            };
 
             // World
-            worldData = dataCollector.worldData;
-            asteroidSpawnCountdown = 1 / worldData.asteroidsSpawnRate;
-            ufoSpawnCountdown = 1 / worldData.ufoSpawnRate;
+            data = dataCollector.worldData;
+            asteroidSpawnCountdown = 1 / data.asteroidsSpawnRate;
+            ufoSpawnCountdown = 1 / data.ufoSpawnRate;
 
             // Subscribe
             CollisionSystem.EnemyHit += EnemyHitHandler;
+            Asteroid.Explosion += OnAsteroidExplosion;
         }
 
         public void Upd(float deltaTime) {
             // Spawn
             if ((asteroidSpawnCountdown -= deltaTime) <= 0) {
-                asteroidSpawnCountdown = 1 / worldData.asteroidsSpawnRate;
-                SpawnAsteroid();
+                // Check asteroids count limit
+                int totalActiveAsteroids = asteroidPools[Asteroid.Size.Large].active.Count + asteroidPools[Asteroid.Size.Medium].active.Count + asteroidPools[Asteroid.Size.Small].active.Count;
+                if (totalActiveAsteroids < data.asteroidsLimit) {
+                    asteroidSpawnCountdown = 1 / data.asteroidsSpawnRate;
+                    SpawnAsteroid();
+                }
             }
 
             if ((ufoSpawnCountdown -= deltaTime) <= 0) {
-                ufoSpawnCountdown = 1 / worldData.ufoSpawnRate;
-                SpawnUfo();
+                int totalActiveUfo = ufosPool.active.Count;
+                if (totalActiveUfo < data.ufosLimit) {
+                    ufoSpawnCountdown = 1 / data.ufoSpawnRate;
+                    SpawnUfo();
+                }
             }
 
             // Dispose checking
             if ((disposeCountdown -= deltaTime) <= 0) {
-                disposeCountdown = disposeInterval;
+                disposeCountdown = DisposeInterval;
+                // Asteroids
+                foreach (EntityPool<Asteroid, AsteroidData> asteroidsPool in asteroidPools.Values) {
+                    for (int i = asteroidsPool.active.Count - 1; i >= 0; i--) {
+                        Asteroid asteroid = asteroidsPool.active[i];
+                        if (asteroid.Lifetime < 10) continue;
 
-                for (int index = asteroidsPool.active.Count - 1; index >= 0; index--) {
-                    Asteroid asteroid = asteroidsPool.active[index];
-                    if (asteroid.Lifetime < 10) continue;
-
-                    // Check if asteroid is outside world
-                    Vector3 point = GuiController.Handler.mainCamera.WorldToViewportPoint(asteroid.transform.position);
-                    Vector2 borders = worldData.viewportOutsideBorders;
-                    if (point.x < borders.x || point.x > borders.y || point.y < borders.x || point.y > borders.y) {
-                        asteroid.Reset();
+                        // Check if asteroid is outside world
+                        Vector3 point = GuiController.Handler.mainCamera.WorldToViewportPoint(asteroid.transform.position);
+                        Vector2 borders = data.viewportOutsideBorders;
+                        if (point.x < borders.x || point.x > borders.y || point.y < borders.x || point.y > borders.y) {
+                            asteroid.Reset();
+                        }
                     }
                 }
 
-                foreach (Ufo ufo in ufosPool.active) { }
             }
+        }
 
-
+        public List<Asteroid> GetActiveAsteroids(Asteroid.Size size) {
+            return asteroidPools[size].active;
         }
 
         private void SpawnAsteroid() {
-            Asteroid asteroid = asteroidsPool.Take();
+            Asteroid asteroid = asteroidPools[Asteroid.Size.Large].Take();
             Vector3 spawnPoint = GetRandomSpawnPoint();
             Vector3 direction = GetRandomDirection(spawnPoint);
             asteroid.transform.position = spawnPoint;
@@ -97,9 +115,9 @@ namespace Domain.Systems.Gameplay {
             Vector2 vector = new(Random.value, Random.value);
             Vector2 viewportBorderPoint;
             if (Random.value >= 0.5f)
-                viewportBorderPoint = new Vector2(vector.x < 0.5f ? worldData.viewportOutsideBorders.x : worldData.viewportOutsideBorders.y, vector.y); // left/right
+                viewportBorderPoint = new Vector2(vector.x < 0.5f ? data.viewportOutsideBorders.x : data.viewportOutsideBorders.y, vector.y); // left/right
             else
-                viewportBorderPoint = new Vector2(vector.x, vector.y < 0.5f ? worldData.viewportOutsideBorders.x : worldData.viewportOutsideBorders.y); // top/bottom
+                viewportBorderPoint = new Vector2(vector.x, vector.y < 0.5f ? data.viewportOutsideBorders.x : data.viewportOutsideBorders.y); // top/bottom
 
             Vector3 worldPoint = GuiController.Handler.mainCamera.ViewportToWorldPoint(viewportBorderPoint);
             worldPoint.z = 0;
@@ -124,6 +142,25 @@ namespace Domain.Systems.Gameplay {
                 case Ufo ufo:
                     ufo.Destroy();
                     break;
+            }
+        }
+
+        private void OnAsteroidExplosion(Asteroid destroyedAsteroid) {
+            if (destroyedAsteroid.size == Asteroid.Size.Medium) return; // Don't split medium asteroids
+            if (destroyedAsteroid.size == Asteroid.Size.Small) return;
+
+            Asteroid.Size targetSize = destroyedAsteroid.size;
+            if (destroyedAsteroid.size == Asteroid.Size.Large) targetSize = Asteroid.Size.Medium;
+            else if (destroyedAsteroid.size == Asteroid.Size.Medium) targetSize = Asteroid.Size.Small;
+
+            Vector3 direction = Random.insideUnitCircle;
+            const float degreesDelta = 360f / AsteroidDestroyFragments;
+            for (int i = 0; i < AsteroidDestroyFragments; i++) {
+                Asteroid newAsteroid = asteroidPools[targetSize].Take();
+                direction = Quaternion.AngleAxis(degreesDelta, Vector3.forward) * direction;
+                Vector3 spawnPoint = destroyedAsteroid.transform.position + direction * 0.5f;
+                newAsteroid.transform.position = spawnPoint;
+                newAsteroid.Set(direction);
             }
         }
 

@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff49255d7814d08be7e50099aca063b, type: 3}
   m_Name: WorldData
   m_EditorClassIdentifier: 
-  asteroidsSpawnRate: 1
-  ufoSpawnRate: 0.2
+  asteroidsLimit: 20
+  ufosLimit: 3
+  asteroidsSpawnRate: 0.5
+  ufoSpawnRate: 0.15
   viewportOutsideBorders: {x: -0.1, y: 1.1}

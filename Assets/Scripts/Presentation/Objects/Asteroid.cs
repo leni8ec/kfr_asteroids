@@ -10,7 +10,7 @@ namespace Presentation.Objects {
         public SpriteRenderer spriteRenderer;
         public Sprite[] sprites;
 
-        public delegate void ExplosionEvent(Size size);
+        public delegate void ExplosionEvent(Asteroid asteroid);
         public static event ExplosionEvent Explosion;
 
         public override float Radius => data.colliderRadius;
@@ -36,7 +36,7 @@ namespace Presentation.Objects {
 
         public override void Destroy() {
             base.Destroy();
-            Explosion?.Invoke(size);
+            Explosion?.Invoke(this);
         }
 
         public enum Size {
