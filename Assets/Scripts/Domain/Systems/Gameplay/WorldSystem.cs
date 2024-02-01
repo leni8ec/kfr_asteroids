@@ -116,13 +116,13 @@ namespace Domain.Systems.Gameplay {
 
         private void EnemyHitHandler(ICollider enemy, ICollider ammo) {
             Debug.Log("EnemyHitHandler");
-            if (ammo is Bullet bullet) bullet.Reset();
+            if (ammo is Bullet bullet) bullet.Destroy();
             switch (enemy) {
                 case Asteroid asteroid:
-                    asteroid.Reset();
+                    asteroid.Destroy();
                     break;
                 case Ufo ufo:
-                    ufo.Reset();
+                    ufo.Destroy();
                     break;
             }
         }

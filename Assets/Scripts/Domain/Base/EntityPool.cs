@@ -22,7 +22,7 @@ namespace Domain.Base {
                 GameObject go = Object.Instantiate(prefab);
                 entity = go.GetComponent<TEntity>();
                 entity.SetData(data);
-                entity.dispose += e => Return(entity);
+                entity.Dispose += e => Return(entity);
                 // stack.Push(entity);
             }
 

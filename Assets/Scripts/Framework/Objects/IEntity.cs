@@ -2,6 +2,6 @@
 
 namespace Framework.Objects {
 
-    public interface IEntity : ICollider, IReset { }
+    public interface IEntity : ICollider, IDestroy { }
 
 }

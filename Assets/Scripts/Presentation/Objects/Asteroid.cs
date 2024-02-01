@@ -32,6 +32,10 @@ namespace Presentation.Objects {
         public override void Reset() {
             base.Reset();
             Lifetime = 0;
+        }
+
+        public override void Destroy() {
+            base.Destroy();
             Explosion?.Invoke(size);
         }
 

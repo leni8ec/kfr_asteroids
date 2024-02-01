@@ -1,5 +1,4 @@
-﻿using Framework.Objects;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Presentation.Objects {
     public abstract class Ammo<T> : Entity<T> where T : ScriptableObject, new() {
@@ -9,7 +8,6 @@ namespace Presentation.Objects {
             transform.position = startPoint;
             this.direction = direction;
         }
-
 
     }
 }

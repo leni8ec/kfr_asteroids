@@ -4,8 +4,8 @@ using UnityEngine;
 namespace Presentation.Objects {
     public abstract class Entity<T> : EntityBase, IEntity where T : ScriptableObject, new() {
 
-        public delegate void Dispose(Entity<T> entity);
-        public Dispose dispose;
+        public delegate void DisposeEvent(Entity<T> entity);
+        public event DisposeEvent Dispose;
 
         protected T data;
 
@@ -17,7 +17,11 @@ namespace Presentation.Objects {
         public Vector2 Pos => transform.position;
 
         public virtual void Reset() {
-            dispose(this);
+            Dispose?.Invoke(this);
+        }
+
+        public virtual void Destroy() {
+            Reset();
         }
 
     }
