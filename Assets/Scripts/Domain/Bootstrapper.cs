@@ -26,7 +26,7 @@ namespace Domain {
 
             updateProcessor = new UpdateProcessor();
             playerSystem = new PlayerSystem(guiController.dataCollector, guiController.prefabCollector);
-            worldSystem = new WorldSystem(playerSystem.Player, guiController.dataCollector, guiController.prefabCollector);
+            worldSystem = new WorldSystem(playerSystem.Player, playerSystem.ActiveBullets, guiController.dataCollector, guiController.prefabCollector);
             collisionSystem = new CollisionSystem(playerSystem.Player, worldSystem.AsteroidPools, worldSystem.ActiveUfos, playerSystem.ActiveBullets);
             audioSystem = new AudioSystem(guiController.dataCollector.soundsData);
             gameStateController = new GameStateController();

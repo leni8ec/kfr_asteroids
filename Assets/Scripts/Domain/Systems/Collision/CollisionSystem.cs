@@ -41,12 +41,6 @@ namespace Domain.Systems.Collision {
                 else if (ufosEnum.MoveNext()) enemy = ufosEnum.Current;
                 else break;
 
-                // Check player
-                if (intersect(enemy, player)) {
-                    PlayerHit?.Invoke(enemy);
-                    break;
-                }
-
                 // Check bullets
                 bool toBreak = false;
                 foreach (ICollider ammo in bullets) {
@@ -57,6 +51,12 @@ namespace Domain.Systems.Collision {
                     }
                 }
                 if (toBreak) break;
+
+                // Check player (latest, after bullets)
+                if (intersect(enemy, player)) {
+                    PlayerHit?.Invoke(enemy);
+                    break;
+                }
 
             } while (enemy != null);
             asteroidsLargeEnum.Dispose();

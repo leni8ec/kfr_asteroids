@@ -12,6 +12,7 @@ using Vector3 = UnityEngine.Vector3;
 namespace Domain.Systems.Gameplay {
     public class WorldSystem : IUpdate {
         private readonly Player player;
+        private readonly List<Bullet> activeBullets;
         private readonly EntityPool<Ufo, UfoData> ufosPool;
         private readonly Dictionary<Asteroid.Size, EntityPool<Asteroid, AsteroidData>> asteroidPools;
 
@@ -29,8 +30,9 @@ namespace Domain.Systems.Gameplay {
 
         private const int AsteroidDestroyFragments = 4;
 
-        public WorldSystem(Player player, DataCollector dataCollector, PrefabCollector prefabCollector) {
+        public WorldSystem(Player player, List<Bullet> activeBullets, DataCollector dataCollector, PrefabCollector prefabCollector) {
             this.player = player;
+            this.activeBullets = activeBullets;
             // Pools
             ufosPool = new EntityPool<Ufo, UfoData>(prefabCollector.ufo, dataCollector.ufoData);
             asteroidPools = new Dictionary<Asteroid.Size, EntityPool<Asteroid, AsteroidData>> {
@@ -68,6 +70,52 @@ namespace Domain.Systems.Gameplay {
                 }
             }
 
+            ProcessInfinityScreen();
+            // CheckDisposeOutOfScreenObjects(deltaTime);
+
+        }
+
+        private Rect GetWorldLimits(float screenOffset) {
+            Vector2 min = GuiController.Handler.mainCamera.ScreenToWorldPoint(Vector3.zero);
+            Vector2 max = GuiController.Handler.mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
+            Rect limits = new(min.x - screenOffset, min.y - screenOffset, max.x - min.x + screenOffset * 2, max.y - min.y + screenOffset * 2);
+            return limits;
+        }
+
+        public List<Asteroid> GetActiveAsteroids(Asteroid.Size size) {
+            return asteroidPools[size].active;
+        }
+
+        private void ProcessInfinityScreen() {
+            Rect worldBorders = GetWorldLimits(data.screenInfinityOutsideOffset);
+
+            // Player
+            ProcessObjectOutOfScreen(worldBorders, player.transform);
+            // Enemies
+            foreach (Ufo ufo in ufosPool.active) ProcessObjectOutOfScreen(worldBorders, ufo.transform);
+            foreach (EntityPool<Asteroid, AsteroidData> asteroidsPool in asteroidPools.Values) {
+                for (int i = asteroidsPool.active.Count - 1; i >= 0; i--) {
+                    Asteroid asteroid = asteroidsPool.active[i];
+                    ProcessObjectOutOfScreen(worldBorders, asteroid.transform);
+                }
+            }
+            // Bullets
+            foreach (Bullet bullet in activeBullets) ProcessObjectOutOfScreen(worldBorders, bullet.transform);
+        }
+
+        private void ProcessObjectOutOfScreen(Rect worldBorders, Transform target) {
+            Vector3 pos = target.position;
+            if (worldBorders.Contains(pos)) return;
+
+            if (pos.x < worldBorders.x) pos.x = worldBorders.xMax;
+            else if (pos.y < worldBorders.y) pos.y = worldBorders.yMax;
+            else if (pos.x > worldBorders.xMax) pos.x = worldBorders.x;
+            else if (pos.y > worldBorders.yMax) pos.y = worldBorders.y;
+
+            target.position = pos;
+        }
+
+        private void CheckDisposeOutOfScreenObjects(float deltaTime) {
             // Dispose checking
             if ((disposeCountdown -= deltaTime) <= 0) {
                 disposeCountdown = DisposeInterval;
@@ -85,13 +133,9 @@ namespace Domain.Systems.Gameplay {
                         }
                     }
                 }
-
             }
         }
 
-        public List<Asteroid> GetActiveAsteroids(Asteroid.Size size) {
-            return asteroidPools[size].active;
-        }
 
         private void SpawnAsteroid() {
             Asteroid asteroid = asteroidPools[Asteroid.Size.Large].Take();
@@ -112,15 +156,17 @@ namespace Domain.Systems.Gameplay {
 
 
         private Vector3 GetRandomSpawnPoint() {
-            Vector2 vector = new(Random.value, Random.value);
-            Vector2 viewportBorderPoint;
-            if (Random.value >= 0.5f)
-                viewportBorderPoint = new Vector2(vector.x < 0.5f ? data.viewportOutsideBorders.x : data.viewportOutsideBorders.y, vector.y); // left/right
-            else
-                viewportBorderPoint = new Vector2(vector.x, vector.y < 0.5f ? data.viewportOutsideBorders.x : data.viewportOutsideBorders.y); // top/bottom
+            Rect worldBorders = GetWorldLimits(data.screenSpawnOutsideOffset);
 
-            Vector3 worldPoint = GuiController.Handler.mainCamera.ViewportToWorldPoint(viewportBorderPoint);
-            worldPoint.z = 0;
+            Vector2 vector = new(Random.value, Random.value);
+            Vector2 pos = new(worldBorders.x + worldBorders.width * vector.x, worldBorders.y + worldBorders.height * vector.y);
+
+            Vector3 worldPoint;
+            if (Random.value >= 0.5f)
+                worldPoint = new Vector3(vector.x < 0.5f ? worldBorders.x : worldBorders.xMax, pos.y); // left/right
+            else
+                worldPoint = new Vector3(pos.x, vector.y < 0.5f ? worldBorders.y : worldBorders.yMax); // top/bottom
+
             return worldPoint;
         }
 
@@ -133,7 +179,6 @@ namespace Domain.Systems.Gameplay {
         }
 
         private void EnemyHitHandler(ICollider enemy, ICollider ammo) {
-            Debug.Log("EnemyHitHandler");
             if (ammo is Bullet bullet) bullet.Destroy();
             switch (enemy) {
                 case Asteroid asteroid:
