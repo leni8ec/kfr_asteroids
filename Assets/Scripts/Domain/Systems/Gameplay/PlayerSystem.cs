@@ -47,11 +47,11 @@ namespace Domain.Systems.Gameplay {
             Player = CreatePlayer(prefabCollector.player, dataCollector.playerData);
 
             // Subscribe
-            InputController.fire += Fire;
-            InputController.move += Player.Move;
-            InputController.rotate += Player.Rotate;
+            InputController.Fire += Fire;
+            InputController.Move += Player.Move;
+            InputController.Rotate += Player.Rotate;
 
-            CollisionSystem.playerHit += PlayerHitHandler;
+            CollisionSystem.PlayerHit += PlayerHitHandler;
         }
 
         private Player CreatePlayer(GameObject playerPrefab, PlayerData playerData) {

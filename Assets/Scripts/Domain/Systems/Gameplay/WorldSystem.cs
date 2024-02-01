@@ -38,7 +38,7 @@ namespace Domain.Systems.Gameplay {
             ufoSpawnCountdown = 1 / worldData.ufoSpawnRate;
 
             // Subscribe
-            CollisionSystem.enemyHit += EnemyHitHandler;
+            CollisionSystem.EnemyHit += EnemyHitHandler;
         }
 
         public void Upd(float deltaTime) {

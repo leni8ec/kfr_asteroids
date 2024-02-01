@@ -5,13 +5,13 @@ using UnityEngine.InputSystem;
 namespace Domain.Systems.Input {
     public class InputController : MonoBehaviour {
 
-        public static Fire fire;
-        public static Rotate rotate;
-        public static Move move;
+        public delegate void FireEvent(bool actionFlag, Player.Weapon weapon);
+        public delegate void RotateEvent(bool actionFlag, bool left);
+        public delegate void MoveEvent(bool actionFlag);
 
-        public delegate void Fire(bool actionFlag, Player.Weapon weapon);
-        public delegate void Rotate(bool actionFlag, bool left);
-        public delegate void Move(bool actionFlag);
+        public static event FireEvent Fire;
+        public static event RotateEvent Rotate;
+        public static event MoveEvent Move;
 
         public InputAction moveAction;
         public InputAction rotateAction;
@@ -46,19 +46,19 @@ namespace Domain.Systems.Input {
 
 
         private void OnMoveAction(bool actionFlag, InputAction.CallbackContext context) {
-            move(actionFlag);
+            Move(actionFlag);
         }
 
         private void OnRotateAction(bool actionFlag, InputAction.CallbackContext context) {
-            rotate(actionFlag, context.ReadValue<float>() < 0);
+            Rotate(actionFlag, context.ReadValue<float>() < 0);
         }
 
         private void OnFire1Action(bool actionFlag, InputAction.CallbackContext context) {
-            fire(actionFlag, Player.Weapon.Gun);
+            Fire(actionFlag, Player.Weapon.Gun);
         }
 
         private void OnFire2Action(bool actionFlag, InputAction.CallbackContext context) {
-            fire(actionFlag, Player.Weapon.Laser);
+            Fire(actionFlag, Player.Weapon.Laser);
         }
 
     }

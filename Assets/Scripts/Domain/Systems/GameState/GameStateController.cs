@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Domain.Systems.GameState {
     public class GameStateController {
         public GameStateController() {
-            CollisionSystem.playerHit += PlayerHitHandler;
+            CollisionSystem.PlayerHit += PlayerHitHandler;
         }
 
         private void PlayerHitHandler(ICollider enemy) {

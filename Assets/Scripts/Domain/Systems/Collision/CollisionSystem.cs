@@ -11,11 +11,11 @@ namespace Domain.Systems.Collision {
         private readonly List<Ufo> ufos;
         private readonly List<Bullet> bullets;
 
-        public delegate void PlayerHit(ICollider enemy);
-        public delegate void EnemyHit(ICollider enemy, ICollider ammo);
+        public delegate void PlayerHitEvent(ICollider enemy);
+        public delegate void EnemyHitEvent(ICollider enemy, ICollider ammo);
 
-        public static PlayerHit playerHit;
-        public static EnemyHit enemyHit;
+        public static event PlayerHitEvent PlayerHit;
+        public static event EnemyHitEvent EnemyHit;
 
         public CollisionSystem(ICollider player, List<Asteroid> asteroids, List<Ufo> ufos, List<Bullet> bullets) {
             this.player = player;
@@ -37,7 +37,7 @@ namespace Domain.Systems.Collision {
 
                 // Check player
                 if (intersect(enemy, player)) {
-                    playerHit(enemy);
+                    PlayerHit(enemy);
                     break;
                 }
 
@@ -45,7 +45,7 @@ namespace Domain.Systems.Collision {
                 bool toBreak = false;
                 foreach (ICollider ammo in bullets) {
                     if (intersect(enemy, ammo)) {
-                        enemyHit(enemy, ammo);
+                        EnemyHit(enemy, ammo);
                         toBreak = true;
                         break;
                     }
