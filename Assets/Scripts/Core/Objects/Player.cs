@@ -14,6 +14,7 @@ namespace Core.Objects {
         private float inertialTime;
 
         private Vector3 lastDirection;
+        private Vector3 lastPos;
 
         [Space]
         public SpriteRenderer spriteRenderer;
@@ -22,13 +23,30 @@ namespace Core.Objects {
 
         public override float Radius => config.colliderRadius;
         public float Speed { get; private set; }
-        private Vector3 lastPos;
 
         // position of bullet start
         public Vector3 WeaponWorldPosition => transform.position + transform.up * 0.2f;
 
         [Space]
         public AudioSource moveAudio;
+
+        public override void Reset() {
+            base.Reset();
+
+            Transform t = transform;
+            t.position = Vector3.zero;
+            t.eulerAngles = Vector3.zero;
+
+            moveFlag = false;
+            isMoving = false;
+            rotateFlag = false;
+            rotateDirection = 0;
+            inertialSpeed = 0;
+            inertialTime = 0;
+            lastDirection = Vector3.zero;
+            lastPos = Vector3.zero;
+
+        }
 
         public void Rotate(bool actionFlag, bool left) {
             rotateFlag = actionFlag;

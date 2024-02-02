@@ -9,12 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13c90f62a811473980a0286a7940b3ed, type: 3}
-  m_Name: PlayerData
+  m_Script: {fileID: 11500000, guid: 7ab74bd9ee624f308f27bfb490b5f93e, type: 3}
+  m_Name: Enemy_UfoConfig
   m_EditorClassIdentifier: 
-  speed: 8
-  accelerationInertia: 0.1
-  brakingInertia: 2000
-  leftOverInertia: 2
-  rotationSpeed: 180
-  colliderRadius: 0.3
+  startSpeed: 2
+  huntSpeed: 3
+  huntDelay: 4
+  colliderRadius: 0.4

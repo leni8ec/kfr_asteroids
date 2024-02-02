@@ -11,5 +11,14 @@
         public float laserShotCountdownDuration;
         public float laserShotsCount;
 
+        public void Reset() {
+            fire1Flag = false;
+            fire2Flag = false;
+            fire1Countdown = 0;
+            fire2Countdown = 0;
+            laserShotCountdownDuration = 0;
+            laserShotsCount = 0;
+        }
+
     }
 }

@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 576818c3ae864eda8e6342113f8199de, type: 3}
-  m_Name: Enemy_Asteroid_MediumData
+  m_Script: {fileID: 11500000, guid: 85a3b348a92b4c2d8750333fbaee1bc8, type: 3}
+  m_Name: Ammo_BulletConfig
   m_EditorClassIdentifier: 
-  speed: 2
-  colliderRadius: 0.5
+  fireRate: 5
+  speed: 8
+  lifetime: 1.5
+  colliderRadius: 0.05

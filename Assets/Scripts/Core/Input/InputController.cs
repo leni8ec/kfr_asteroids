@@ -1,4 +1,5 @@
-﻿using Core.Objects;
+﻿using System;
+using Core.Objects;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,6 +19,10 @@ namespace Core.Input {
         public InputAction fire1Action;
         public InputAction fire2Action;
 
+        public InputAction continueAction;
+        public static event Action Continue;
+
+
         private void Awake() {
             moveAction.performed += context => OnMoveAction(true, context);
             rotateAction.performed += context => OnRotateAction(true, context);
@@ -28,13 +33,17 @@ namespace Core.Input {
             rotateAction.canceled += context => OnRotateAction(false, context);
             fire1Action.canceled += context => OnFire1Action(false, context);
             fire2Action.canceled += context => OnFire2Action(false, context);
+
+            continueAction.performed += OnContinueAction;
         }
+
 
         private void OnEnable() {
             moveAction.Enable();
             rotateAction.Enable();
             fire1Action.Enable();
             fire2Action.Enable();
+            continueAction.Enable();
         }
 
         private void OnDisable() {
@@ -42,6 +51,7 @@ namespace Core.Input {
             rotateAction.Disable();
             fire1Action.Disable();
             fire2Action.Disable();
+            continueAction.Disable();
         }
 
 
@@ -59,6 +69,11 @@ namespace Core.Input {
 
         private void OnFire2Action(bool actionFlag, InputAction.CallbackContext context) {
             Fire(actionFlag, Player.Weapon.Laser);
+        }
+
+
+        private void OnContinueAction(InputAction.CallbackContext context) {
+            Continue?.Invoke();
         }
 
     }

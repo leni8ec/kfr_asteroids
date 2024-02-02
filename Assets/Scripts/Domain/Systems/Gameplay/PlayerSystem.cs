@@ -4,10 +4,9 @@ using Core.Config;
 using Core.Data;
 using Core.Input;
 using Core.Interface.Base;
-using Core.Interface.Objects;
 using Core.Objects;
 using Core.Unity;
-using Domain.Systems.Collision;
+using Domain.Systems.GameState;
 using UnityEngine;
 
 namespace Domain.Systems.Gameplay {
@@ -31,6 +30,7 @@ namespace Domain.Systems.Gameplay {
         public static event FireEvent Fire1Event;
         public static event FireEvent Fire2Event;
 
+        private bool active;
 
         public PlayerSystem(PlayerData data, ConfigCollector configCollector, PrefabCollector prefabCollector) {
             Data = data;
@@ -41,17 +41,34 @@ namespace Domain.Systems.Gameplay {
             Ammo1Config = configCollector.bullet;
             Ammo2Config = configCollector.laser;
 
+
             // Player
             Player = CreatePlayer(prefabCollector.player, configCollector.player);
 
-            // Subscribe
+            // Input listeners
             InputController.Fire += Fire;
             InputController.Move += Player.Move;
             InputController.Rotate += Player.Rotate;
 
-            CollisionSystem.PlayerHit += PlayerHitHandler;
+            // Game state listeners
+            GameStateSystem.NewGameEvent += Play;
+            GameStateSystem.GameOverEvent += Reset;
+        }
 
+        private void Play() {
+            active = true;
+            Player.gameObject.SetActive(true);
             Data.laserShotCountdownDuration = Ammo2Config.shotRestoreCountdown;
+        }
+
+        private void Reset() {
+            active = false;
+            for (int i = ActiveBullets.Count - 1; i >= 0; i--) ActiveBullets[i].Reset();
+            for (int i = ActiveLasers.Count - 1; i >= 0; i--) ActiveLasers[i].Reset();
+            Player.Reset();
+            Data.Reset();
+            Player.gameObject.SetActive(false);
+
         }
 
         private Player CreatePlayer(GameObject playerPrefab, PlayerConfig playerConfig) {
@@ -67,11 +84,9 @@ namespace Domain.Systems.Gameplay {
             else Debug.LogError("Weapon isn't specified!");
         }
 
-        private void PlayerHitHandler(ICollider enemy) {
-            // Player.gameObject.SetActive(false);
-        }
-
         public void Upd(float deltaTime) {
+            if (!active) return;
+
             if (Data.fire1Flag && Data.fire1Countdown <= 0) {
                 Data.fire1Countdown = Fire1Delay;
 

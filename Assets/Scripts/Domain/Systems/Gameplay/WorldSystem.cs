@@ -7,6 +7,7 @@ using Core.Interface.Objects;
 using Core.Objects;
 using Core.Unity;
 using Domain.Systems.Collision;
+using Domain.Systems.GameState;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
@@ -23,6 +24,7 @@ namespace Domain.Systems.Gameplay {
 
         private WorldConfig Config { get; }
 
+        private bool active;
 
         public WorldSystem(WorldData data, Player player, List<Bullet> activeBullets, ConfigCollector configCollector, PrefabCollector prefabCollector, Camera mainCamera) {
             Data = data;
@@ -46,9 +48,26 @@ namespace Domain.Systems.Gameplay {
             // Subscribe
             CollisionSystem.EnemyHit += EnemyHitHandler;
             Asteroid.Explosion += OnAsteroidExplosion;
+
+            // Game state
+            GameStateSystem.NewGameEvent += Play;
+            GameStateSystem.GameOverEvent += Reset;
+        }
+
+        private void Play() {
+            active = true;
+        }
+
+        private void Reset() {
+            active = false;
+            for (int i = UfosPool.active.Count - 1; i >= 0; i--) UfosPool.active[i].Reset();
+            foreach (EntityPool<Asteroid, AsteroidConfig> asteroidsPool in AsteroidPools.Values) {
+                for (int i = asteroidsPool.active.Count - 1; i >= 0; i--) asteroidsPool.active[i].Reset();
+            }
         }
 
         public void Upd(float deltaTime) {
+            if (!active) return;
             // Spawn
             if ((Data.asteroidSpawnCountdown -= deltaTime) <= 0) {
                 // Check asteroids count limit

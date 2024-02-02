@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 
 namespace Presentation.GUI {
-    public class GameScreenController : GuiBase {
+    public class GameScreen : GuiBase {
         public TextMeshProUGUI points;
         public TextMeshProUGUI coords;
         public TextMeshProUGUI angle;

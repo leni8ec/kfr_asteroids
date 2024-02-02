@@ -32,7 +32,7 @@ namespace Domain {
             scoreSystem = new ScoreSystem(data.Score);
             audioSystem = new AudioSystem(sceneData.configCollector.sounds);
 
-            gameStateSystem = new GameStateSystem();
+            gameStateSystem = new GameStateSystem(data.GameState);
             updateProcessor = new UpdateProcessor();
 
             sceneData.SetPlayer(playerSystem.Player);

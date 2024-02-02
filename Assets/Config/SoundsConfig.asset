@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20cc16f3e25a48389a112ecfa0ba4aae, type: 3}
-  m_Name: SoundsData
+  m_Name: SoundsConfig
   m_EditorClassIdentifier: 
   playerMove: {fileID: 8300000, guid: b510e416452a4004192db9a1b80c90ee, type: 3}
   fire1: {fileID: 8300000, guid: 28c5019a80497844c9cd7c51dea0e066, type: 3}
