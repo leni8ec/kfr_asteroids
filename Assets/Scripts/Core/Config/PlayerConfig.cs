@@ -2,7 +2,7 @@
 
 namespace Core.Config {
     [CreateAssetMenu(menuName = "Data/PlayerData")]
-    public class PlayerConfig : ScriptableObject {
+    public class PlayerConfig : ScriptableObject, IConfigData {
         public float speed = 3f;
         [Tooltip("in sec to full speed")]
         public float accelerationInertia = 0.5f;

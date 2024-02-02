@@ -2,7 +2,7 @@
 
 namespace Core.Config {
     [CreateAssetMenu(menuName = "Data/SoundsData")]
-    public class SoundsConfig : ScriptableObject {
+    public class SoundsConfig : ScriptableObject, IConfigData {
         public AudioClip playerMove;
         [Space]
         public AudioClip fire1;

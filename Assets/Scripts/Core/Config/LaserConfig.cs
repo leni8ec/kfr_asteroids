@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Core.Config {
     [CreateAssetMenu(menuName = "Data/LaserData")]
-    public class LaserConfig : ScriptableObject {
+    public class LaserConfig : ScriptableObject, IConfigData {
 
         [Tooltip("Max shots count")]
         public int maxShotsCount = 3;

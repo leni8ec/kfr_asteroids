@@ -15,6 +15,7 @@ namespace Domain {
         private CollisionSystem collisionSystem;
         private WorldSystem worldSystem;
         private PlayerSystem playerSystem;
+        private WeaponSystem weaponSystem;
         private ScoreSystem scoreSystem;
         private AudioSystem audioSystem;
         private GameStateSystem gameStateSystem;
@@ -27,8 +28,9 @@ namespace Domain {
 
             // Systems and processors
             playerSystem = new PlayerSystem(state.Player, sceneData.configCollector, sceneData.prefabCollector);
-            worldSystem = new WorldSystem(state.World, playerSystem.Player, playerSystem.ActiveBullets, sceneData.configCollector, sceneData.prefabCollector, sceneData.mainCamera);
-            collisionSystem = new CollisionSystem(playerSystem.Player, worldSystem.AsteroidPools, worldSystem.ActiveUfos, playerSystem.ActiveBullets, playerSystem.ActiveLasers);
+            weaponSystem = new WeaponSystem(state.Weapon, playerSystem.Player, sceneData.configCollector, sceneData.prefabCollector);
+            worldSystem = new WorldSystem(state.World, playerSystem.Player, weaponSystem.ActiveBullets, sceneData.configCollector, sceneData.prefabCollector, sceneData.mainCamera);
+            collisionSystem = new CollisionSystem(playerSystem.Player, worldSystem.AsteroidPools, worldSystem.ActiveUfos, weaponSystem.ActiveBullets, weaponSystem.ActiveLasers);
             scoreSystem = new ScoreSystem(state.Score);
             audioSystem = new AudioSystem(sceneData.configCollector.sounds);
 
@@ -44,6 +46,7 @@ namespace Domain {
 
             worldSystem.Upd(deltaTime);
             playerSystem.Upd(deltaTime);
+            weaponSystem.Upd(deltaTime);
             updateProcessor.Upd(deltaTime);
             collisionSystem.Upd(deltaTime);
         }

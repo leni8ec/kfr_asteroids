@@ -1,5 +1,5 @@
 ﻿namespace Core.State {
-    public class WorldState {
+    public class WorldState : IStateData {
         public float asteroidSpawnCountdown;
         public float ufoSpawnCountdown;
 

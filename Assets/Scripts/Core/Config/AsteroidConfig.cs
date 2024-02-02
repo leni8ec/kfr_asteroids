@@ -2,7 +2,7 @@
 
 namespace Core.Config {
     [CreateAssetMenu(menuName = "Data/AsteroidData")]
-    public class AsteroidConfig : ScriptableObject {
+    public class AsteroidConfig : ScriptableObject, IConfigData {
         public float speed = 1f;
 
         [Header("Collision")]

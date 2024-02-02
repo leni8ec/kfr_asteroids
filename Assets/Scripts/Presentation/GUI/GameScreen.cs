@@ -23,8 +23,8 @@ namespace Presentation.GUI {
             coords.SetText($"Coords: [{playerPosition.x:F1}:{playerPosition.y:F1}]");
             angle.SetText($"Angle: {playerTransform.eulerAngles.z:F0}");
             speed.SetText($"Speed: {player.Speed:N}");
-            laserCount.SetText($"Laser Count: {State.Player.laserShotsCount}");
-            laserCountdown.SetText($"Laser Countdown: {State.Player.laserShotCountdownDuration:0.00}");
+            laserCount.SetText($"Laser Count: {State.Weapon.laserShotsCount}");
+            laserCountdown.SetText($"Laser Countdown: {State.Weapon.laserShotCountdownDuration:0.00}");
         }
 
     }

@@ -15,8 +15,8 @@ namespace Domain.Systems.Audio {
 
 
         private void Subscribe() {
-            PlayerSystem.Fire1Event += () => Play(Config.fire1);
-            PlayerSystem.Fire2Event += () => Play(Config.fire2);
+            WeaponSystem.Fire1Event += () => Play(Config.fire1);
+            WeaponSystem.Fire2Event += () => Play(Config.fire2);
 
             Asteroid.Explosion += asteroid => {
                 if (asteroid.size == Asteroid.Size.Large) Play(Config.explosionLarge);

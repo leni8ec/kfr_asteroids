@@ -2,7 +2,7 @@
 
 namespace Core.Config {
     [CreateAssetMenu(menuName = "Data/BulletData")]
-    public class BulletConfig : ScriptableObject {
+    public class BulletConfig : ScriptableObject, IConfigData {
         [Tooltip("shots per sec")]
         public float fireRate = 5;
         [Space]

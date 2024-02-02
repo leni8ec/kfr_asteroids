@@ -2,7 +2,7 @@
 
 namespace Core.Config {
     [CreateAssetMenu(menuName = "Data/WorldData")]
-    public class WorldConfig : ScriptableObject {
+    public class WorldConfig : ScriptableObject, IConfigData {
         [Tooltip("Max asteroids count (in any sizes)")]
         public int asteroidsLimit = 20;
         [Tooltip("Max ufos count (in any sizes)")]
