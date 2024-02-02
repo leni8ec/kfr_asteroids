@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Domain {
     public class Bootstrapper : MonoBehaviour {
-        private GuiController guiController;
+        private SceneController sceneController;
 
         private UpdateProcessor updateProcessor;
         private CollisionSystem collisionSystem;
@@ -21,13 +21,13 @@ namespace Domain {
 
         private void Awake() {
             // Gui - Init first
-            guiController = GuiController.Handler;
+            sceneController = SceneController.Handler;
 
             updateProcessor = new UpdateProcessor();
-            playerSystem = new PlayerSystem(guiController.dataCollector, guiController.prefabCollector);
-            worldSystem = new WorldSystem(playerSystem.Player, playerSystem.ActiveBullets, guiController.dataCollector, guiController.prefabCollector);
+            playerSystem = new PlayerSystem(sceneController.configCollector, sceneController.prefabCollector);
+            worldSystem = new WorldSystem(playerSystem.Player, playerSystem.ActiveBullets, sceneController.configCollector, sceneController.prefabCollector);
             collisionSystem = new CollisionSystem(playerSystem.Player, worldSystem.AsteroidPools, worldSystem.ActiveUfos, playerSystem.ActiveBullets, playerSystem.ActiveLasers);
-            audioSystem = new AudioSystem(guiController.dataCollector.soundsData);
+            audioSystem = new AudioSystem(sceneController.configCollector.sounds);
             gameStateController = new GameStateController();
 
         }

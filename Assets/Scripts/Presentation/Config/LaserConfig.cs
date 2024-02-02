@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Presentation.Data {
+namespace Presentation.Config {
     [CreateAssetMenu(menuName = "Data/LaserData")]
-    public class LaserData : ScriptableObject {
+    public class LaserConfig : ScriptableObject {
 
         [FormerlySerializedAs("shotsCount")]
         [Tooltip("Max shots count")]

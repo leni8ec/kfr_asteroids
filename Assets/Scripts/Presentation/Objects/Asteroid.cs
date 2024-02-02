@@ -1,10 +1,10 @@
 ﻿using Framework.Objects;
-using Presentation.Data;
+using Presentation.Config;
 using UnityEngine;
 using Random = System.Random;
 
 namespace Presentation.Objects {
-    public class Asteroid : Enemy<AsteroidData>, IAsteroid {
+    public class Asteroid : Enemy<AsteroidConfig>, IAsteroid {
         public Size size;
         [Space]
         public SpriteRenderer spriteRenderer;

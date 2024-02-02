@@ -1,30 +1,30 @@
 ﻿using Domain.Systems.Gameplay;
-using Presentation.Data;
+using Presentation.Config;
 using Presentation.Objects;
 using UnityEngine;
 
 namespace Domain.Systems.Audio {
     public class AudioSystem {
-        private readonly SoundsData data;
+        private readonly SoundsConfig config;
 
-        public AudioSystem(SoundsData data) {
-            this.data = data;
+        public AudioSystem(SoundsConfig config) {
+            this.config = config;
 
             Subscribe();
         }
 
 
         private void Subscribe() {
-            PlayerSystem.Fire1Event += () => Play(data.fire1);
-            PlayerSystem.Fire2Event += () => Play(data.fire2);
+            PlayerSystem.Fire1Event += () => Play(config.fire1);
+            PlayerSystem.Fire2Event += () => Play(config.fire2);
 
             Asteroid.Explosion += asteroid => {
-                if (asteroid.size == Asteroid.Size.Large) Play(data.explosionLarge);
-                else if (asteroid.size == Asteroid.Size.Medium) Play(data.explosionMedium);
-                else if (asteroid.size == Asteroid.Size.Small) Play(data.explosionSmall);
+                if (asteroid.size == Asteroid.Size.Large) Play(config.explosionLarge);
+                else if (asteroid.size == Asteroid.Size.Medium) Play(config.explosionMedium);
+                else if (asteroid.size == Asteroid.Size.Small) Play(config.explosionSmall);
             };
 
-            Ufo.Explosion += () => Play(data.explosionMedium);
+            Ufo.Explosion += () => Play(config.explosionMedium);
 
         }
 

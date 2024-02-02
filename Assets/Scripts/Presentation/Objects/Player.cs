@@ -1,10 +1,10 @@
 ﻿using System;
 using Framework.Objects;
-using Presentation.Data;
+using Presentation.Config;
 using UnityEngine;
 
 namespace Presentation.Objects {
-    public class Player : Entity<PlayerData>, IPlayer {
+    public class Player : Entity<PlayerConfig>, IPlayer {
         private bool moveFlag;
         private bool isMoving;
 

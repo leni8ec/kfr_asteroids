@@ -2,14 +2,14 @@
 using Domain.Base;
 using Framework.Base;
 using Framework.Objects;
-using Presentation.Data;
+using Presentation.Config;
 using Presentation.Objects;
 using UnityEngine;
 
 namespace Domain.Systems.Collision {
     public class CollisionSystem : IUpdate {
         private readonly Player player;
-        private readonly Dictionary<Asteroid.Size, EntityPool<Asteroid, AsteroidData>> asteroidPools;
+        private readonly Dictionary<Asteroid.Size, EntityPool<Asteroid, AsteroidConfig>> asteroidPools;
         private readonly List<Ufo> ufos;
         private readonly List<Bullet> bullets;
         private readonly List<Laser> lasers;
@@ -20,7 +20,7 @@ namespace Domain.Systems.Collision {
         public static event PlayerHitEvent PlayerHit;
         public static event EnemyHitEvent EnemyHit;
 
-        public CollisionSystem(Player player, Dictionary<Asteroid.Size, EntityPool<Asteroid, AsteroidData>> asteroidPools, List<Ufo> ufos, List<Bullet> bullets, List<Laser> lasers) {
+        public CollisionSystem(Player player, Dictionary<Asteroid.Size, EntityPool<Asteroid, AsteroidConfig>> asteroidPools, List<Ufo> ufos, List<Bullet> bullets, List<Laser> lasers) {
             this.player = player;
             this.asteroidPools = asteroidPools;
             this.ufos = ufos;

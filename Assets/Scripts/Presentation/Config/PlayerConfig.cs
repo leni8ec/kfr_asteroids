@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Presentation.Data {
+namespace Presentation.Config {
     [CreateAssetMenu(menuName = "Data/PlayerData")]
-    public class PlayerData : ScriptableObject {
+    public class PlayerConfig : ScriptableObject {
         public float speed = 3f;
         [Tooltip("in sec to full speed")]
         public float accelerationInertia = 0.5f;

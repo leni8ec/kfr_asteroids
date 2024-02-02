@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Presentation.Data {
+namespace Presentation.Config {
     [CreateAssetMenu(menuName = "Data/BulletData")]
-    public class BulletData : ScriptableObject {
+    public class BulletConfig : ScriptableObject {
         [Tooltip("shots per sec")]
         public float fireRate = 5;
         [Space]

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Presentation.Data {
+namespace Presentation.Config {
     [CreateAssetMenu(menuName = "Data/SoundsData")]
-    public class SoundsData : ScriptableObject {
+    public class SoundsConfig : ScriptableObject {
         public AudioClip playerMove;
         [Space]
         public AudioClip fire1;

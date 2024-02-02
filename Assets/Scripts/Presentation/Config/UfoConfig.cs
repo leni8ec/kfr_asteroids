@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Presentation.Data {
+namespace Presentation.Config {
     [CreateAssetMenu(menuName = "Data/UfoData")]
-    public class UfoData : ScriptableObject {
+    public class UfoConfig : ScriptableObject {
         [FormerlySerializedAs("speed")]
         public float startSpeed = 1;
         public float huntSpeed = 1.2f;

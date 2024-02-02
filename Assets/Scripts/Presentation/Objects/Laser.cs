@@ -1,9 +1,9 @@
 ﻿using Framework.Objects;
-using Presentation.Data;
+using Presentation.Config;
 using UnityEngine;
 
 namespace Presentation.Objects {
-    public class Laser : Ammo<LaserData>, ILaser {
+    public class Laser : Ammo<LaserConfig>, ILaser {
         public Transform scaledTransform;
         public SpriteRenderer laserSprite;
 

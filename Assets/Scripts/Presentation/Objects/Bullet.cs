@@ -1,9 +1,9 @@
 ﻿using Framework.Objects;
-using Presentation.Data;
+using Presentation.Config;
 using UnityEngine;
 
 namespace Presentation.Objects {
-    public class Bullet : Ammo<BulletData>, IBullet {
+    public class Bullet : Ammo<BulletConfig>, IBullet {
 
         public override float Radius => data.colliderRadius;
 

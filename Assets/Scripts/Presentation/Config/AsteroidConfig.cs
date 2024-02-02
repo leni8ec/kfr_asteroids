@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Presentation.Data {
+namespace Presentation.Config {
     [CreateAssetMenu(menuName = "Data/AsteroidData")]
-    public class AsteroidData : ScriptableObject {
+    public class AsteroidConfig : ScriptableObject {
         public float speed = 1f;
 
         [Header("Collision")]

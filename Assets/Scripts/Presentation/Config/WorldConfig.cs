@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Presentation.Data {
+namespace Presentation.Config {
     [CreateAssetMenu(menuName = "Data/WorldData")]
-    public class WorldData : ScriptableObject {
+    public class WorldConfig : ScriptableObject {
         [Tooltip("Max asteroids count (in any sizes)")]
         public int asteroidsLimit = 20;
         [Tooltip("Max ufos count (in any sizes)")]

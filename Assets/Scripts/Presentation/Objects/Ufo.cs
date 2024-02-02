@@ -1,9 +1,9 @@
 ﻿using Framework.Objects;
-using Presentation.Data;
+using Presentation.Config;
 using UnityEngine;
 
 namespace Presentation.Objects {
-    public class Ufo : Enemy<UfoData>, IUfo {
+    public class Ufo : Enemy<UfoConfig>, IUfo {
         public override float Radius => data.colliderRadius;
 
         private Transform target;
