@@ -67,9 +67,9 @@ namespace Domain.Systems.Gameplay {
         }
 
 
-        private void Fire(bool actionFlag, Player.Weapon weapon) {
-            if (weapon == Player.Weapon.Gun) State.fire1Flag = actionFlag;
-            else if (weapon == Player.Weapon.Laser) State.fire2Flag = actionFlag;
+        private void Fire(bool actionFlag, WeaponState.Weapon weapon) {
+            if (weapon == WeaponState.Weapon.Gun) State.fire1Flag = actionFlag;
+            else if (weapon == WeaponState.Weapon.Laser) State.fire2Flag = actionFlag;
             else Debug.LogError("Weapon isn't specified!");
         }
 

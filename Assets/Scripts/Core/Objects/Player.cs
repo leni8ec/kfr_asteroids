@@ -1,20 +1,11 @@
 ﻿using Core.Config;
 using Core.Interface.Objects;
+using Core.State;
 using UnityEngine;
 
 namespace Core.Objects {
     public class Player : Entity<PlayerConfig>, IPlayer {
-        private bool moveFlag;
-        private bool isMoving;
-
-        private bool rotateFlag;
-        private int rotateDirection;
-
-        private float inertialSpeed;
-        private float inertialTime;
-
-        private Vector3 lastDirection;
-        private Vector3 lastPos;
+        private PlayerState State { get; set; }
 
         [Space]
         public SpriteRenderer spriteRenderer;
@@ -22,13 +13,28 @@ namespace Core.Objects {
         public Sprite moveSprite;
 
         public override float Radius => config.colliderRadius;
-        public float Speed { get; private set; }
+        public float Speed => State.speed;
 
         // position of bullet start
         public Vector3 WeaponWorldPosition => transform.position + transform.up * 0.2f;
 
         [Space]
         public AudioSource moveAudio;
+
+        public void SetStateData(PlayerState state) {
+            State = state;
+            State.MoveFlag.Changed += OnMoveFlagChanged;
+        }
+
+        private void OnMoveFlagChanged(bool moveFlag) {
+            if (moveFlag) {
+                moveAudio.Play();
+                spriteRenderer.sprite = moveSprite;
+            } else {
+                moveAudio.Stop();
+                spriteRenderer.sprite = idleSprite;
+            }
+        }
 
         public override void Reset() {
             base.Reset();
@@ -37,85 +43,8 @@ namespace Core.Objects {
             t.position = Vector3.zero;
             t.eulerAngles = Vector3.zero;
 
-            moveFlag = false;
-            isMoving = false;
-            rotateFlag = false;
-            rotateDirection = 0;
-            inertialSpeed = 0;
-            inertialTime = 0;
-            lastDirection = Vector3.zero;
-            lastPos = Vector3.zero;
-
+            State.Reset();
         }
-
-        public void Rotate(bool actionFlag, bool left) {
-            rotateFlag = actionFlag;
-            rotateDirection = left ? 1 : -1;
-        }
-
-        // Move must have inertia and the screen - is infinity
-
-        public void Move(bool actionFlag) {
-            moveFlag = actionFlag;
-
-            if (moveFlag) moveAudio.Play();
-            else moveAudio.Stop();
-        }
-
-
-        public enum Weapon {
-            Gun = 0,
-            Laser = 1,
-        }
-
-        private void Update() {
-            float deltaTime = Time.deltaTime;
-
-            // Moving
-            if (moveFlag) {
-                if (inertialTime < 1) {
-                    inertialTime = Mathf.Min(1, inertialTime + deltaTime * (1 / config.accelerationInertia));
-                    inertialSpeed = Mathf.Lerp(0, config.speed, inertialTime);
-                }
-                if (!isMoving) {
-                    isMoving = true;
-                    spriteRenderer.sprite = moveSprite;
-                }
-            } else {
-                if (inertialTime > 0) {
-                    inertialTime = Mathf.Max(0, inertialTime - deltaTime * (1 / config.brakingInertia));
-                    inertialSpeed = Mathf.Lerp(0, config.speed, inertialTime);
-                }
-                if (isMoving) {
-                    isMoving = false;
-                    spriteRenderer.sprite = idleSprite;
-                }
-            }
-
-            if (inertialTime > 0) {
-                // transform.Translate(transform.up * (config.speed * deltaTime));
-                Transform t = transform;
-                Vector3 direction;
-                if (moveFlag) {
-                    direction = Vector3.Lerp(lastDirection, t.up, deltaTime / config.leftOverInertia); // leftover inertia
-                } else direction = lastDirection; // don't change direction without acceleration
-                lastDirection = direction * inertialTime;
-
-                Vector3 position = t.position;
-                position += direction * (inertialSpeed * deltaTime);
-                t.position = position;
-            }
-
-            // Rotation
-            if (rotateFlag) {
-                transform.Rotate(0, 0, config.rotationSpeed * deltaTime * rotateDirection);
-            }
-
-            // Calculate speed
-            Vector3 pos = transform.position;
-            Speed = Vector3.Distance(lastPos, pos) / Time.deltaTime;
-            lastPos = pos;
-
-        }
+        
     }
 }

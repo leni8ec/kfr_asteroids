@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Core.Base {
-    public class ChangedValue<T> {
+    public class ValueChange<T> {
         private T value;
         
         public T Value {

@@ -3,7 +3,7 @@
 namespace Core.State {
     public class ScoreState : IStateData {
 
-        public ChangedValue<int> Points { get; } = new();
+        public ValueChange<int> Points { get; } = new();
 
     }
 }

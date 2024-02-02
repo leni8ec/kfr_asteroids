@@ -1,12 +1,12 @@
 ﻿using System;
-using Core.Objects;
+using Core.State;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Core.Input {
     public class InputController : MonoBehaviour {
 
-        public delegate void FireEvent(bool actionFlag, Player.Weapon weapon);
+        public delegate void FireEvent(bool actionFlag, WeaponState.Weapon weapon);
         public delegate void RotateEvent(bool actionFlag, bool left);
         public delegate void MoveEvent(bool actionFlag);
 
@@ -64,11 +64,11 @@ namespace Core.Input {
         }
 
         private void OnFire1Action(bool actionFlag, InputAction.CallbackContext context) {
-            Fire(actionFlag, Player.Weapon.Gun);
+            Fire(actionFlag, WeaponState.Weapon.Gun);
         }
 
         private void OnFire2Action(bool actionFlag, InputAction.CallbackContext context) {
-            Fire(actionFlag, Player.Weapon.Laser);
+            Fire(actionFlag, WeaponState.Weapon.Laser);
         }
 
 

@@ -9,8 +9,8 @@ namespace Core.Objects {
 
         protected T config;
 
-        public void SetData(T data) {
-            this.config = data;
+        public void SetConfig(T config) {
+            this.config = config;
         }
 
         public abstract float Radius { get; }

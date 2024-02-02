@@ -21,7 +21,7 @@ namespace Core.Base {
                 // Instantiate new object
                 GameObject go = Object.Instantiate(prefab);
                 entity = go.GetComponent<TEntity>();
-                entity.SetData(data);
+                entity.SetConfig(data);
                 entity.Dispose += e => Return(entity);
                 // stack.Push(entity);
             }

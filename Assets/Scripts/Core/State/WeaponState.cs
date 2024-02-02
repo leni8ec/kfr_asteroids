@@ -11,6 +11,12 @@
         public float laserShotCountdownDuration;
         public float laserShotsCount;
 
+
+        public enum Weapon {
+            Gun = 0,
+            Laser = 1,
+        }
+
         public void Reset() {
             fire1Flag = false;
             fire2Flag = false;

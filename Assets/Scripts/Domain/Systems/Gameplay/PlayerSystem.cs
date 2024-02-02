@@ -10,20 +10,21 @@ using UnityEngine;
 namespace Domain.Systems.Gameplay {
     public class PlayerSystem : IUpdate {
         private PlayerState State { get; }
+        private PlayerConfig Config { get; }
         public Player Player { get; }
 
         private bool active;
 
         public PlayerSystem(PlayerState state, ConfigCollector configCollector, PrefabCollector prefabCollector) {
             State = state;
-
+            Config = configCollector.player;
 
             // Player
             Player = CreatePlayer(prefabCollector.player, configCollector.player);
 
             // Input listeners
-            InputController.Move += Player.Move;
-            InputController.Rotate += Player.Rotate;
+            InputController.Move += Move;
+            InputController.Rotate += Rotate;
 
             // Game state listeners
             GameStateSystem.NewGameEvent += Play;
@@ -46,12 +47,63 @@ namespace Domain.Systems.Gameplay {
         private Player CreatePlayer(GameObject playerPrefab, PlayerConfig playerConfig) {
             GameObject playerObject = Object.Instantiate(playerPrefab);
             Player targetPlayer = playerObject.GetComponent<Player>();
-            targetPlayer.SetData(playerConfig);
+            targetPlayer.SetConfig(playerConfig);
+            targetPlayer.SetStateData(State);
             return targetPlayer;
         }
 
+
+        public void Move(bool actionFlag) {
+            State.MoveFlag.Value = actionFlag;
+        }
+
+        private void Rotate(bool actionFlag, bool left) {
+            State.RotateFlag.Value = actionFlag;
+            State.rotateDirection = left ? 1 : -1;
+        }
+
+
         public void Upd(float deltaTime) {
-            //
+
+            // Moving
+            if (State.MoveFlag.Value) {
+                if (State.inertialTime < 1) {
+                    State.inertialTime = Mathf.Min(1, State.inertialTime + deltaTime * (1 / Config.accelerationInertia));
+                    State.inertialSpeed = Mathf.Lerp(0, Config.speed, State.inertialTime);
+                }
+            } else {
+                if (State.inertialTime > 0) {
+                    State.inertialTime = Mathf.Max(0, State.inertialTime - deltaTime * (1 / Config.brakingInertia));
+                    State.inertialSpeed = Mathf.Lerp(0, Config.speed, State.inertialTime);
+                }
+            }
+
+            if (State.inertialTime > 0) {
+                // transform.Translate(transform.up * (config.speed * deltaTime));
+                Transform t = Player.transform;
+                Vector3 direction;
+                if (State.MoveFlag.Value) {
+                    direction = Vector3.Lerp(State.lastDirection, t.up, deltaTime / Config.leftOverInertia); // leftover inertia
+                } else {
+                    direction = State.lastDirection; // don't change direction without acceleration
+                }
+                State.lastDirection = direction * State.inertialTime;
+
+                Vector3 position = t.position;
+                position += direction * (State.inertialSpeed * deltaTime);
+                t.position = position;
+            }
+
+            // Rotation
+            if (State.RotateFlag.Value) {
+                Player.transform.Rotate(0, 0, Config.rotationSpeed * deltaTime * State.rotateDirection);
+            }
+
+
+            // Calculate speed
+            Vector3 pos = Player.transform.position;
+            State.speed = Vector3.Distance(State.lastPos, pos) / Time.deltaTime;
+            State.lastPos = pos;
         }
     }
 }
