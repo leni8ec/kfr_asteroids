@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using Core.Base;
 using Core.Config;
-using Core.Data;
 using Core.Input;
 using Core.Interface.Base;
 using Core.Objects;
+using Core.State;
 using Core.Unity;
-using Domain.Systems.GameState;
+using Domain.Systems.Game;
 using UnityEngine;
 
 namespace Domain.Systems.Gameplay {
     public class PlayerSystem : IUpdate {
-        private PlayerData Data { get; }
+        private PlayerState State { get; }
         public Player Player { get; }
 
         private EntityPool<Bullet, BulletConfig> Ammo1Pool { get; }
@@ -32,8 +32,8 @@ namespace Domain.Systems.Gameplay {
 
         private bool active;
 
-        public PlayerSystem(PlayerData data, ConfigCollector configCollector, PrefabCollector prefabCollector) {
-            Data = data;
+        public PlayerSystem(PlayerState state, ConfigCollector configCollector, PrefabCollector prefabCollector) {
+            State = state;
             // Pools
             Ammo1Pool = new EntityPool<Bullet, BulletConfig>(prefabCollector.bullet, configCollector.bullet);
             Ammo2Pool = new EntityPool<Laser, LaserConfig>(prefabCollector.laser, configCollector.laser);
@@ -58,7 +58,7 @@ namespace Domain.Systems.Gameplay {
         private void Play() {
             active = true;
             Player.gameObject.SetActive(true);
-            Data.laserShotCountdownDuration = Ammo2Config.shotRestoreCountdown;
+            State.laserShotCountdownDuration = Ammo2Config.shotRestoreCountdown;
         }
 
         private void Reset() {
@@ -66,7 +66,7 @@ namespace Domain.Systems.Gameplay {
             for (int i = ActiveBullets.Count - 1; i >= 0; i--) ActiveBullets[i].Reset();
             for (int i = ActiveLasers.Count - 1; i >= 0; i--) ActiveLasers[i].Reset();
             Player.Reset();
-            Data.Reset();
+            State.Reset();
             Player.gameObject.SetActive(false);
 
         }
@@ -79,16 +79,16 @@ namespace Domain.Systems.Gameplay {
         }
 
         private void Fire(bool actionFlag, Player.Weapon weapon) {
-            if (weapon == Player.Weapon.Gun) Data.fire1Flag = actionFlag;
-            else if (weapon == Player.Weapon.Laser) Data.fire2Flag = actionFlag;
+            if (weapon == Player.Weapon.Gun) State.fire1Flag = actionFlag;
+            else if (weapon == Player.Weapon.Laser) State.fire2Flag = actionFlag;
             else Debug.LogError("Weapon isn't specified!");
         }
 
         public void Upd(float deltaTime) {
             if (!active) return;
 
-            if (Data.fire1Flag && Data.fire1Countdown <= 0) {
-                Data.fire1Countdown = Fire1Delay;
+            if (State.fire1Flag && State.fire1Countdown <= 0) {
+                State.fire1Countdown = Fire1Delay;
 
                 Bullet bullet = Ammo1Pool.Take();
                 Transform playerTransform = Player.transform;
@@ -98,9 +98,9 @@ namespace Domain.Systems.Gameplay {
                 Fire1Event?.Invoke();
             }
 
-            if (Data.fire2Flag && Data.fire2Countdown <= 0 && Data.laserShotsCount > 0) {
-                Data.fire2Countdown = Fire2Delay;
-                Data.laserShotsCount--;
+            if (State.fire2Flag && State.fire2Countdown <= 0 && State.laserShotsCount > 0) {
+                State.fire2Countdown = Fire2Delay;
+                State.laserShotsCount--;
 
                 Laser laser = Ammo2Pool.Take();
                 Transform playerTransform = Player.transform;
@@ -110,14 +110,14 @@ namespace Domain.Systems.Gameplay {
                 Fire2Event?.Invoke();
             }
 
-            if (Data.fire1Countdown > 0) Data.fire1Countdown -= deltaTime;
-            if (Data.fire2Countdown > 0) Data.fire2Countdown -= deltaTime;
+            if (State.fire1Countdown > 0) State.fire1Countdown -= deltaTime;
+            if (State.fire2Countdown > 0) State.fire2Countdown -= deltaTime;
 
             // Laser
-            if (Data.laserShotsCount < Ammo2Config.maxShotsCount) {
-                if ((Data.laserShotCountdownDuration -= deltaTime) <= 0) {
-                    Data.laserShotCountdownDuration = Ammo2Config.shotRestoreCountdown;
-                    Data.laserShotsCount++;
+            if (State.laserShotsCount < Ammo2Config.maxShotsCount) {
+                if ((State.laserShotCountdownDuration -= deltaTime) <= 0) {
+                    State.laserShotCountdownDuration = Ammo2Config.shotRestoreCountdown;
+                    State.laserShotsCount++;
                 }
             }
         }

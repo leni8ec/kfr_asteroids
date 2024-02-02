@@ -1,4 +1,4 @@
-﻿using Core.Game.States;
+﻿using Core.Game;
 using UnityEngine;
 
 namespace Presentation.GUI {
@@ -8,12 +8,12 @@ namespace Presentation.GUI {
         public GameOverScreen gameOverScreen;
 
         private void Start() {
-            Data.GameState.GameState.Changed += OnGameStateChanged;
-            OnGameStateChanged(GameState.Playing); // hack
+            State.Game.Status.Changed += OnGameStatusChanged;
+            OnGameStatusChanged(GameStatus.Playing); // hack
         }
 
-        private void OnGameStateChanged(GameState gameState) {
-            if (gameState == GameState.Playing) {
+        private void OnGameStatusChanged(GameStatus gameStatus) {
+            if (gameStatus == GameStatus.Playing) {
                 gameScreen.gameObject.SetActive(true);
                 gameOverScreen.gameObject.SetActive(false);
                 bgAudio.SetActive(true);

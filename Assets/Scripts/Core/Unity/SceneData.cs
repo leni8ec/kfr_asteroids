@@ -1,5 +1,5 @@
-﻿using Core.Data;
-using Core.Objects;
+﻿using Core.Objects;
+using Core.State;
 using Core.Unity.Helpers;
 using UnityEngine;
 
@@ -12,10 +12,10 @@ namespace Core.Unity {
         public PrefabCollector prefabCollector;
 
         public Player Player { get; private set; }
-        public DataCollector Data { get; private set; }
+        public StateCollector State { get; private set; }
 
-        public void SetGameData(DataCollector data) {
-            Data = data;
+        public void SetGameData(StateCollector state) {
+            State = state;
         }
 
         public void SetPlayer(Player player) {

@@ -1,9 +1,9 @@
-using Core.Data;
+using Core.State;
 using Core.Unity;
 using Domain.Systems.Audio;
 using Domain.Systems.Collision;
+using Domain.Systems.Game;
 using Domain.Systems.Gameplay;
-using Domain.Systems.GameState;
 using Domain.Systems.Processors;
 using UnityEngine;
 
@@ -21,18 +21,18 @@ namespace Domain {
 
         private void Awake() {
             // Data - init first
-            DataCollector data = new();
+            StateCollector state = new();
             sceneData = SceneData.Handler;
-            sceneData.SetGameData(data);
+            sceneData.SetGameData(state);
 
             // Systems and processors
-            playerSystem = new PlayerSystem(data.Player, sceneData.configCollector, sceneData.prefabCollector);
-            worldSystem = new WorldSystem(data.World, playerSystem.Player, playerSystem.ActiveBullets, sceneData.configCollector, sceneData.prefabCollector, sceneData.mainCamera);
+            playerSystem = new PlayerSystem(state.Player, sceneData.configCollector, sceneData.prefabCollector);
+            worldSystem = new WorldSystem(state.World, playerSystem.Player, playerSystem.ActiveBullets, sceneData.configCollector, sceneData.prefabCollector, sceneData.mainCamera);
             collisionSystem = new CollisionSystem(playerSystem.Player, worldSystem.AsteroidPools, worldSystem.ActiveUfos, playerSystem.ActiveBullets, playerSystem.ActiveLasers);
-            scoreSystem = new ScoreSystem(data.Score);
+            scoreSystem = new ScoreSystem(state.Score);
             audioSystem = new AudioSystem(sceneData.configCollector.sounds);
 
-            gameStateSystem = new GameStateSystem(data.GameState);
+            gameStateSystem = new GameStateSystem(state.Game);
             updateProcessor = new UpdateProcessor();
 
             sceneData.SetPlayer(playerSystem.Player);

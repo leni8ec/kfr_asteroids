@@ -1,7 +1,7 @@
 ﻿using Core.Base;
 
-namespace Core.Data {
-    public class ScoreData {
+namespace Core.State {
+    public class ScoreState {
 
         public ChangedValue<int> Points { get; } = new();
 

@@ -1,25 +1,25 @@
-﻿using Core.Data;
-using Core.Interface.Objects;
+﻿using Core.Interface.Objects;
+using Core.State;
 using Domain.Systems.Collision;
-using Domain.Systems.GameState;
+using Domain.Systems.Game;
 
 namespace Domain.Systems.Gameplay {
     public class ScoreSystem {
-        public ScoreData Data { get; }
+        public ScoreState State { get; }
 
-        public ScoreSystem(ScoreData data) {
-            Data = data;
+        public ScoreSystem(ScoreState state) {
+            State = state;
 
             CollisionSystem.EnemyHit += OnEnemyHit;
             GameStateSystem.NewGameEvent += Reset;
         }
 
         private void Reset() {
-            Data.Points.Value = 0;
+            State.Points.Value = 0;
         }
 
         private void OnEnemyHit(ICollider enemy, ICollider ammo) {
-            Data.Points.Value++;
+            State.Points.Value++;
         }
 
     }

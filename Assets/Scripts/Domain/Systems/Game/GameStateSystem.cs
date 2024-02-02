@@ -1,18 +1,19 @@
 ﻿using System;
-using Core.Data;
+using Core.Game;
 using Core.Input;
 using Core.Interface.Objects;
+using Core.State;
 using Domain.Systems.Collision;
 using UnityEngine;
 
-namespace Domain.Systems.GameState {
+namespace Domain.Systems.Game {
     public class GameStateSystem {
-        private GameStateData Data { get; }
+        private GameState Data { get; }
 
         public static event Action NewGameEvent;
         public static event Action GameOverEvent;
 
-        public GameStateSystem(GameStateData data) {
+        public GameStateSystem(GameState data) {
             Data = data;
 
             CollisionSystem.PlayerHit += PlayerHitHandler;
@@ -26,15 +27,15 @@ namespace Domain.Systems.GameState {
         }
 
         private void NewGame() {
-            if (Data.GameState.Value == Core.Game.States.GameState.Playing) return;
-            Data.GameState.Value = Core.Game.States.GameState.Playing;
+            if (Data.Status.Value == GameStatus.Playing) return;
+            Data.Status.Value = GameStatus.Playing;
             NewGameEvent?.Invoke();
             Debug.Log("NewGame");
         }
 
         private void GameOver() {
-            if (Data.GameState.Value == Core.Game.States.GameState.End) return;
-            Data.GameState.Value = Core.Game.States.GameState.End;
+            if (Data.Status.Value == GameStatus.End) return;
+            Data.Status.Value = GameStatus.End;
             GameOverEvent?.Invoke();
             Debug.Log("GameOver");
         }

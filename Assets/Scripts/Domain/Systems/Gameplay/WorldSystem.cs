@@ -1,19 +1,19 @@
 ﻿using System.Collections.Generic;
 using Core.Base;
 using Core.Config;
-using Core.Data;
 using Core.Interface.Base;
 using Core.Interface.Objects;
 using Core.Objects;
+using Core.State;
 using Core.Unity;
 using Domain.Systems.Collision;
-using Domain.Systems.GameState;
+using Domain.Systems.Game;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
 namespace Domain.Systems.Gameplay {
     public class WorldSystem : IUpdate {
-        private WorldData Data { get; }
+        private WorldState State { get; }
         private Player Player { get; }
         private List<Bullet> ActiveBullets { get; }
         private Camera MainCamera { get; }
@@ -26,8 +26,8 @@ namespace Domain.Systems.Gameplay {
 
         private bool active;
 
-        public WorldSystem(WorldData data, Player player, List<Bullet> activeBullets, ConfigCollector configCollector, PrefabCollector prefabCollector, Camera mainCamera) {
-            Data = data;
+        public WorldSystem(WorldState state, Player player, List<Bullet> activeBullets, ConfigCollector configCollector, PrefabCollector prefabCollector, Camera mainCamera) {
+            State = state;
 
             Player = player;
             ActiveBullets = activeBullets;
@@ -42,8 +42,8 @@ namespace Domain.Systems.Gameplay {
 
             // World
             Config = configCollector.world;
-            Data.asteroidSpawnCountdown = 1 / Config.asteroidsSpawnRate;
-            Data.ufoSpawnCountdown = 1 / Config.ufoSpawnRate;
+            State.asteroidSpawnCountdown = 1 / Config.asteroidsSpawnRate;
+            State.ufoSpawnCountdown = 1 / Config.ufoSpawnRate;
 
             // Subscribe
             CollisionSystem.EnemyHit += EnemyHitHandler;
@@ -69,19 +69,19 @@ namespace Domain.Systems.Gameplay {
         public void Upd(float deltaTime) {
             if (!active) return;
             // Spawn
-            if ((Data.asteroidSpawnCountdown -= deltaTime) <= 0) {
+            if ((State.asteroidSpawnCountdown -= deltaTime) <= 0) {
                 // Check asteroids count limit
                 int totalActiveAsteroids = AsteroidPools[Asteroid.Size.Large].active.Count + AsteroidPools[Asteroid.Size.Medium].active.Count + AsteroidPools[Asteroid.Size.Small].active.Count;
                 if (totalActiveAsteroids < Config.asteroidsLimit) {
-                    Data.asteroidSpawnCountdown = 1 / Config.asteroidsSpawnRate;
+                    State.asteroidSpawnCountdown = 1 / Config.asteroidsSpawnRate;
                     SpawnAsteroid();
                 }
             }
 
-            if ((Data.ufoSpawnCountdown -= deltaTime) <= 0) {
+            if ((State.ufoSpawnCountdown -= deltaTime) <= 0) {
                 int totalActiveUfo = UfosPool.active.Count;
                 if (totalActiveUfo < Config.ufosLimit) {
-                    Data.ufoSpawnCountdown = 1 / Config.ufoSpawnRate;
+                    State.ufoSpawnCountdown = 1 / Config.ufoSpawnRate;
                     SpawnUfo();
                 }
             }
@@ -133,8 +133,8 @@ namespace Domain.Systems.Gameplay {
 
         private void CheckDisposeOutOfScreenObjects(float deltaTime) {
             // Dispose checking
-            if ((Data.disposeCountdown -= deltaTime) <= 0) {
-                Data.disposeCountdown = Data.disposeInterval;
+            if ((State.disposeCountdown -= deltaTime) <= 0) {
+                State.disposeCountdown = State.disposeInterval;
                 // Asteroids
                 foreach (EntityPool<Asteroid, AsteroidConfig> asteroidsPool in AsteroidPools.Values) {
                     for (int i = asteroidsPool.active.Count - 1; i >= 0; i--) {
@@ -215,8 +215,8 @@ namespace Domain.Systems.Gameplay {
             else if (destroyedAsteroid.size == Asteroid.Size.Medium) targetSize = Asteroid.Size.Small;
 
             Vector3 direction = Random.insideUnitCircle;
-            float degreesDelta = 360f / Data.asteroidDestroyFragments;
-            for (int i = 0; i < Data.asteroidDestroyFragments; i++) {
+            float degreesDelta = 360f / State.asteroidDestroyFragments;
+            for (int i = 0; i < State.asteroidDestroyFragments; i++) {
                 Asteroid newAsteroid = AsteroidPools[targetSize].Take();
                 direction = Quaternion.AngleAxis(degreesDelta, Vector3.forward) * direction;
                 Vector3 spawnPoint = destroyedAsteroid.transform.position + direction * 0.5f;

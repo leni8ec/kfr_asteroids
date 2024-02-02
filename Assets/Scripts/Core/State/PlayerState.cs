@@ -1,5 +1,5 @@
-﻿namespace Core.Data {
-    public class PlayerData {
+﻿namespace Core.State {
+    public class PlayerState {
 
         public bool fire1Flag;
         public bool fire2Flag;
