@@ -5,11 +5,10 @@ namespace Core.Config {
     [CreateAssetMenu(menuName = "Data/LaserData")]
     public class LaserConfig : ScriptableObject {
 
-        [FormerlySerializedAs("shotsCount")]
         [Tooltip("Max shots count")]
         public int maxShotsCount = 3;
         [Tooltip("Delay to restore shot")]
-        public float shotCountdown = 3;
+        public float shotRestoreCountdown = 3;
         [Space]
         [Tooltip("shots per sec")]
         public float fireRate = 0.3f;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Core.Objects {
     public class Ufo : Enemy<UfoConfig>, IUfo {
-        public override float Radius => data.colliderRadius;
+        public override float Radius => config.colliderRadius;
 
         private Transform target;
         private float huntCountdown;
@@ -14,7 +14,7 @@ namespace Core.Objects {
 
         public void SetTarget(Transform target) {
             this.target = target;
-            huntCountdown = data.huntDelay;
+            huntCountdown = config.huntDelay;
         }
 
         public void Hunt() { }
@@ -32,10 +32,10 @@ namespace Core.Objects {
 
         private void Update() {
             if ((huntCountdown -= Time.deltaTime) > 0) {
-                transform.Translate(direction * (data.startSpeed * Time.deltaTime));
+                transform.Translate(direction * (config.startSpeed * Time.deltaTime));
             } else {
                 Vector3 huntDirection = -(transform.position - target.position).normalized;
-                transform.Translate(huntDirection * (data.huntSpeed * Time.deltaTime));
+                transform.Translate(huntDirection * (config.huntSpeed * Time.deltaTime));
             }
         }
 

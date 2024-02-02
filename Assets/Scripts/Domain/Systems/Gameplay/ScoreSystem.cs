@@ -15,11 +15,11 @@ namespace Domain.Systems.Gameplay {
         }
 
         private void Reset() {
-            Data.points = 0;
+            Data.Points.Value = 0;
         }
 
         private void OnEnemyHit(ICollider enemy, ICollider ammo) {
-            Data.points++;
+            Data.Points.Value++;
         }
 
     }

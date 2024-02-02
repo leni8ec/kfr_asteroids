@@ -20,7 +20,9 @@ namespace Core.Objects {
         public Sprite idleSprite;
         public Sprite moveSprite;
 
-        public override float Radius => data.colliderRadius;
+        public override float Radius => config.colliderRadius;
+        public float Speed { get; private set; }
+        private Vector3 lastPos;
 
         // position of bullet start
         public Vector3 WeaponWorldPosition => transform.position + transform.up * 0.2f;
@@ -54,8 +56,8 @@ namespace Core.Objects {
             // Moving
             if (moveFlag) {
                 if (inertialTime < 1) {
-                    inertialTime = Mathf.Min(1, inertialTime + deltaTime * (1 / data.accelerationInertia));
-                    inertialSpeed = Mathf.Lerp(0, data.speed, inertialTime);
+                    inertialTime = Mathf.Min(1, inertialTime + deltaTime * (1 / config.accelerationInertia));
+                    inertialSpeed = Mathf.Lerp(0, config.speed, inertialTime);
                 }
                 if (!isMoving) {
                     isMoving = true;
@@ -63,8 +65,8 @@ namespace Core.Objects {
                 }
             } else {
                 if (inertialTime > 0) {
-                    inertialTime = Mathf.Max(0, inertialTime - deltaTime * (1 / data.brakingInertia));
-                    inertialSpeed = Mathf.Lerp(0, data.speed, inertialTime);
+                    inertialTime = Mathf.Max(0, inertialTime - deltaTime * (1 / config.brakingInertia));
+                    inertialSpeed = Mathf.Lerp(0, config.speed, inertialTime);
                 }
                 if (isMoving) {
                     isMoving = false;
@@ -73,11 +75,11 @@ namespace Core.Objects {
             }
 
             if (inertialTime > 0) {
-                // transform.Translate(transform.up * (data.speed * deltaTime));
+                // transform.Translate(transform.up * (config.speed * deltaTime));
                 Transform t = transform;
                 Vector3 direction;
                 if (moveFlag) {
-                    direction = Vector3.Lerp(lastDirection, t.up, deltaTime / data.leftOverInertia); // leftover inertia
+                    direction = Vector3.Lerp(lastDirection, t.up, deltaTime / config.leftOverInertia); // leftover inertia
                 } else direction = lastDirection; // don't change direction without acceleration
                 lastDirection = direction * inertialTime;
 
@@ -88,8 +90,13 @@ namespace Core.Objects {
 
             // Rotation
             if (rotateFlag) {
-                transform.Rotate(0, 0, data.rotationSpeed * deltaTime * rotateDirection);
+                transform.Rotate(0, 0, config.rotationSpeed * deltaTime * rotateDirection);
             }
+
+            // Calculate speed
+            Vector3 pos = transform.position;
+            Speed = Vector3.Distance(lastPos, pos) / Time.deltaTime;
+            lastPos = pos;
 
         }
     }

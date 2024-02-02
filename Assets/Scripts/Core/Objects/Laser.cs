@@ -7,21 +7,21 @@ namespace Core.Objects {
         public Transform scaledTransform;
         public SpriteRenderer laserSprite;
 
-        public override float Radius => data.colliderRadius;
+        public override float Radius => config.colliderRadius;
         public Vector2 Direction => direction;
-        public float MaxDistance => data.maxDistance;
-        public int MaxShotsCount => data.maxShotsCount;
+        public float MaxDistance => config.maxDistance;
+        public int MaxShotsCount => config.maxShotsCount;
 
         private float duration;
 
         public void Fire() {
-            duration = data.duration;
+            duration = config.duration;
 
             transform.up = direction;
 
             // Set laser scale (visual)
             Vector3 scale = scaledTransform.localScale;
-            scale.y = data.maxDistance;
+            scale.y = config.maxDistance;
             scaledTransform.localScale = scale;
         }
 
@@ -30,7 +30,7 @@ namespace Core.Objects {
                 Reset();
             }
             Color color = laserSprite.color;
-            color.a = Mathf.Max(0, duration / data.duration);
+            color.a = Mathf.Max(0, duration / config.duration);
             laserSprite.color = color;
         }
 

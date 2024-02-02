@@ -1,5 +1,9 @@
-﻿namespace Core.Data {
+﻿using Core.Base;
+
+namespace Core.Data {
     public class ScoreData {
-        public int points;
+
+        public ChangedValue<int> Points { get; } = new();
+
     }
 }

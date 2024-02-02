@@ -15,21 +15,27 @@ namespace Domain {
         private CollisionSystem collisionSystem;
         private WorldSystem worldSystem;
         private PlayerSystem playerSystem;
+        private ScoreSystem scoreSystem;
         private AudioSystem audioSystem;
         private GameStateSystem gameStateSystem;
 
         private void Awake() {
             // Data - init first
-            sceneData = SceneData.Handler;
             DataCollector data = new();
+            sceneData = SceneData.Handler;
+            sceneData.SetGameData(data);
 
             // Systems and processors
-            updateProcessor = new UpdateProcessor();
             playerSystem = new PlayerSystem(data.Player, sceneData.configCollector, sceneData.prefabCollector);
             worldSystem = new WorldSystem(data.World, playerSystem.Player, playerSystem.ActiveBullets, sceneData.configCollector, sceneData.prefabCollector, sceneData.mainCamera);
             collisionSystem = new CollisionSystem(playerSystem.Player, worldSystem.AsteroidPools, worldSystem.ActiveUfos, playerSystem.ActiveBullets, playerSystem.ActiveLasers);
+            scoreSystem = new ScoreSystem(data.Score);
             audioSystem = new AudioSystem(sceneData.configCollector.sounds);
+
             gameStateSystem = new GameStateSystem();
+            updateProcessor = new UpdateProcessor();
+
+            sceneData.SetPlayer(playerSystem.Player);
         }
 
 

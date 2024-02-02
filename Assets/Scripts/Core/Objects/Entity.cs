@@ -7,10 +7,10 @@ namespace Core.Objects {
         public delegate void DisposeEvent(Entity<T> entity);
         public event DisposeEvent Dispose;
 
-        protected T data;
+        protected T config;
 
         public void SetData(T data) {
-            this.data = data;
+            this.config = data;
         }
 
         public abstract float Radius { get; }

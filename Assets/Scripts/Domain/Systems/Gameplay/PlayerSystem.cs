@@ -50,6 +50,8 @@ namespace Domain.Systems.Gameplay {
             InputController.Rotate += Player.Rotate;
 
             CollisionSystem.PlayerHit += PlayerHitHandler;
+
+            Data.laserShotCountdownDuration = Ammo2Config.shotRestoreCountdown;
         }
 
         private Player CreatePlayer(GameObject playerPrefab, PlayerConfig playerConfig) {
@@ -98,8 +100,8 @@ namespace Domain.Systems.Gameplay {
 
             // Laser
             if (Data.laserShotsCount < Ammo2Config.maxShotsCount) {
-                if ((Data.laserShotCountdownDuration += deltaTime) >= Ammo2Config.shotCountdown) {
-                    Data.laserShotCountdownDuration = 0;
+                if ((Data.laserShotCountdownDuration -= deltaTime) <= 0) {
+                    Data.laserShotCountdownDuration = Ammo2Config.shotRestoreCountdown;
                     Data.laserShotsCount++;
                 }
             }

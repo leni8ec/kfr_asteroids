@@ -13,7 +13,7 @@ namespace Core.Objects {
         public delegate void ExplosionEvent(Asteroid asteroid);
         public static event ExplosionEvent Explosion;
 
-        public override float Radius => data.colliderRadius;
+        public override float Radius => config.colliderRadius;
 
         public float Lifetime { get; private set; }
 
@@ -24,7 +24,7 @@ namespace Core.Objects {
 
         private void Update() {
             Transform t = transform;
-            t.Translate(direction * (data.speed * Time.deltaTime));
+            t.Translate(direction * (config.speed * Time.deltaTime));
 
             Lifetime += Time.deltaTime;
         }

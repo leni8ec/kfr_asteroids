@@ -5,16 +5,16 @@ using UnityEngine;
 namespace Core.Objects {
     public class Bullet : Ammo<BulletConfig>, IBullet {
 
-        public override float Radius => data.colliderRadius;
+        public override float Radius => config.colliderRadius;
 
         private float lifetime;
 
         public void Fire() {
-            lifetime = data.lifetime;
+            lifetime = config.lifetime;
         }
 
         private void Update() {
-            transform.Translate(direction * (data.speed * Time.deltaTime));
+            transform.Translate(direction * (config.speed * Time.deltaTime));
 
             if ((lifetime -= Time.deltaTime) <= 0) Reset();
         }
