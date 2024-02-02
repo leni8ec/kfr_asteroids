@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Domain.Base;
-using Framework.Base;
-using Framework.Objects;
-using Presentation.Config;
-using Presentation.Objects;
+using Core.Base;
+using Core.Config;
+using Core.Interface.Base;
+using Core.Interface.Objects;
+using Core.Objects;
 using UnityEngine;
 
 namespace Domain.Systems.Collision {

@@ -1,4 +1,4 @@
-﻿using Framework.Base;
+﻿using Core.Interface.Base;
 
 namespace Domain.Systems.Processors {
     public class UpdateProcessor : IUpdate {

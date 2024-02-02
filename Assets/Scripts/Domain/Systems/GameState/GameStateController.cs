@@ -1,5 +1,5 @@
-﻿using Domain.Systems.Collision;
-using Framework.Objects;
+﻿using Core.Interface.Objects;
+using Domain.Systems.Collision;
 using UnityEngine;
 
 namespace Domain.Systems.GameState {

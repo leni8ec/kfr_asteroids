@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using Domain.Base;
+using Core.Base;
+using Core.Config;
+using Core.Interface.Base;
+using Core.Interface.Objects;
+using Core.Objects;
+using Core.Unity;
 using Domain.Systems.Collision;
-using Framework.Base;
-using Framework.Objects;
-using Presentation.Config;
-using Presentation.GUI;
-using Presentation.Objects;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
@@ -13,6 +13,7 @@ namespace Domain.Systems.Gameplay {
     public class WorldSystem : IUpdate {
         private readonly Player player;
         private readonly List<Bullet> activeBullets;
+        private readonly Camera mainCamera;
         private readonly EntityPool<Ufo, UfoConfig> ufosPool;
         private readonly Dictionary<Asteroid.Size, EntityPool<Asteroid, AsteroidConfig>> asteroidPools;
 
@@ -30,9 +31,10 @@ namespace Domain.Systems.Gameplay {
 
         private const int AsteroidDestroyFragments = 4;
 
-        public WorldSystem(Player player, List<Bullet> activeBullets, ConfigCollector configCollector, PrefabCollector prefabCollector) {
+        public WorldSystem(Player player, List<Bullet> activeBullets, ConfigCollector configCollector, PrefabCollector prefabCollector, Camera mainCamera) {
             this.player = player;
             this.activeBullets = activeBullets;
+            this.mainCamera = mainCamera;
             // Pools
             ufosPool = new EntityPool<Ufo, UfoConfig>(prefabCollector.ufo, configCollector.ufo);
             asteroidPools = new Dictionary<Asteroid.Size, EntityPool<Asteroid, AsteroidConfig>> {
@@ -76,8 +78,8 @@ namespace Domain.Systems.Gameplay {
         }
 
         private Rect GetWorldLimits(float screenOffset) {
-            Vector2 min = SceneController.Handler.mainCamera.ScreenToWorldPoint(Vector3.zero);
-            Vector2 max = SceneController.Handler.mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
+            Vector2 min = mainCamera.ScreenToWorldPoint(Vector3.zero);
+            Vector2 max = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
             Rect limits = new(min.x - screenOffset, min.y - screenOffset, max.x - min.x + screenOffset * 2, max.y - min.y + screenOffset * 2);
             return limits;
         }
@@ -126,7 +128,7 @@ namespace Domain.Systems.Gameplay {
                         if (asteroid.Lifetime < 10) continue;
 
                         // Check if asteroid is outside world
-                        Vector3 point = SceneController.Handler.mainCamera.WorldToViewportPoint(asteroid.transform.position);
+                        Vector3 point = mainCamera.WorldToViewportPoint(asteroid.transform.position);
                         Vector2 borders = config.viewportOutsideBorders;
                         if (point.x < borders.x || point.x > borders.y || point.y < borders.x || point.y > borders.y) {
                             asteroid.Reset();

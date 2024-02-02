@@ -1,33 +1,31 @@
+using Core.Unity;
 using Domain.Systems.Audio;
 using Domain.Systems.Collision;
 using Domain.Systems.Gameplay;
 using Domain.Systems.GameState;
-using Domain.Systems.Input;
 using Domain.Systems.Processors;
-using Presentation.GUI;
 using UnityEngine;
 
 namespace Domain {
     public class Bootstrapper : MonoBehaviour {
-        private SceneController sceneController;
+        private SceneData sceneData;
 
         private UpdateProcessor updateProcessor;
         private CollisionSystem collisionSystem;
         private WorldSystem worldSystem;
         private PlayerSystem playerSystem;
         private AudioSystem audioSystem;
-        private InputController inputController;
         private GameStateController gameStateController;
 
         private void Awake() {
             // Gui - Init first
-            sceneController = SceneController.Handler;
+            sceneData = SceneData.Handler;
 
             updateProcessor = new UpdateProcessor();
-            playerSystem = new PlayerSystem(sceneController.configCollector, sceneController.prefabCollector);
-            worldSystem = new WorldSystem(playerSystem.Player, playerSystem.ActiveBullets, sceneController.configCollector, sceneController.prefabCollector);
+            playerSystem = new PlayerSystem(sceneData.configCollector, sceneData.prefabCollector);
+            worldSystem = new WorldSystem(playerSystem.Player, playerSystem.ActiveBullets, sceneData.configCollector, sceneData.prefabCollector, sceneData.mainCamera);
             collisionSystem = new CollisionSystem(playerSystem.Player, worldSystem.AsteroidPools, worldSystem.ActiveUfos, playerSystem.ActiveBullets, playerSystem.ActiveLasers);
-            audioSystem = new AudioSystem(sceneController.configCollector.sounds);
+            audioSystem = new AudioSystem(sceneData.configCollector.sounds);
             gameStateController = new GameStateController();
 
         }
