@@ -1,3 +1,4 @@
+using Core.Data;
 using Core.Unity;
 using Domain.Systems.Audio;
 using Domain.Systems.Collision;
@@ -15,27 +16,26 @@ namespace Domain {
         private WorldSystem worldSystem;
         private PlayerSystem playerSystem;
         private AudioSystem audioSystem;
-        private GameStateController gameStateController;
+        private GameStateSystem gameStateSystem;
 
         private void Awake() {
-            // Gui - Init first
+            // Data - init first
             sceneData = SceneData.Handler;
+            DataCollector data = new();
 
+            // Systems and processors
             updateProcessor = new UpdateProcessor();
-            playerSystem = new PlayerSystem(sceneData.configCollector, sceneData.prefabCollector);
-            worldSystem = new WorldSystem(playerSystem.Player, playerSystem.ActiveBullets, sceneData.configCollector, sceneData.prefabCollector, sceneData.mainCamera);
+            playerSystem = new PlayerSystem(data.Player, sceneData.configCollector, sceneData.prefabCollector);
+            worldSystem = new WorldSystem(data.World, playerSystem.Player, playerSystem.ActiveBullets, sceneData.configCollector, sceneData.prefabCollector, sceneData.mainCamera);
             collisionSystem = new CollisionSystem(playerSystem.Player, worldSystem.AsteroidPools, worldSystem.ActiveUfos, playerSystem.ActiveBullets, playerSystem.ActiveLasers);
             audioSystem = new AudioSystem(sceneData.configCollector.sounds);
-            gameStateController = new GameStateController();
-
+            gameStateSystem = new GameStateSystem();
         }
 
-        // Start is called before the first frame update
-        private void Start() { }
 
-        // Update is called once per frame
         private void Update() {
             float deltaTime = Time.deltaTime;
+
             worldSystem.Upd(deltaTime);
             playerSystem.Upd(deltaTime);
             updateProcessor.Upd(deltaTime);

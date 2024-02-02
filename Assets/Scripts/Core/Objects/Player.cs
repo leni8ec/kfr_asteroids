@@ -15,10 +15,6 @@ namespace Core.Objects {
 
         private Vector3 lastDirection;
 
-        // Laser data
-        public float laserShotCountdownDuration;
-        public float laserShotsCount;
-
         [Space]
         public SpriteRenderer spriteRenderer;
         public Sprite idleSprite;

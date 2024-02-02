@@ -3,8 +3,8 @@ using Domain.Systems.Collision;
 using UnityEngine;
 
 namespace Domain.Systems.GameState {
-    public class GameStateController {
-        public GameStateController() {
+    public class GameStateSystem {
+        public GameStateSystem() {
             CollisionSystem.PlayerHit += PlayerHitHandler;
         }
 

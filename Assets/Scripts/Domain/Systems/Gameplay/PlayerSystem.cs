@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Core.Base;
 using Core.Config;
+using Core.Data;
 using Core.Input;
 using Core.Interface.Base;
 using Core.Interface.Objects;
@@ -11,46 +12,37 @@ using UnityEngine;
 
 namespace Domain.Systems.Gameplay {
     public class PlayerSystem : IUpdate {
+        private PlayerData Data { get; }
         public Player Player { get; }
 
-        private readonly EntityPool<Bullet, BulletConfig> ammo1Pool;
-        private readonly EntityPool<Laser, LaserConfig> ammo2Pool;
+        private EntityPool<Bullet, BulletConfig> Ammo1Pool { get; }
+        private EntityPool<Laser, LaserConfig> Ammo2Pool { get; }
 
-        public List<Bullet> ActiveBullets => ammo1Pool.active;
-        public List<Laser> ActiveLasers => ammo2Pool.active;
+        public List<Bullet> ActiveBullets => Ammo1Pool.active;
+        public List<Laser> ActiveLasers => Ammo2Pool.active;
 
-        private readonly BulletConfig ammo1Config;
-        private readonly LaserConfig ammo2Config;
+        private BulletConfig Ammo1Config { get; }
+        private LaserConfig Ammo2Config { get; }
 
-        private bool fire1Flag;
-        private bool fire2Flag;
-
-        private float fire1Countdown;
-        private float fire2Countdown;
-
-        private float Fire1Delay => 1 / ammo1Config.fireRate;
-        private float Fire2Delay => 1 / ammo2Config.fireRate;
+        private float Fire1Delay => 1 / Ammo1Config.fireRate;
+        private float Fire2Delay => 1 / Ammo2Config.fireRate;
 
         public delegate void FireEvent();
         public static event FireEvent Fire1Event;
         public static event FireEvent Fire2Event;
 
-        // Laser
-        private readonly LaserConfig laserConfig;
 
-        public PlayerSystem(ConfigCollector configCollector, PrefabCollector prefabCollector) {
+        public PlayerSystem(PlayerData data, ConfigCollector configCollector, PrefabCollector prefabCollector) {
+            Data = data;
             // Pools
-            ammo1Pool = new EntityPool<Bullet, BulletConfig>(prefabCollector.bullet, configCollector.bullet);
-            ammo2Pool = new EntityPool<Laser, LaserConfig>(prefabCollector.laser, configCollector.laser);
+            Ammo1Pool = new EntityPool<Bullet, BulletConfig>(prefabCollector.bullet, configCollector.bullet);
+            Ammo2Pool = new EntityPool<Laser, LaserConfig>(prefabCollector.laser, configCollector.laser);
 
-            ammo1Config = configCollector.bullet;
-            ammo2Config = configCollector.laser;
+            Ammo1Config = configCollector.bullet;
+            Ammo2Config = configCollector.laser;
 
             // Player
             Player = CreatePlayer(prefabCollector.player, configCollector.player);
-
-            // Laser
-            laserConfig = configCollector.laser;
 
             // Subscribe
             InputController.Fire += Fire;
@@ -68,8 +60,8 @@ namespace Domain.Systems.Gameplay {
         }
 
         private void Fire(bool actionFlag, Player.Weapon weapon) {
-            if (weapon == Player.Weapon.Gun) fire1Flag = actionFlag;
-            else if (weapon == Player.Weapon.Laser) fire2Flag = actionFlag;
+            if (weapon == Player.Weapon.Gun) Data.fire1Flag = actionFlag;
+            else if (weapon == Player.Weapon.Laser) Data.fire2Flag = actionFlag;
             else Debug.LogError("Weapon isn't specified!");
         }
 
@@ -78,10 +70,10 @@ namespace Domain.Systems.Gameplay {
         }
 
         public void Upd(float deltaTime) {
-            if (fire1Flag && fire1Countdown <= 0) {
-                fire1Countdown = Fire1Delay;
+            if (Data.fire1Flag && Data.fire1Countdown <= 0) {
+                Data.fire1Countdown = Fire1Delay;
 
-                Bullet bullet = ammo1Pool.Take();
+                Bullet bullet = Ammo1Pool.Take();
                 Transform playerTransform = Player.transform;
                 bullet.Set(Player.WeaponWorldPosition, playerTransform.up);
                 bullet.Fire();
@@ -89,11 +81,11 @@ namespace Domain.Systems.Gameplay {
                 Fire1Event?.Invoke();
             }
 
-            if (fire2Flag && fire2Countdown <= 0 && Player.laserShotsCount > 0) {
-                fire2Countdown = Fire2Delay;
-                Player.laserShotsCount--;
+            if (Data.fire2Flag && Data.fire2Countdown <= 0 && Data.laserShotsCount > 0) {
+                Data.fire2Countdown = Fire2Delay;
+                Data.laserShotsCount--;
 
-                Laser laser = ammo2Pool.Take();
+                Laser laser = Ammo2Pool.Take();
                 Transform playerTransform = Player.transform;
                 laser.Set(playerTransform.position, playerTransform.up);
                 laser.Fire();
@@ -101,14 +93,14 @@ namespace Domain.Systems.Gameplay {
                 Fire2Event?.Invoke();
             }
 
-            if (fire1Countdown > 0) fire1Countdown -= deltaTime;
-            if (fire2Countdown > 0) fire2Countdown -= deltaTime;
+            if (Data.fire1Countdown > 0) Data.fire1Countdown -= deltaTime;
+            if (Data.fire2Countdown > 0) Data.fire2Countdown -= deltaTime;
 
             // Laser
-            if (Player.laserShotsCount < laserConfig.maxShotsCount) {
-                if ((Player.laserShotCountdownDuration += deltaTime) >= laserConfig.shotCountdown) {
-                    Player.laserShotCountdownDuration = 0;
-                    Player.laserShotsCount++;
+            if (Data.laserShotsCount < Ammo2Config.maxShotsCount) {
+                if ((Data.laserShotCountdownDuration += deltaTime) >= Ammo2Config.shotCountdown) {
+                    Data.laserShotCountdownDuration = 0;
+                    Data.laserShotsCount++;
                 }
             }
         }
