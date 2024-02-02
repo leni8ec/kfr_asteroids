@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2538572617097901655}
   - component: {fileID: 6013605257048023154}
   m_Layer: 0
-  m_Name: Asteroid_Small
+  m_Name: Enemy_Asteroid_Medium
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,12 +46,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2d06bdbf7c84b2bbd50fa7e111c6a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 2
+  size: 1
   spriteRenderer: {fileID: 4980771827449539123}
   sprites:
-  - {fileID: 21300000, guid: eddc2b7f5c34fb6459faf75542022486, type: 3}
-  - {fileID: 21300000, guid: 5d35c3892e13fa246ac5efe9588244cd, type: 3}
-  - {fileID: 21300000, guid: 2d4977d12ad84444b9b52169f5586b70, type: 3}
+  - {fileID: 21300000, guid: 202271968a8cbf747a3b0fbdb73a5457, type: 3}
+  - {fileID: 21300000, guid: 408c6bd7a495cec4f98fa84c9f4ae9c7, type: 3}
+  - {fileID: 21300000, guid: 98a62eb6156abc44ea1855cfdd999e5e, type: 3}
 --- !u!82 &6013605257048023154
 AudioSource:
   m_ObjectHideFlags: 0
@@ -221,7 +221,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 188cdf35ff2dbdc4fa809f4215ebc53d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 202271968a8cbf747a3b0fbdb73a5457, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

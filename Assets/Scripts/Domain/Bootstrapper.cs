@@ -5,7 +5,6 @@ using Domain.Systems.GameState;
 using Domain.Systems.Input;
 using Domain.Systems.Processors;
 using Presentation.GUI;
-using Presentation.Objects;
 using UnityEngine;
 
 namespace Domain {
@@ -27,7 +26,7 @@ namespace Domain {
             updateProcessor = new UpdateProcessor();
             playerSystem = new PlayerSystem(guiController.dataCollector, guiController.prefabCollector);
             worldSystem = new WorldSystem(playerSystem.Player, playerSystem.ActiveBullets, guiController.dataCollector, guiController.prefabCollector);
-            collisionSystem = new CollisionSystem(playerSystem.Player, worldSystem.AsteroidPools, worldSystem.ActiveUfos, playerSystem.ActiveBullets);
+            collisionSystem = new CollisionSystem(playerSystem.Player, worldSystem.AsteroidPools, worldSystem.ActiveUfos, playerSystem.ActiveBullets, playerSystem.ActiveLasers);
             audioSystem = new AudioSystem(guiController.dataCollector.soundsData);
             gameStateController = new GameStateController();
 

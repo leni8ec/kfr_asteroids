@@ -17,6 +17,7 @@ namespace Domain.Systems.Gameplay {
         private readonly EntityPool<Laser, LaserData> ammo2Pool;
 
         public List<Bullet> ActiveBullets => ammo1Pool.active;
+        public List<Laser> ActiveLasers => ammo2Pool.active;
 
         private readonly BulletData ammo1Data;
         private readonly LaserData ammo2Data;
@@ -87,8 +88,8 @@ namespace Domain.Systems.Gameplay {
                 fire2Countdown = Fire2Delay;
 
                 Laser laser = ammo2Pool.Take();
-                Transform transform = Player.transform;
-                laser.Set(transform.position, transform.up);
+                Transform playerTransform = Player.transform;
+                laser.Set(playerTransform.position, playerTransform.up);
                 laser.Fire();
 
                 Fire2Event?.Invoke();

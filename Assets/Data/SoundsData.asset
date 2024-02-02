@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMove: {fileID: 8300000, guid: b510e416452a4004192db9a1b80c90ee, type: 3}
   fire1: {fileID: 8300000, guid: 28c5019a80497844c9cd7c51dea0e066, type: 3}
-  fire2: {fileID: 0}
+  fire2: {fileID: 8300000, guid: cd9c8c7fc6c813e41bd58732e17f018a, type: 3}
   ufoLarge: {fileID: 8300000, guid: a2958558d9656154881b50b4d72ce36e, type: 3}
   ufoSmall: {fileID: 8300000, guid: 9476cdbd28764744997afe5b3cd309d8, type: 3}
   explosionLarge: {fileID: 8300000, guid: c5586ea7b37b21f4fa790bb429120f0b, type: 3}

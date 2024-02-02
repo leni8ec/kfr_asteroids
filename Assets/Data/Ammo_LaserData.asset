@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 576818c3ae864eda8e6342113f8199de, type: 3}
-  m_Name: Asteroid_LargeData
+  m_Script: {fileID: 11500000, guid: e3705952d0cd48768e2fb6315d835d22, type: 3}
+  m_Name: Ammo_LaserData
   m_EditorClassIdentifier: 
-  speed: 1
-  colliderRadius: 0.7
+  fireRate: 2
+  maxDistance: 8
+  duration: 1
+  colliderRadius: 0.05

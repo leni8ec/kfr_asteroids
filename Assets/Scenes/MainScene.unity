@@ -628,7 +628,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 331527875008018412, guid: 63cd9b4000b61d34b865b5b2f8bf44c7, type: 3}
   bullet: {fileID: 7001093951915556816, guid: 6bb580bf4b8658d4cb0bc0e0c5b277a7, type: 3}
-  laser: {fileID: 0}
+  laser: {fileID: 7001093951915556816, guid: f49b108401febc74cb6d14ef1e19568b, type: 3}
   asteroidLarge: {fileID: 213431155882708080, guid: 2eef800ec3ea9f64289b10def9bb6294, type: 3}
   asteroidMedium: {fileID: 213431155882708080, guid: e5e7749d08dded347a154f537855826b, type: 3}
   asteroidSmall: {fileID: 213431155882708080, guid: 5fd16facf58ccf64fa9a7a47a40091ae, type: 3}

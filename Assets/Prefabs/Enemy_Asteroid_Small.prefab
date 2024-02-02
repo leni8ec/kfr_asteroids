@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2538572617097901655}
   - component: {fileID: 6013605257048023154}
   m_Layer: 0
-  m_Name: Asteroid_Large
+  m_Name: Enemy_Asteroid_Small
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,12 +46,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2d06bdbf7c84b2bbd50fa7e111c6a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 0
+  size: 2
   spriteRenderer: {fileID: 4980771827449539123}
   sprites:
-  - {fileID: 21300000, guid: 188cdf35ff2dbdc4fa809f4215ebc53d, type: 3}
-  - {fileID: 21300000, guid: 6695d261346c117498e971274860f696, type: 3}
-  - {fileID: 21300000, guid: 8230d894ca3ddae448b2f9d0f247a8c9, type: 3}
+  - {fileID: 21300000, guid: eddc2b7f5c34fb6459faf75542022486, type: 3}
+  - {fileID: 21300000, guid: 5d35c3892e13fa246ac5efe9588244cd, type: 3}
+  - {fileID: 21300000, guid: 2d4977d12ad84444b9b52169f5586b70, type: 3}
 --- !u!82 &6013605257048023154
 AudioSource:
   m_ObjectHideFlags: 0
