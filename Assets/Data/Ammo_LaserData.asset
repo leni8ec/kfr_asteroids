@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3705952d0cd48768e2fb6315d835d22, type: 3}
   m_Name: Ammo_LaserData
   m_EditorClassIdentifier: 
-  fireRate: 2
+  maxShotsCount: 3
+  shotCountdown: 3
+  fireRate: 1
   maxDistance: 8
   duration: 1
   colliderRadius: 0.05

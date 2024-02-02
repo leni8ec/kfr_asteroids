@@ -35,6 +35,10 @@ namespace Domain.Systems.Gameplay {
         public static event FireEvent Fire1Event;
         public static event FireEvent Fire2Event;
 
+        // Laser
+        private readonly LaserData laserData;
+        private float laserShotCountdownDuration;
+        private float laserShotsCount;
 
         public PlayerSystem(DataCollector dataCollector, PrefabCollector prefabCollector) {
             // Pools
@@ -46,6 +50,9 @@ namespace Domain.Systems.Gameplay {
 
             // Player
             Player = CreatePlayer(prefabCollector.player, dataCollector.playerData);
+
+            // Laser
+            laserData = dataCollector.laserData;
 
             // Subscribe
             InputController.Fire += Fire;
@@ -84,8 +91,9 @@ namespace Domain.Systems.Gameplay {
                 Fire1Event?.Invoke();
             }
 
-            if (fire2Flag && fire2Countdown <= 0) {
+            if (fire2Flag && fire2Countdown <= 0 && laserShotsCount > 0) {
                 fire2Countdown = Fire2Delay;
+                laserShotsCount--;
 
                 Laser laser = ammo2Pool.Take();
                 Transform playerTransform = Player.transform;
@@ -97,6 +105,14 @@ namespace Domain.Systems.Gameplay {
 
             if (fire1Countdown > 0) fire1Countdown -= deltaTime;
             if (fire2Countdown > 0) fire2Countdown -= deltaTime;
+
+            // Laser
+            if (laserShotsCount < laserData.maxShotsCount) {
+                if ((laserShotCountdownDuration += deltaTime) >= laserData.shotCountdown) {
+                    laserShotCountdownDuration = 0;
+                    laserShotsCount++;
+                }
+            }
         }
     }
 }
