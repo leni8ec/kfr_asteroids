@@ -30,10 +30,10 @@ namespace Core.State {
 
         public void Reset() {
             FireState.Reset();
-            fire1Countdown = 0;
-            fire2Countdown = 0;
-            laserShotCountdownDuration = 0;
-            laserShotsCount = 0;
+            fire1Countdown = default;
+            fire2Countdown = default;
+            laserShotCountdownDuration = default;
+            laserShotsCount = default;
         }
 
     }

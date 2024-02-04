@@ -34,11 +34,11 @@ namespace Core.State {
         public void Reset() {
             MoveState.Reset();
             RotateState.Reset();
-            inertialSpeed = 0;
-            inertialTime = 0;
-            lastDirection = Vector3.zero;
-            lastPos = Vector3.zero;
-            speed = 0;
+            inertialSpeed = default;
+            inertialTime = default;
+            lastDirection = default;
+            lastPos = default;
+            speed = default;
         }
 
     }

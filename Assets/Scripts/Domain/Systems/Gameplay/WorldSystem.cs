@@ -29,6 +29,7 @@ namespace Domain.Systems.Gameplay {
 
         public WorldSystem(StateCollector state, ConfigCollector configCollector, PrefabCollector prefabCollector) {
             State = state.world;
+            Config = configCollector.world;
 
             // Fill objects state
             ObjectsState objects = state.objects;
@@ -46,11 +47,6 @@ namespace Domain.Systems.Gameplay {
             UfoPool = objects.ufosPool;
             AsteroidPools = objects.asteroidPools;
 
-            // World
-            Config = configCollector.world;
-            State.asteroidSpawnCountdown = 1 / Config.asteroidsSpawnRate;
-            State.ufoSpawnCountdown = 1 / Config.ufoSpawnRate;
-
             // Subscribe
             CollisionSystem.EnemyHit += EnemyHitHandler;
             Asteroid.Explosion += AsteroidExplosionHandler;
@@ -62,14 +58,23 @@ namespace Domain.Systems.Gameplay {
 
         private void PlayHandler() {
             active = true;
+
+            State.asteroidSpawnCountdown = 1 / Config.asteroidsSpawnRate;
+            State.ufoSpawnCountdown = 1 / Config.ufoSpawnRate;
         }
 
         private void ResetHandler() {
+            Reset();
             active = false;
             for (int i = UfoPool.active.Count - 1; i >= 0; i--) UfoPool.active[i].Reset();
             foreach (EntityPool<Asteroid, AsteroidConfig> asteroidsPool in AsteroidPools.Values) {
                 for (int i = asteroidsPool.active.Count - 1; i >= 0; i--) asteroidsPool.active[i].Reset();
             }
+        }
+
+        // ReSharper disable once MemberCanBePrivate.Global
+        public void Reset() {
+            State.Reset();
         }
 
         public void Upd(float deltaTime) {
@@ -200,8 +205,8 @@ namespace Domain.Systems.Gameplay {
             else if (destroyedAsteroid.size == Asteroid.Size.Medium) targetSize = Asteroid.Size.Small;
 
             Vector3 direction = Random.insideUnitCircle;
-            float degreesDelta = 360f / State.asteroidDestroyFragments;
-            for (int i = 0; i < State.asteroidDestroyFragments; i++) {
+            float degreesDelta = 360f / destroyedAsteroid.DestroyedFragments;
+            for (int i = 0; i < destroyedAsteroid.DestroyedFragments; i++) {
                 Asteroid newAsteroid = AsteroidPools[targetSize].Take();
                 direction = Quaternion.AngleAxis(degreesDelta, Vector3.forward) * direction;
                 Vector3 spawnPoint = destroyedAsteroid.transform.position + direction * 0.5f;

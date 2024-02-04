@@ -13,6 +13,7 @@ namespace Core.Objects {
         public delegate void ExplosionEvent(Asteroid asteroid);
         public static event ExplosionEvent Explosion;
 
+        public float DestroyedFragments => config.destroyFragments;
         public override float Radius => config.colliderRadius;
 
         public float Lifetime { get; private set; }
