@@ -38,13 +38,12 @@ namespace Core.Objects {
 
         public override void Reset() {
             base.Reset();
+            State.Reset();
 
             Transform t = transform;
             t.position = Vector3.zero;
             t.eulerAngles = Vector3.zero;
-
-            State.Reset();
         }
-        
+
     }
 }

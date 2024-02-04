@@ -12,6 +12,7 @@ namespace Domain.Systems.Gameplay {
         private PlayerState State { get; }
         private PlayerConfig Config { get; }
         public Player Player { get; }
+        private Transform PlayerTransform{ get; }
 
         private bool active;
 
@@ -21,6 +22,7 @@ namespace Domain.Systems.Gameplay {
 
             // Player
             Player = CreatePlayer(prefabCollector.player, configCollector.player);
+            PlayerTransform = Player.transform;
 
             // Input listeners
             InputController.Move += Move;
@@ -53,7 +55,7 @@ namespace Domain.Systems.Gameplay {
         }
 
 
-        public void Move(bool actionFlag) {
+        private void Move(bool actionFlag) {
             State.MoveFlag.Value = actionFlag;
         }
 
@@ -80,28 +82,27 @@ namespace Domain.Systems.Gameplay {
 
             if (State.inertialTime > 0) {
                 // transform.Translate(transform.up * (config.speed * deltaTime));
-                Transform t = Player.transform;
                 Vector3 direction;
                 if (State.MoveFlag.Value) {
-                    direction = Vector3.Lerp(State.lastDirection, t.up, deltaTime / Config.leftOverInertia); // leftover inertia
+                    direction = Vector3.Lerp(State.lastDirection, PlayerTransform.up, deltaTime / Config.leftOverInertia); // leftover inertia
                 } else {
                     direction = State.lastDirection; // don't change direction without acceleration
                 }
                 State.lastDirection = direction * State.inertialTime;
 
-                Vector3 position = t.position;
+                Vector3 position = PlayerTransform.position;
                 position += direction * (State.inertialSpeed * deltaTime);
-                t.position = position;
+                PlayerTransform.position = position;
             }
 
             // Rotation
             if (State.RotateFlag.Value) {
-                Player.transform.Rotate(0, 0, Config.rotationSpeed * deltaTime * State.rotateDirection);
+                PlayerTransform.Rotate(0, 0, Config.rotationSpeed * deltaTime * State.rotateDirection);
             }
 
 
             // Calculate speed
-            Vector3 pos = Player.transform.position;
+            Vector3 pos = PlayerTransform.position;
             State.speed = Vector3.Distance(State.lastPos, pos) / Time.deltaTime;
             State.lastPos = pos;
         }
