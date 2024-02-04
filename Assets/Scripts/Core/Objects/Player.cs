@@ -15,7 +15,6 @@ namespace Core.Objects {
         private PlayerState State { get; set; }
 
         public override float Radius => config.colliderRadius;
-        public float Speed => State.speed;
 
         // position of bullet start
         public Vector3 WeaponWorldPosition => transform.position + transform.up * 0.2f;

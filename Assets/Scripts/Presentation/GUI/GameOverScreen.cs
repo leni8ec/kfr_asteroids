@@ -6,7 +6,7 @@ namespace Presentation.GUI {
 
         private void OnEnable() {
             if (State == null) return;
-            score.SetText($"Score\n{State.Score.Points.Value}");
+            score.SetText($"Score\n{State.score.Points.Value}");
         }
     }
 }

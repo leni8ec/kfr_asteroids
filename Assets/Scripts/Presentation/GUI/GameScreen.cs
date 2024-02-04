@@ -12,19 +12,21 @@ namespace Presentation.GUI {
         public TextMeshProUGUI laserCountdown;
 
         private void Start() {
-            State.Score.Points.Changed += score => points.SetText($"Score: {score}");
+            State.score.Points.Changed += score => points.SetText($"Score: {score}");
         }
 
         private void Update() {
-            Player player = SceneData.Player;
+            Player player = SceneData.State.objects.player;
+            if (!player) return; // if player doesn't initialized
+
             Transform playerTransform = player.transform;
             Vector3 playerPosition = playerTransform.position;
 
             coords.SetText($"Coords: [{playerPosition.x:F1}:{playerPosition.y:F1}]");
             angle.SetText($"Angle: {playerTransform.eulerAngles.z:F0}");
-            speed.SetText($"Speed: {player.Speed:N}");
-            laserCount.SetText($"Laser Count: {State.Weapon.laserShotsCount}");
-            laserCountdown.SetText($"Laser Countdown: {State.Weapon.laserShotCountdownDuration:0.00}");
+            speed.SetText($"Speed: {State.player.speed:N}");
+            laserCount.SetText($"Laser Count: {State.weapon.laserShotsCount}");
+            laserCountdown.SetText($"Laser Countdown: {State.weapon.laserShotCountdownDuration:0.00}");
         }
 
     }

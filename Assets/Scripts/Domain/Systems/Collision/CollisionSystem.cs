@@ -4,28 +4,35 @@ using Core.Config;
 using Core.Interface.Base;
 using Core.Interface.Objects;
 using Core.Objects;
+using Core.State;
+using Core.Unity;
 using UnityEngine;
 
 namespace Domain.Systems.Collision {
     public class CollisionSystem : IUpdate {
         private Player Player { get; }
+
+        // Active objects in world
         private Dictionary<Asteroid.Size, EntityPool<Asteroid, AsteroidConfig>> AsteroidPools { get; }
         private List<Ufo> Ufos { get; }
         private List<Bullet> Bullets { get; }
         private List<Laser> Lasers { get; }
 
+        // Events
         public delegate void PlayerHitEvent(ICollider enemy);
         public delegate void EnemyHitEvent(ICollider enemy, ICollider ammo);
 
         public static event PlayerHitEvent PlayerHit;
         public static event EnemyHitEvent EnemyHit;
 
-        public CollisionSystem(Player player, Dictionary<Asteroid.Size, EntityPool<Asteroid, AsteroidConfig>> asteroidPools, List<Ufo> ufos, List<Bullet> bullets, List<Laser> lasers) {
-            Player = player;
-            AsteroidPools = asteroidPools;
-            Ufos = ufos;
-            Bullets = bullets;
-            Lasers = lasers;
+
+        public CollisionSystem(StateCollector state, ConfigCollector config, PrefabCollector prefab) {
+            ObjectsState objects = state.objects;
+            Player = objects.player;
+            AsteroidPools = objects.asteroidPools;
+            Ufos = objects.ufosPool.active;
+            Bullets = objects.ammo1Pool.active;
+            Lasers = objects.ammo2Pool.active;
         }
 
         public void Upd(float deltaTime) {

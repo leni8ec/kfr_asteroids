@@ -10,18 +10,23 @@ namespace Domain.Systems.Gameplay {
     public class PlayerSystem : IUpdate {
         private PlayerState State { get; }
         private PlayerConfig Config { get; }
-        public Player Player { get; }
+
+        private Player Player { get; }
         private Transform PlayerTransform { get; }
 
         private bool active;
 
-        public PlayerSystem(PlayerState state, ConfigCollector configCollector, PrefabCollector prefabCollector) {
-            State = state;
+        public PlayerSystem(StateCollector state, ConfigCollector configCollector, PrefabCollector prefabCollector) {
+            State = state.player;
             Config = configCollector.player;
 
-            // Player
-            Player = CreatePlayer(prefabCollector.player, configCollector.player);
-            PlayerTransform = Player.transform;
+            // Fill objects state
+            Player createdPlayer = CreatePlayer(prefabCollector.player, configCollector.player);
+            state.objects.player = createdPlayer;
+
+            // Link properties
+            Player = createdPlayer;
+            PlayerTransform = createdPlayer.transform;
 
             // Game state listeners
             GameStateSystem.NewGameEvent += Play;

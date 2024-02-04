@@ -9,19 +9,21 @@ namespace Domain.Systems.Game {
     public class GameStateSystem {
         private GameState State { get; }
 
+        // Events
         public static event Action NewGameEvent;
         public static event Action GameOverEvent;
+
 
         public GameStateSystem(GameState state) {
             State = state;
 
             CollisionSystem.PlayerHit += PlayerHitHandler;
-            State.ContinueFlag.Changed += OnContinueOnChanged;
+            State.ContinueFlag.Changed += ContinueFlagChangedHandler;
 
             NewGame();
         }
 
-        private void OnContinueOnChanged(bool toContinue) {
+        private void ContinueFlagChangedHandler(bool toContinue) {
             if (toContinue) NewGame();
             State.ContinueFlag.Value = false;
         }

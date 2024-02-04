@@ -1,24 +1,25 @@
 ﻿using Core.Interface.Objects;
 using Core.State;
+using Core.Unity;
 using Domain.Systems.Collision;
 using Domain.Systems.Game;
 
 namespace Domain.Systems.Gameplay {
     public class ScoreSystem {
-        public ScoreState State { get; }
+        private ScoreState State { get; }
 
-        public ScoreSystem(ScoreState state) {
-            State = state;
+        public ScoreSystem(StateCollector state, ConfigCollector config, PrefabCollector prefab) {
+            State = state.score;
 
-            CollisionSystem.EnemyHit += OnEnemyHit;
-            GameStateSystem.NewGameEvent += Reset;
+            CollisionSystem.EnemyHit += EnemyHitHandler;
+            GameStateSystem.NewGameEvent += ResetHandler;
         }
 
-        private void Reset() {
+        private void ResetHandler() {
             State.Points.Value = 0;
         }
 
-        private void OnEnemyHit(ICollider enemy, ICollider ammo) {
+        private void EnemyHitHandler(ICollider enemy, ICollider ammo) {
             State.Points.Value++;
         }
 

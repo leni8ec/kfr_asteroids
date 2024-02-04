@@ -1,5 +1,7 @@
 ﻿using Core.Config;
 using Core.Objects;
+using Core.State;
+using Core.Unity;
 using Domain.Systems.Gameplay;
 using UnityEngine;
 
@@ -7,8 +9,8 @@ namespace Domain.Systems.Audio {
     public class AudioSystem {
         private SoundsConfig Config { get; }
 
-        public AudioSystem(SoundsConfig config) {
-            Config = config;
+        public AudioSystem(StateCollector state, ConfigCollector config, PrefabCollector prefab) {
+            Config = config.sounds;
 
             Subscribe();
         }

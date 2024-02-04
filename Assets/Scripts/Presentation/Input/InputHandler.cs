@@ -49,27 +49,27 @@ namespace Presentation.Input {
 
         private void OnFireAction(bool actionFlag, int weaponFlag, InputAction.CallbackContext context) {
             if (actionFlag) {
-                State.Weapon.FireState.Value |= (WeaponState.Weapon)weaponFlag;
+                State.weapon.FireState.Value |= (WeaponState.Weapon)weaponFlag;
             } else {
-                State.Weapon.FireState.Value &= ~(WeaponState.Weapon)weaponFlag;
+                State.weapon.FireState.Value &= ~(WeaponState.Weapon)weaponFlag;
             }
         }
 
         private void OnMoveAction(bool actionFlag, InputAction.CallbackContext context) {
-            State.Player.MoveState.Value = actionFlag;
+            State.player.MoveState.Value = actionFlag;
         }
 
         private void OnRotateAction(bool actionFlag, InputAction.CallbackContext context) {
             if (actionFlag) {
-                State.Player.RotateState.Value = context.ReadValue<float>() < 0 ? 1 : -1;
+                State.player.RotateState.Value = context.ReadValue<float>() < 0 ? 1 : -1;
             } else {
-                State.Player.RotateState.Value = 0;
+                State.player.RotateState.Value = 0;
             }
         }
 
 
         private void OnContinueAction(InputAction.CallbackContext context) {
-            State.Game.ContinueFlag.Value = true;
+            State.game.ContinueFlag.Value = true;
         }
 
     }

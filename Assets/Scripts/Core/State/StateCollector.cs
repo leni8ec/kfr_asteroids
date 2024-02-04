@@ -1,9 +1,12 @@
 ﻿namespace Core.State {
     public class StateCollector {
-        public ScoreState Score { get; } = new();
-        public PlayerState Player { get; } = new();
-        public WeaponState Weapon { get; } = new();
-        public WorldState World { get; } = new();
-        public GameState Game { get; } = new();
+        public readonly WorldState world = new();
+        public readonly ObjectsState objects = new();
+
+        public readonly GameState game = new();
+        public readonly ScoreState score = new();
+
+        public readonly PlayerState player = new();
+        public readonly WeaponState weapon = new();
     }
 }
