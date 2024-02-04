@@ -2,11 +2,13 @@
 using Core.Game;
 using Core.Interface.Objects;
 using Core.State;
+using Core.Unity;
+using Domain.Base;
 using Domain.Systems.Collision;
 using UnityEngine;
 
 namespace Domain.Systems.Game {
-    public class GameStateSystem {
+    public class GameStateSystem : SystemBase {
         private GameState State { get; }
 
         // Events
@@ -14,8 +16,8 @@ namespace Domain.Systems.Game {
         public static event Action GameOverEvent;
 
 
-        public GameStateSystem(GameState state) {
-            State = state;
+        public GameStateSystem(StateCollector state, ConfigCollector config, PrefabCollector prefab) {
+            State = state.game;
 
             CollisionSystem.PlayerHit += PlayerHitHandler;
             State.ContinueFlag.Changed += ContinueFlagChangedHandler;

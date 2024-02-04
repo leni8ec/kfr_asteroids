@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 using Core.Base;
 using Core.Config;
-using Core.Interface.Base;
 using Core.Interface.Objects;
 using Core.Objects;
 using Core.State;
 using Core.Unity;
+using Domain.Base;
 using Domain.Systems.Collision;
 using Domain.Systems.Game;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
 namespace Domain.Systems.Gameplay {
-    public class WorldSystem : IUpdate {
+    public class WorldSystem : SystemBase, IUpdateSystem {
         private WorldState State { get; }
         private WorldConfig Config { get; }
 

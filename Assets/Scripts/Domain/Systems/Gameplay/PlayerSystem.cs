@@ -3,11 +3,12 @@ using Core.Interface.Base;
 using Core.Objects;
 using Core.State;
 using Core.Unity;
+using Domain.Base;
 using Domain.Systems.Game;
 using UnityEngine;
 
 namespace Domain.Systems.Gameplay {
-    public class PlayerSystem : IUpdate {
+    public class PlayerSystem : SystemBase, IUpdateSystem {
         private PlayerState State { get; }
         private PlayerConfig Config { get; }
 

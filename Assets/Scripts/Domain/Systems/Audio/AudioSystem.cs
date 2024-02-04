@@ -2,11 +2,12 @@
 using Core.Objects;
 using Core.State;
 using Core.Unity;
+using Domain.Base;
 using Domain.Systems.Gameplay;
 using UnityEngine;
 
 namespace Domain.Systems.Audio {
-    public class AudioSystem {
+    public class AudioSystem : SystemBase {
         private SoundsConfig Config { get; }
 
         public AudioSystem(StateCollector state, ConfigCollector config, PrefabCollector prefab) {

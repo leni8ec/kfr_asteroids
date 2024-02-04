@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using Core.Base;
 using Core.Config;
-using Core.Interface.Base;
 using Core.Objects;
 using Core.State;
 using Core.Unity;
+using Domain.Base;
 using Domain.Systems.Game;
 using UnityEngine;
 
 namespace Domain.Systems.Gameplay {
-    public class WeaponSystem : IUpdate {
+    public class WeaponSystem : SystemBase, IUpdateSystem {
         private WeaponState State { get; }
         private BulletConfig Ammo1Config { get; }
         private LaserConfig Ammo2Config { get; }

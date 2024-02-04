@@ -1,5 +1,3 @@
 ﻿namespace Core.Config {
-    public interface IConfigData {
-        
-    }
+    public interface IConfigData { }
 }

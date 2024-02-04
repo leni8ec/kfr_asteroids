@@ -1,5 +1,5 @@
 ﻿using Core.Unity;
-using Domain.Systems.Processors;
+using Domain.Processors;
 using UnityEngine;
 
 namespace Domain {

@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using Core.Base;
 using Core.Config;
-using Core.Interface.Base;
 using Core.Interface.Objects;
 using Core.Objects;
 using Core.State;
 using Core.Unity;
+using Domain.Base;
 using UnityEngine;
 
 namespace Domain.Systems.Collision {
-    public class CollisionSystem : IUpdate {
+    public class CollisionSystem : SystemBase, IUpdateSystem {
         private Player Player { get; }
 
         // Active objects in world
