@@ -1,8 +1,17 @@
-﻿namespace Core.State {
+﻿using System;
+using Core.Base;
+
+namespace Core.State {
     public class WeaponState : IStateData {
 
-        public bool fire1Flag;
-        public bool fire2Flag;
+        #region Input state
+
+        /// <summary>
+        /// State - Weapon
+        /// </summary>
+        public ValueChange<Weapon> FireState { get; } = new();
+
+        #endregion
 
         public float fire1Countdown;
         public float fire2Countdown;
@@ -12,19 +21,20 @@
         public float laserShotsCount;
 
 
+        [Flags]
         public enum Weapon {
-            Gun = 0,
-            Laser = 1,
+            Empty = 0,
+            Gun = 1 << 0,
+            Laser = 1 << 1
         }
 
         public void Reset() {
-            fire1Flag = false;
-            fire2Flag = false;
+            FireState.Reset();
             fire1Countdown = 0;
             fire2Countdown = 0;
             laserShotCountdownDuration = 0;
             laserShotsCount = 0;
         }
-        
+
     }
 }

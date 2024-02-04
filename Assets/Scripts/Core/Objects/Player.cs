@@ -5,12 +5,14 @@ using UnityEngine;
 
 namespace Core.Objects {
     public class Player : Entity<PlayerConfig>, IPlayer {
-        private PlayerState State { get; set; }
-
         [Space]
         public SpriteRenderer spriteRenderer;
         public Sprite idleSprite;
         public Sprite moveSprite;
+        [Space]
+        public AudioSource moveAudio;
+
+        private PlayerState State { get; set; }
 
         public override float Radius => config.colliderRadius;
         public float Speed => State.speed;
@@ -18,15 +20,13 @@ namespace Core.Objects {
         // position of bullet start
         public Vector3 WeaponWorldPosition => transform.position + transform.up * 0.2f;
 
-        [Space]
-        public AudioSource moveAudio;
 
         public void SetStateData(PlayerState state) {
             State = state;
-            State.MoveFlag.Changed += OnMoveFlagChanged;
+            State.MoveState.Changed += OnMoveStateChanged;
         }
 
-        private void OnMoveFlagChanged(bool moveFlag) {
+        private void OnMoveStateChanged(bool moveFlag) {
             if (moveFlag) {
                 moveAudio.Play();
                 spriteRenderer.sprite = moveSprite;

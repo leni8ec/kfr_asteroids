@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Core.Base;
 using Core.Config;
-using Core.Input;
 using Core.Interface.Base;
 using Core.Objects;
 using Core.State;
@@ -43,9 +42,6 @@ namespace Domain.Systems.Gameplay {
             Ammo1Config = configCollector.bullet;
             Ammo2Config = configCollector.laser;
 
-            // Input listeners
-            InputController.Fire += Fire;
-
             // Game state listeners
             GameStateSystem.NewGameEvent += Play;
             GameStateSystem.GameOverEvent += Reset;
@@ -66,17 +62,11 @@ namespace Domain.Systems.Gameplay {
             Player.gameObject.SetActive(false);
         }
 
-
-        private void Fire(bool actionFlag, WeaponState.Weapon weapon) {
-            if (weapon == WeaponState.Weapon.Gun) State.fire1Flag = actionFlag;
-            else if (weapon == WeaponState.Weapon.Laser) State.fire2Flag = actionFlag;
-            else Debug.LogError("Weapon isn't specified!");
-        }
-
         public void Upd(float deltaTime) {
             if (!active) return;
 
-            if (State.fire1Flag && State.fire1Countdown <= 0) {
+            bool fired = State.FireState.Value != WeaponState.Weapon.Empty;
+            if (fired && State.FireState.Value.HasFlag(WeaponState.Weapon.Gun) && State.fire1Countdown <= 0) {
                 State.fire1Countdown = Fire1Delay;
 
                 Bullet bullet = Ammo1Pool.Take();
@@ -87,7 +77,7 @@ namespace Domain.Systems.Gameplay {
                 Fire1Event?.Invoke();
             }
 
-            if (State.fire2Flag && State.fire2Countdown <= 0 && State.laserShotsCount > 0) {
+            if (fired && State.FireState.Value.HasFlag(WeaponState.Weapon.Laser) && State.fire2Countdown <= 0 && State.laserShotsCount > 0) {
                 State.fire2Countdown = Fire2Delay;
                 State.laserShotsCount--;
 

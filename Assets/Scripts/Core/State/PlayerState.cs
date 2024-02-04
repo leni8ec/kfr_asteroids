@@ -3,10 +3,25 @@ using UnityEngine;
 
 namespace Core.State {
     public class PlayerState : IStateData {
-        public ValueChange<bool> MoveFlag { get; } = new();
 
-        public ValueChange<bool> RotateFlag { get; } = new();
-        public int rotateDirection;
+        #region Input state
+
+        /// <summary>
+        /// States (bool):
+        /// <para> 'false' - Idle </para>
+        /// <para> 'true' - Movement </para>
+        /// </summary>
+        public ValueChange<bool> MoveState { get; } = new();
+        /// <summary>
+        /// States (int):
+        /// <para> 0 - Empty </para>
+        /// <para> -1 - Right </para>
+        /// <para> 1 - Left </para>
+        /// </summary>
+        public ValueChange<int> RotateState { get; } = new();
+
+        #endregion
+
 
         public float inertialSpeed;
         public float inertialTime;
@@ -16,7 +31,15 @@ namespace Core.State {
 
         public float speed;
 
-        public void Reset() { }
+        public void Reset() {
+            MoveState.Reset();
+            RotateState.Reset();
+            inertialSpeed = 0;
+            inertialTime = 0;
+            lastDirection = Vector3.zero;
+            lastPos = Vector3.zero;
+            speed = 0;
+        }
 
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Core.Config;
-using Core.Input;
 using Core.Interface.Base;
 using Core.Objects;
 using Core.State;
@@ -12,7 +11,7 @@ namespace Domain.Systems.Gameplay {
         private PlayerState State { get; }
         private PlayerConfig Config { get; }
         public Player Player { get; }
-        private Transform PlayerTransform{ get; }
+        private Transform PlayerTransform { get; }
 
         private bool active;
 
@@ -23,10 +22,6 @@ namespace Domain.Systems.Gameplay {
             // Player
             Player = CreatePlayer(prefabCollector.player, configCollector.player);
             PlayerTransform = Player.transform;
-
-            // Input listeners
-            InputController.Move += Move;
-            InputController.Rotate += Rotate;
 
             // Game state listeners
             GameStateSystem.NewGameEvent += Play;
@@ -55,20 +50,11 @@ namespace Domain.Systems.Gameplay {
         }
 
 
-        private void Move(bool actionFlag) {
-            State.MoveFlag.Value = actionFlag;
-        }
-
-        private void Rotate(bool actionFlag, bool left) {
-            State.RotateFlag.Value = actionFlag;
-            State.rotateDirection = left ? 1 : -1;
-        }
-
-
         public void Upd(float deltaTime) {
+            if (!active) return;
 
             // Moving
-            if (State.MoveFlag.Value) {
+            if (State.MoveState.Value) {
                 if (State.inertialTime < 1) {
                     State.inertialTime = Mathf.Min(1, State.inertialTime + deltaTime * (1 / Config.accelerationInertia));
                     State.inertialSpeed = Mathf.Lerp(0, Config.speed, State.inertialTime);
@@ -83,7 +69,7 @@ namespace Domain.Systems.Gameplay {
             if (State.inertialTime > 0) {
                 // transform.Translate(transform.up * (config.speed * deltaTime));
                 Vector3 direction;
-                if (State.MoveFlag.Value) {
+                if (State.MoveState.Value) {
                     direction = Vector3.Lerp(State.lastDirection, PlayerTransform.up, deltaTime / Config.leftOverInertia); // leftover inertia
                 } else {
                     direction = State.lastDirection; // don't change direction without acceleration
@@ -96,8 +82,8 @@ namespace Domain.Systems.Gameplay {
             }
 
             // Rotation
-            if (State.RotateFlag.Value) {
-                PlayerTransform.Rotate(0, 0, Config.rotationSpeed * deltaTime * State.rotateDirection);
+            if (State.RotateState.Value != 0) {
+                PlayerTransform.Rotate(0, 0, Config.rotationSpeed * deltaTime * State.RotateState.Value);
             }
 
 
