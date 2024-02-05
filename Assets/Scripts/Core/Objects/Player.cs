@@ -1,27 +1,23 @@
 ﻿using Core.Config;
 using Core.Interface.Objects;
+using Core.Objects.Base;
 using Core.State;
 using UnityEngine;
 
 namespace Core.Objects {
-    public class Player : Entity<PlayerConfig>, IPlayer {
+    public class Player : ColliderEntity<PlayerState, PlayerConfig>, IPlayer {
         [Space]
-        public SpriteRenderer spriteRenderer;
-        public Sprite idleSprite;
-        public Sprite moveSprite;
+        [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private Sprite idleSprite;
+        [SerializeField] private Sprite moveSprite;
         [Space]
-        public AudioSource moveAudio;
+        [SerializeField] private AudioSource moveAudio;
 
-        private PlayerState State { get; set; }
-
-        public override float Radius => config.colliderRadius;
-
-        // position of bullet start
+        // position of bullet start (Hack)
         public Vector3 WeaponWorldPosition => transform.position + transform.up * 0.2f;
 
 
-        public void SetStateData(PlayerState state) {
-            State = state;
+        protected override void Initialize() {
             State.MoveState.Changed += OnMoveStateChanged;
         }
 
@@ -37,7 +33,6 @@ namespace Core.Objects {
 
         public override void Reset() {
             base.Reset();
-            State.Reset();
 
             Transform t = transform;
             t.position = Vector3.zero;

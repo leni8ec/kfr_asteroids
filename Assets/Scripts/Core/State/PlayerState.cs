@@ -1,4 +1,5 @@
 ﻿using Core.Base;
+using Core.State.Base;
 using UnityEngine;
 
 namespace Core.State {
@@ -30,6 +31,7 @@ namespace Core.State {
         public Vector3 lastPos;
 
         public float speed;
+
 
         public void Reset() {
             MoveState.Reset();

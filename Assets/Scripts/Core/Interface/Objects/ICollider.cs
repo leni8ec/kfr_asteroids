@@ -2,8 +2,7 @@
 
 namespace Core.Interface.Objects {
     public interface ICollider {
-        public float Radius { get; }
-        public Vector2 Pos { get; }
-
+        public float ColliderRadius { get; }
+        public Vector3 Pos { get; }
     }
 }

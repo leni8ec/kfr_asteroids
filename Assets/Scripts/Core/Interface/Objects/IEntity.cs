@@ -2,6 +2,6 @@
 
 namespace Core.Interface.Objects {
 
-    public interface IEntity : ICollider, IDestroy { }
+    public interface IEntity : IDestroy { }
 
 }

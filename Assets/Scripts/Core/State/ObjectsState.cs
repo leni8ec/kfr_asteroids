@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Core.Base;
 using Core.Config;
 using Core.Objects;
+using Core.Pools;
 using UnityEngine;
 
 namespace Core.State {
@@ -9,18 +9,17 @@ namespace Core.State {
 
         // Base
         public Camera camera;
-        public Player player;
 
         // Player
-
+        public Player player;
 
         // Weapon
-        public EntityPool<Bullet, BulletConfig> ammo1Pool;
-        public EntityPool<Laser, LaserConfig> ammo2Pool;
-
+        public BulletPool ammo1Pool;
+        public LaserPool ammo2Pool;
 
         // World
-        public EntityPool<Ufo, UfoConfig> ufosPool;
-        public Dictionary<Asteroid.Size, EntityPool<Asteroid, AsteroidConfig>> asteroidPools;
+        public UfoPool ufosPool;
+        public Dictionary<AsteroidConfig.Size, AsteroidPool> asteroidPools;
+
     }
 }

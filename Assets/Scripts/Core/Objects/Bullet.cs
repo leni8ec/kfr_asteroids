@@ -1,22 +1,21 @@
 ﻿using Core.Config;
 using Core.Interface.Objects;
+using Core.State;
 using UnityEngine;
 
 namespace Core.Objects {
-    public class Bullet : Ammo<BulletConfig>, IBullet {
+    public class Bullet : Ammo<BulletAmmoState, BulletConfig>, IBullet {
 
-        public override float Radius => config.colliderRadius;
-
-        private float lifetime;
+        protected override void Initialize() { }
 
         public void Fire() {
-            lifetime = config.lifetime;
+            State.lifetime = Config.lifetime;
         }
 
         private void Update() {
-            transform.Translate(direction * (config.speed * Time.deltaTime));
+            transform.Translate(State.Direction * (Config.speed * Time.deltaTime));
 
-            if ((lifetime -= Time.deltaTime) <= 0) Reset();
+            if ((State.lifetime -= Time.deltaTime) <= 0) Destroy();
         }
 
     }

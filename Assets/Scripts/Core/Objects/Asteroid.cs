@@ -1,38 +1,30 @@
 ﻿using Core.Config;
 using Core.Interface.Objects;
+using Core.State;
 using UnityEngine;
 using Random = System.Random;
 
 namespace Core.Objects {
-    public class Asteroid : Enemy<AsteroidConfig>, IAsteroid {
-        public Size size;
-        [Space]
-        public SpriteRenderer spriteRenderer;
-        public Sprite[] sprites;
+    public class Asteroid : Enemy<AsteroidState, AsteroidConfig>, IAsteroid {
+        [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private Sprite[] sprites;
 
         public delegate void ExplosionEvent(Asteroid asteroid);
         public static event ExplosionEvent Explosion;
 
-        public float DestroyedFragments => config.destroyFragments;
-        public override float Radius => config.colliderRadius;
-
-        public float Lifetime { get; private set; }
+        public float DestroyedFragments => Config.destroyFragments;
+        public AsteroidConfig.Size Size => Config.size;
 
         private void Start() {
             int index = new Random().Next(sprites.Length);
             spriteRenderer.sprite = sprites[index];
         }
 
+        protected override void Initialize() { }
+
         private void Update() {
             Transform t = transform;
-            t.Translate(direction * (config.speed * Time.deltaTime));
-
-            Lifetime += Time.deltaTime;
-        }
-
-        public override void Reset() {
-            base.Reset();
-            Lifetime = 0;
+            t.Translate(State.Direction * (Config.speed * Time.deltaTime));
         }
 
         public override void Destroy() {
@@ -40,11 +32,6 @@ namespace Core.Objects {
             Explosion?.Invoke(this);
         }
 
-        public enum Size {
-            Large,
-            Medium,
-            Small
-        }
 
     }
 }

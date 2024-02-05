@@ -2,6 +2,7 @@
 using Core.Base;
 using Core.Config;
 using Core.Objects;
+using Core.Pools;
 using Core.State;
 using Core.Unity;
 using Domain.Base;
@@ -13,8 +14,8 @@ namespace Domain.Systems {
         private BulletConfig Ammo1Config { get; }
         private LaserConfig Ammo2Config { get; }
 
-        private EntityPool<Bullet, BulletConfig> Ammo1Pool { get; }
-        private EntityPool<Laser, LaserConfig> Ammo2Pool { get; }
+        private EntityPool<Bullet, BulletAmmoState, BulletConfig> Ammo1Pool { get; }
+        private EntityPool<Laser, LaserAmmoState, LaserConfig> Ammo2Pool { get; }
 
         private List<Bullet> ActiveBullets => Ammo1Pool.active;
         private List<Laser> ActiveLasers => Ammo2Pool.active;
@@ -37,8 +38,8 @@ namespace Domain.Systems {
 
             // Fill objects state
             ObjectsState objects = state.objects;
-            objects.ammo1Pool = new EntityPool<Bullet, BulletConfig>(prefabCollector.bullet, configCollector.bullet);
-            objects.ammo2Pool = new EntityPool<Laser, LaserConfig>(prefabCollector.laser, configCollector.laser);
+            objects.ammo1Pool = new BulletPool(prefabCollector.bullet, configCollector.bullet);
+            objects.ammo2Pool = new LaserPool(prefabCollector.laser, configCollector.laser);
 
             // Link properties
             Ammo1Pool = objects.ammo1Pool;
@@ -54,17 +55,14 @@ namespace Domain.Systems {
 
         private void Play() {
             active = true;
-            Player.gameObject.SetActive(true);
             State.laserShotCountdownDuration = Ammo2Config.shotRestoreCountdown;
         }
 
         private void Reset() {
             active = false;
-            for (int i = ActiveBullets.Count - 1; i >= 0; i--) ActiveBullets[i].Reset();
-            for (int i = ActiveLasers.Count - 1; i >= 0; i--) ActiveLasers[i].Reset();
-            Player.Reset();
+            for (int i = ActiveBullets.Count - 1; i >= 0; i--) ActiveBullets[i].Destroy();
+            for (int i = ActiveLasers.Count - 1; i >= 0; i--) ActiveLasers[i].Destroy();
             State.Reset();
-            Player.gameObject.SetActive(false);
         }
 
         public void Upd(float deltaTime) {

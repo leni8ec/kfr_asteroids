@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Core.Unity {
 
     /// <summary>
-    /// note: Base class - don't place this to unity scene!
+    /// Base class - don't place it to unity scene!
     /// </summary>
     public abstract class UnityBootstrapperBase : MonoBehaviour {
         protected SceneData sceneData;

@@ -40,7 +40,6 @@ namespace Domain.Systems {
         private void Reset() {
             active = false;
             Player.Reset();
-            State.Reset();
             Player.gameObject.SetActive(false);
         }
 
@@ -48,8 +47,7 @@ namespace Domain.Systems {
         private Player CreatePlayer(GameObject playerPrefab, PlayerConfig playerConfig) {
             GameObject playerObject = Object.Instantiate(playerPrefab);
             Player targetPlayer = playerObject.GetComponent<Player>();
-            targetPlayer.SetConfig(playerConfig);
-            targetPlayer.SetStateData(State);
+            targetPlayer.SetData(State, playerConfig);
             return targetPlayer;
         }
 

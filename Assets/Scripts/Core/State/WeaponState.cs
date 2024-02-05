@@ -1,5 +1,6 @@
 ﻿using System;
 using Core.Base;
+using Core.State.Base;
 
 namespace Core.State {
     public class WeaponState : IStateData {
@@ -21,19 +22,20 @@ namespace Core.State {
         public float laserShotsCount;
 
 
-        [Flags]
-        public enum Weapon {
-            Empty = 0,
-            Gun = 1 << 0,
-            Laser = 1 << 1
-        }
-
         public void Reset() {
             FireState.Reset();
             fire1Countdown = default;
             fire2Countdown = default;
             laserShotCountdownDuration = default;
             laserShotsCount = default;
+        }
+
+
+        [Flags]
+        public enum Weapon {
+            Empty = 0,
+            Gun = 1 << 0,
+            Laser = 1 << 1
         }
 
     }

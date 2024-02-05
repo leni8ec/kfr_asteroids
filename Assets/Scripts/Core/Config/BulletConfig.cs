@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Core.Interface.Config;
+using UnityEngine;
 
 namespace Core.Config {
     [CreateAssetMenu(menuName = "Data/BulletData")]
-    public class BulletConfig : ScriptableObject, IConfigData {
+    public class BulletConfig : ScriptableObject, IConfigData, IColliderRadiusContainer {
         [Tooltip("shots per sec")]
         public float fireRate = 5;
         [Space]
@@ -12,6 +13,8 @@ namespace Core.Config {
 
         [Header("Collision")]
         public float colliderRadius = 0.1f;
+        public float ColliderRadius => colliderRadius;
+
     }
 
 }

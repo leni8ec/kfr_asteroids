@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 576818c3ae864eda8e6342113f8199de, type: 3}
   m_Name: Enemy_Asteroid_SmallConfig
   m_EditorClassIdentifier: 
-  speed: 1.8
+  size: 2
+  speed: 3
+  destroyFragments: 4
   colliderRadius: 0.3

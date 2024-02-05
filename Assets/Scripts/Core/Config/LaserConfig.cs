@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Core.Interface.Config;
+using UnityEngine;
 
 namespace Core.Config {
     [CreateAssetMenu(menuName = "Data/LaserData")]
-    public class LaserConfig : ScriptableObject, IConfigData {
+    public class LaserConfig : ScriptableObject, IConfigData, IColliderRadiusContainer {
 
         [Tooltip("Max shots count")]
         public int maxShotsCount = 3;
@@ -19,5 +20,7 @@ namespace Core.Config {
 
         [Header("Collision")]
         public float colliderRadius = 0.05f;
+        public float ColliderRadius => colliderRadius;
+
     }
 }

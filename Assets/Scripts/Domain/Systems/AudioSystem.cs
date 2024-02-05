@@ -21,9 +21,9 @@ namespace Domain.Systems {
             WeaponSystem.Fire2Event += () => Play(Config.fire2);
 
             Asteroid.Explosion += asteroid => {
-                if (asteroid.size == Asteroid.Size.Large) Play(Config.explosionLarge);
-                else if (asteroid.size == Asteroid.Size.Medium) Play(Config.explosionMedium);
-                else if (asteroid.size == Asteroid.Size.Small) Play(Config.explosionSmall);
+                if (asteroid.Size == AsteroidConfig.Size.Large) Play(Config.explosionLarge);
+                else if (asteroid.Size == AsteroidConfig.Size.Medium) Play(Config.explosionMedium);
+                else if (asteroid.Size == AsteroidConfig.Size.Small) Play(Config.explosionSmall);
             };
 
             Ufo.Explosion += () => Play(Config.explosionMedium);

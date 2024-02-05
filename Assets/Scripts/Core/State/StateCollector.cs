@@ -1,5 +1,7 @@
 ﻿namespace Core.State {
+    // todo: implement DI
     public class StateCollector {
+
         public readonly WorldState world = new();
         public readonly ObjectsState objects = new();
 
@@ -8,5 +10,6 @@
 
         public readonly PlayerState player = new();
         public readonly WeaponState weapon = new();
+
     }
 }

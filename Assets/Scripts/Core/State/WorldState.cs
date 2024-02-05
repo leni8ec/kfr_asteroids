@@ -1,4 +1,6 @@
-﻿namespace Core.State {
+﻿using Core.State.Base;
+
+namespace Core.State {
     public class WorldState : IStateData {
 
         public float asteroidSpawnCountdown;

@@ -1,25 +1,22 @@
 ﻿using Core.Config;
 using Core.Interface.Objects;
+using Core.State;
 using UnityEngine;
 
 namespace Core.Objects {
-    public class Ufo : Enemy<UfoConfig>, IUfo {
-        public AudioSource normalAudio;
-        public AudioSource huntAudio;
-
-        private bool huntState;
-
-        public override float Radius => config.colliderRadius;
-
-        private Transform target;
-        private float huntCountdown;
+    public class Ufo : Enemy<UfoState, UfoConfig>, IUfo {
+        [SerializeField] private AudioSource normalAudio;
+        [SerializeField] private AudioSource huntAudio;
 
         public delegate void ExplosionEvent();
         public static event ExplosionEvent Explosion;
 
+        protected override void Initialize() { }
+
+        // todo: move to state
         public void SetTarget(Transform target) {
-            this.target = target;
-            huntCountdown = config.huntDelay;
+            State.target = target;
+            State.huntCountdown = Config.huntDelay;
         }
 
         public void Hunt() {
@@ -30,8 +27,6 @@ namespace Core.Objects {
         public override void Reset() {
             base.Reset();
             huntAudio.Stop();
-            target = null;
-            huntState = default;
         }
 
         public override void Destroy() {
@@ -41,15 +36,15 @@ namespace Core.Objects {
 
 
         private void Update() {
-            if ((huntCountdown -= Time.deltaTime) > 0) {
-                transform.Translate(direction * (config.startSpeed * Time.deltaTime));
+            if ((State.huntCountdown -= Time.deltaTime) > 0) {
+                transform.Translate(State.Direction * (Config.startSpeed * Time.deltaTime));
             } else {
-                if (!huntState) {
-                    huntState = true;
+                if (!State.huntState) {
+                    State.huntState = true;
                     Hunt();
                 }
-                Vector3 huntDirection = -(transform.position - target.position).normalized;
-                transform.Translate(huntDirection * (config.huntSpeed * Time.deltaTime));
+                Vector3 huntDirection = -(transform.position - State.target.position).normalized;
+                transform.Translate(huntDirection * (Config.huntSpeed * Time.deltaTime));
             }
         }
 

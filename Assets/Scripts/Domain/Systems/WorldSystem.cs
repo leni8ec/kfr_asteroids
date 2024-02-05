@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Core.Base;
 using Core.Config;
 using Core.Interface.Objects;
 using Core.Objects;
+using Core.Pools;
 using Core.State;
 using Core.Unity;
 using Domain.Base;
@@ -19,8 +19,8 @@ namespace Domain.Systems {
 
         private List<Bullet> ActiveBullets { get; }
 
-        private EntityPool<Ufo, UfoConfig> UfoPool { get; }
-        private Dictionary<Asteroid.Size, EntityPool<Asteroid, AsteroidConfig>> AsteroidPools { get; }
+        private UfoPool UfoPool { get; }
+        private Dictionary<AsteroidConfig.Size, AsteroidPool> AsteroidPools { get; }
 
 
         private bool active;
@@ -31,11 +31,11 @@ namespace Domain.Systems {
 
             // Fill objects state
             ObjectsState objects = state.objects;
-            objects.ufosPool = new EntityPool<Ufo, UfoConfig>(prefabCollector.ufo, configCollector.ufo);
-            objects.asteroidPools = new Dictionary<Asteroid.Size, EntityPool<Asteroid, AsteroidConfig>> {
-                { Asteroid.Size.Large, new EntityPool<Asteroid, AsteroidConfig>(prefabCollector.asteroidLarge, configCollector.asteroidLarge) },
-                { Asteroid.Size.Medium, new EntityPool<Asteroid, AsteroidConfig>(prefabCollector.asteroidMedium, configCollector.asteroidMedium) },
-                { Asteroid.Size.Small, new EntityPool<Asteroid, AsteroidConfig>(prefabCollector.asteroidSmall, configCollector.asteroidSmall) }
+            objects.ufosPool = new UfoPool(prefabCollector.ufo, configCollector.ufo);
+            objects.asteroidPools = new Dictionary<AsteroidConfig.Size, AsteroidPool> {
+                { AsteroidConfig.Size.Large, new AsteroidPool(prefabCollector.asteroidLarge, configCollector.asteroidLarge) },
+                { AsteroidConfig.Size.Medium, new AsteroidPool(prefabCollector.asteroidMedium, configCollector.asteroidMedium) },
+                { AsteroidConfig.Size.Small, new AsteroidPool(prefabCollector.asteroidSmall, configCollector.asteroidSmall) }
             };
 
             // Link properties
@@ -64,9 +64,9 @@ namespace Domain.Systems {
         private void ResetHandler() {
             Reset();
             active = false;
-            for (int i = UfoPool.active.Count - 1; i >= 0; i--) UfoPool.active[i].Reset();
-            foreach (EntityPool<Asteroid, AsteroidConfig> asteroidsPool in AsteroidPools.Values) {
-                for (int i = asteroidsPool.active.Count - 1; i >= 0; i--) asteroidsPool.active[i].Reset();
+            for (int i = UfoPool.active.Count - 1; i >= 0; i--) UfoPool.active[i].Destroy();
+            foreach (AsteroidPool asteroidsPool in AsteroidPools.Values) {
+                for (int i = asteroidsPool.active.Count - 1; i >= 0; i--) asteroidsPool.active[i].Destroy();
             }
         }
 
@@ -80,7 +80,9 @@ namespace Domain.Systems {
             // Spawn
             if ((State.asteroidSpawnCountdown -= deltaTime) <= 0) {
                 // Check asteroids count limit
-                int totalActiveAsteroids = AsteroidPools[Asteroid.Size.Large].active.Count + AsteroidPools[Asteroid.Size.Medium].active.Count + AsteroidPools[Asteroid.Size.Small].active.Count;
+                int totalActiveAsteroids = AsteroidPools[AsteroidConfig.Size.Large].active.Count
+                                           + AsteroidPools[AsteroidConfig.Size.Medium].active.Count
+                                           + AsteroidPools[AsteroidConfig.Size.Small].active.Count;
                 if (totalActiveAsteroids < Config.asteroidsLimit) {
                     State.asteroidSpawnCountdown = 1 / Config.asteroidsSpawnRate;
                     SpawnAsteroid();
@@ -107,7 +109,7 @@ namespace Domain.Systems {
             return limits;
         }
 
-        public List<Asteroid> GetActiveAsteroids(Asteroid.Size size) {
+        public List<Asteroid> GetActiveAsteroids(AsteroidConfig.Size size) {
             return AsteroidPools[size].active;
         }
 
@@ -118,7 +120,7 @@ namespace Domain.Systems {
             ProcessObjectOutOfScreen(worldBorders, Player.transform);
             // Enemies
             foreach (Ufo ufo in UfoPool.active) ProcessObjectOutOfScreen(worldBorders, ufo.transform);
-            foreach (EntityPool<Asteroid, AsteroidConfig> asteroidsPool in AsteroidPools.Values) {
+            foreach (AsteroidPool asteroidsPool in AsteroidPools.Values) {
                 for (int i = asteroidsPool.active.Count - 1; i >= 0; i--) {
                     Asteroid asteroid = asteroidsPool.active[i];
                     ProcessObjectOutOfScreen(worldBorders, asteroid.transform);
@@ -142,7 +144,7 @@ namespace Domain.Systems {
 
 
         private void SpawnAsteroid() {
-            Asteroid asteroid = AsteroidPools[Asteroid.Size.Large].Take();
+            Asteroid asteroid = AsteroidPools[AsteroidConfig.Size.Large].Take();
             Vector3 spawnPoint = GetRandomSpawnPoint();
             Vector3 direction = GetRandomDirection(spawnPoint);
             asteroid.transform.position = spawnPoint;
@@ -195,12 +197,12 @@ namespace Domain.Systems {
         }
 
         private void AsteroidExplosionHandler(Asteroid destroyedAsteroid) {
-            if (destroyedAsteroid.size == Asteroid.Size.Medium) return; // Don't split medium asteroids
-            if (destroyedAsteroid.size == Asteroid.Size.Small) return;
+            if (destroyedAsteroid.Size == AsteroidConfig.Size.Medium) return; // Don't split medium asteroids
+            if (destroyedAsteroid.Size == AsteroidConfig.Size.Small) return;
 
-            Asteroid.Size targetSize = destroyedAsteroid.size;
-            if (destroyedAsteroid.size == Asteroid.Size.Large) targetSize = Asteroid.Size.Medium;
-            else if (destroyedAsteroid.size == Asteroid.Size.Medium) targetSize = Asteroid.Size.Small;
+            AsteroidConfig.Size targetSize = destroyedAsteroid.Size;
+            if (destroyedAsteroid.Size == AsteroidConfig.Size.Large) targetSize = AsteroidConfig.Size.Medium;
+            else if (destroyedAsteroid.Size == AsteroidConfig.Size.Medium) targetSize = AsteroidConfig.Size.Small;
 
             Vector3 direction = Random.insideUnitCircle;
             float degreesDelta = 360f / destroyedAsteroid.DestroyedFragments;
