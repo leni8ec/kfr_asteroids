@@ -4,10 +4,9 @@ using Core.Interface.Objects;
 using Core.State;
 using Core.Unity;
 using Domain.Base;
-using Domain.Systems.Collision;
 using UnityEngine;
 
-namespace Domain.Systems.Game {
+namespace Domain.Systems {
     public class GameStateSystem : SystemBase {
         private GameState State { get; }
 

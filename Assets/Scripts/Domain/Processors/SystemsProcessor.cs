@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using Core.State;
 using Core.Unity;
 using Domain.Base;
-using Domain.Systems.Audio;
-using Domain.Systems.Collision;
-using Domain.Systems.Game;
-using Domain.Systems.Gameplay;
+using Domain.Systems;
 
 namespace Domain.Processors {
     public class SystemsProcessor {

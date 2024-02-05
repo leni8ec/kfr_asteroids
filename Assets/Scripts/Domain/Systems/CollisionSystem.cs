@@ -8,7 +8,7 @@ using Core.Unity;
 using Domain.Base;
 using UnityEngine;
 
-namespace Domain.Systems.Collision {
+namespace Domain.Systems {
     public class CollisionSystem : SystemBase, IUpdateSystem {
         private Player Player { get; }
 
@@ -28,6 +28,8 @@ namespace Domain.Systems.Collision {
 
         public CollisionSystem(StateCollector state, ConfigCollector config, PrefabCollector prefab) {
             ObjectsState objects = state.objects;
+
+            // Link properties
             Player = objects.player;
             AsteroidPools = objects.asteroidPools;
             Ufos = objects.ufosPool.active;

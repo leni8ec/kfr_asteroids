@@ -6,12 +6,10 @@ using Core.Objects;
 using Core.State;
 using Core.Unity;
 using Domain.Base;
-using Domain.Systems.Collision;
-using Domain.Systems.Game;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
-namespace Domain.Systems.Gameplay {
+namespace Domain.Systems {
     public class WorldSystem : SystemBase, IUpdateSystem {
         private WorldState State { get; }
         private WorldConfig Config { get; }

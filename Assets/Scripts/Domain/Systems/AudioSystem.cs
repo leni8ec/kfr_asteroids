@@ -3,10 +3,9 @@ using Core.Objects;
 using Core.State;
 using Core.Unity;
 using Domain.Base;
-using Domain.Systems.Gameplay;
 using UnityEngine;
 
-namespace Domain.Systems.Audio {
+namespace Domain.Systems {
     public class AudioSystem : SystemBase {
         private SoundsConfig Config { get; }
 

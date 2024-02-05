@@ -5,10 +5,9 @@ using Core.Objects;
 using Core.State;
 using Core.Unity;
 using Domain.Base;
-using Domain.Systems.Game;
 using UnityEngine;
 
-namespace Domain.Systems.Gameplay {
+namespace Domain.Systems {
     public class WeaponSystem : SystemBase, IUpdateSystem {
         private WeaponState State { get; }
         private BulletConfig Ammo1Config { get; }

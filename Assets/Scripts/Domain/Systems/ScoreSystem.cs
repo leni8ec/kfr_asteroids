@@ -2,10 +2,8 @@
 using Core.State;
 using Core.Unity;
 using Domain.Base;
-using Domain.Systems.Collision;
-using Domain.Systems.Game;
 
-namespace Domain.Systems.Gameplay {
+namespace Domain.Systems {
     public class ScoreSystem : SystemBase {
         private ScoreState State { get; }
 
