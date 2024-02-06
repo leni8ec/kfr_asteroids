@@ -23,6 +23,8 @@ namespace Core.Objects {
 
         protected override void Initialize() { }
 
+        public override void Reset() { }
+
         private void Update() {
             Transform t = transform;
             t.Translate(State.Direction * (Config.speed * Time.deltaTime));

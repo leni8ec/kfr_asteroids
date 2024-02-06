@@ -17,17 +17,20 @@ namespace Core.Objects.Base {
         }
 
 
-        public virtual void Reset() {
+        private void InternalReset() {
             State.Reset();
+            Reset();
         }
 
         public override void Destroy() {
             base.Destroy();
-            Reset();
+            InternalReset();
         }
 
+
         /// <summary>
-        /// Called when the Data (State and Config) - is set
+        /// Called when object is initialized.
+        /// <para>When data (State and Config) - is set.</para>
         /// </summary>
         protected abstract void Initialize();
 
