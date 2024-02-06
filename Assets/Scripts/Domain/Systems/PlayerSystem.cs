@@ -39,8 +39,8 @@ namespace Domain.Systems {
 
         private void Reset() {
             active = false;
-            Player.Reset();
             Player.gameObject.SetActive(false);
+            Player.Reset();
         }
 
 
