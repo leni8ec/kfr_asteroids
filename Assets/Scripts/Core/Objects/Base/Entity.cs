@@ -21,6 +21,11 @@ namespace Core.Objects.Base {
             State.Reset();
         }
 
+        public override void Destroy() {
+            base.Destroy();
+            Reset();
+        }
+
         /// <summary>
         /// Called when the Data (State and Config) - is set
         /// </summary>

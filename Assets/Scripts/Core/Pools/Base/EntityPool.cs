@@ -37,7 +37,8 @@ namespace Core.Pools.Base {
                 entity = CreateNewEntity();
             }
 
-            if (!entity.gameObject.activeSelf) entity.gameObject.SetActive(true);
+            if (!entity.gameObject.activeSelf)
+                entity.gameObject.SetActive(true);
 
             active.Add(entity);
             return entity;
@@ -45,7 +46,6 @@ namespace Core.Pools.Base {
 
         private void Return(TEntity entity) {
             entity.gameObject.SetActive(false);
-            entity.Reset();
             active.Remove(entity);
             stack.Push(entity);
         }
