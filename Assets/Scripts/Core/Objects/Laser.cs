@@ -16,7 +16,7 @@ namespace Core.Objects {
         public void Fire() {
             State.duration = Config.duration;
 
-            transform.up = State.Direction;
+            Transform.up = State.Direction;
 
             // Set laser scale (visual)
             Vector3 scale = scaledTransform.localScale;

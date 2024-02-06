@@ -17,9 +17,9 @@ namespace Presentation.GUI {
 
         private void Update() {
             Player player = SceneData.State.objects.player;
-            if (!player) return; // if player doesn't initialized
+            if (player == null) return; // if player doesn't initialized
 
-            Transform playerTransform = player.transform;
+            Transform playerTransform = player.Transform;
             Vector3 playerPosition = playerTransform.position;
 
             coords.SetText($"Coords: [{playerPosition.x:F1}:{playerPosition.y:F1}]");

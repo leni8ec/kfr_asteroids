@@ -24,8 +24,7 @@ namespace Core.Objects {
         protected override void Initialize() { }
 
         private void Update() {
-            Transform t = transform;
-            t.Translate(State.Direction * (Config.speed * Time.deltaTime));
+            Transform.Translate(State.Direction * (Config.speed * Time.deltaTime));
         }
 
         public override void Destroy() {

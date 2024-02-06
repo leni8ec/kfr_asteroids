@@ -117,17 +117,17 @@ namespace Domain.Systems {
             Rect worldBorders = GetWorldLimits(Config.screenInfinityOutsideOffset);
 
             // Player
-            ProcessObjectOutOfScreen(worldBorders, Player.transform);
+            ProcessObjectOutOfScreen(worldBorders, Player.Transform);
             // Enemies
-            foreach (Ufo ufo in UfoPool.active) ProcessObjectOutOfScreen(worldBorders, ufo.transform);
+            foreach (Ufo ufo in UfoPool.active) ProcessObjectOutOfScreen(worldBorders, ufo.Transform);
             foreach (AsteroidPool asteroidsPool in AsteroidPools.Values) {
                 for (int i = asteroidsPool.active.Count - 1; i >= 0; i--) {
                     Asteroid asteroid = asteroidsPool.active[i];
-                    ProcessObjectOutOfScreen(worldBorders, asteroid.transform);
+                    ProcessObjectOutOfScreen(worldBorders, asteroid.Transform);
                 }
             }
             // Bullets
-            foreach (Bullet bullet in ActiveBullets) ProcessObjectOutOfScreen(worldBorders, bullet.transform);
+            foreach (Bullet bullet in ActiveBullets) ProcessObjectOutOfScreen(worldBorders, bullet.Transform);
         }
 
         private void ProcessObjectOutOfScreen(Rect worldBorders, Transform target) {
@@ -147,7 +147,7 @@ namespace Domain.Systems {
             Asteroid asteroid = AsteroidPools[AsteroidConfig.Size.Large].Take();
             Vector3 spawnPoint = GetRandomSpawnPoint();
             Vector3 direction = GetRandomDirection(spawnPoint);
-            asteroid.transform.position = spawnPoint;
+            asteroid.Transform.position = spawnPoint;
             asteroid.Set(direction);
         }
 
@@ -155,9 +155,9 @@ namespace Domain.Systems {
             Ufo ufo = UfoPool.Take();
             Vector3 spawnPoint = GetRandomSpawnPoint();
             Vector3 direction = GetRandomDirection(spawnPoint);
-            ufo.transform.position = spawnPoint;
+            ufo.Transform.position = spawnPoint;
             ufo.Set(direction);
-            ufo.SetTarget(Player.transform);
+            ufo.SetTarget(Player.Transform);
         }
 
 
@@ -209,8 +209,8 @@ namespace Domain.Systems {
             for (int i = 0; i < destroyedAsteroid.DestroyedFragments; i++) {
                 Asteroid newAsteroid = AsteroidPools[targetSize].Take();
                 direction = Quaternion.AngleAxis(degreesDelta, Vector3.forward) * direction;
-                Vector3 spawnPoint = destroyedAsteroid.transform.position + direction * 0.5f;
-                newAsteroid.transform.position = spawnPoint;
+                Vector3 spawnPoint = destroyedAsteroid.Transform.position + direction * 0.5f;
+                newAsteroid.Transform.position = spawnPoint;
                 newAsteroid.Set(direction);
             }
         }

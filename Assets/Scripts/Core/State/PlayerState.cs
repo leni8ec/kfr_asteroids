@@ -1,9 +1,9 @@
 ﻿using Core.Base;
-using Core.Interface.State;
+using Core.State.Base;
 using UnityEngine;
 
 namespace Core.State {
-    public class PlayerState : IStateData {
+    public class PlayerState : EntityState {
 
         #region Input state
 
@@ -32,8 +32,10 @@ namespace Core.State {
 
         public float speed;
 
+        public Vector3 weaponWorldPosition;
 
-        public void Reset() {
+
+        public override void Reset() {
             MoveState.Reset();
             RotateState.Reset();
             inertialSpeed = default;
@@ -41,6 +43,7 @@ namespace Core.State {
             lastDirection = default;
             lastPos = default;
             speed = default;
+            weaponWorldPosition = default;
         }
 
     }

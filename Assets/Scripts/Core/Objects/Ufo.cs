@@ -38,14 +38,14 @@ namespace Core.Objects {
 
         private void Update() {
             if ((State.huntCountdown -= Time.deltaTime) > 0) {
-                transform.Translate(State.Direction * (Config.startSpeed * Time.deltaTime));
+                Transform.Translate(State.Direction * (Config.startSpeed * Time.deltaTime));
             } else {
                 if (!State.huntState) {
                     State.huntState = true;
                     Hunt();
                 }
-                Vector3 huntDirection = -(transform.position - State.target.position).normalized;
-                transform.Translate(huntDirection * (Config.huntSpeed * Time.deltaTime));
+                Vector3 huntDirection = -(Transform.position - State.target.position).normalized;
+                Transform.Translate(huntDirection * (Config.huntSpeed * Time.deltaTime));
             }
         }
 

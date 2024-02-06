@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Core.Base;
 using Core.Config;
 using Core.Objects;
 using Core.Pools;
@@ -97,14 +96,14 @@ namespace Domain.Systems {
 
         private void SpawnBullet() {
             Bullet bullet = Ammo1Pool.Take();
-            Transform playerTransform = Player.transform;
+            Transform playerTransform = Player.Transform;
             bullet.Set(Player.WeaponWorldPosition, playerTransform.up);
             bullet.Fire();
         }
 
         private void SpawnLaser() {
             Laser laser = Ammo2Pool.Take();
-            Transform playerTransform = Player.transform;
+            Transform playerTransform = Player.Transform;
             laser.Set(playerTransform.position, playerTransform.up);
             laser.Fire();
         }

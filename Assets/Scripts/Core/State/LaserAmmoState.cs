@@ -1,15 +1,16 @@
 ﻿using Core.Interface.Config;
 using Core.Interface.Containers;
 using Core.Interface.State;
+using Core.State.Base;
 using UnityEngine;
 
 namespace Core.State {
-    public class LaserAmmoState : IStateData, IDirectionContainer {
+    public class LaserAmmoState : EntityState, IDirectionContainer {
 
         public float duration;
         public Vector3 Direction { get; set; }
 
-        public void Reset() {
+        public override void Reset() {
             duration = default;
             Direction = default;
         }

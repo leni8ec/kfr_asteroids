@@ -1,35 +1,35 @@
-﻿using Core.Interface.State;
+﻿using Core.Interface.Containers;
+using Core.State.Base;
 using UnityEngine;
 
 namespace Core.Objects.Base {
-    public abstract class Entity<TState, TConfig> : EntityBase
-        where TState : class, IStateData, new()
+    public abstract class Entity<TState, TConfig> : EntityBase, IDataContainer<TState, TConfig>
+        where TState : EntityState, new()
         where TConfig : ScriptableObject {
 
-        protected TConfig Config { get; private set; }
-        protected TState State { get; private set; }
+        public TConfig Config { get; private set; }
+        public TState State { get; } = new();
 
-        public void SetData(TState state, TConfig config) {
-            State = state;
+        // Sugar
+        public Transform Transform => State.Transform;
+        public GameObject GameObject => State.GameObject;
+
+        public void SetConfig(TConfig config) {
             Config = config;
 
             Initialize();
         }
 
-
-        public virtual void Reset() {
+        private void InternalReset() {
             State.Reset();
+            Reset();
         }
 
         public override void Destroy() {
             base.Destroy();
-            Reset();
+            InternalReset();
         }
 
-        /// <summary>
-        /// Called when the Data (State and Config) - is set
-        /// </summary>
         protected abstract void Initialize();
-
     }
 }

@@ -14,7 +14,7 @@ namespace Core.Objects {
         }
 
         private void Update() {
-            transform.Translate(State.Direction * (Config.speed * Time.deltaTime));
+            Transform.Translate(State.Direction * (Config.speed * Time.deltaTime));
 
             if ((State.lifetime -= Time.deltaTime) <= 0) Destroy();
         }

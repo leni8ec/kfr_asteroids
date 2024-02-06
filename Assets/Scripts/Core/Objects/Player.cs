@@ -1,42 +1,58 @@
 ﻿using Core.Config;
+using Core.Interface.Base;
 using Core.Interface.Objects;
 using Core.Objects.Base;
 using Core.State;
 using UnityEngine;
 
 namespace Core.Objects {
-    public class Player : ColliderEntity<PlayerState, PlayerConfig>, IPlayer {
-        [Space]
-        [SerializeField] private SpriteRenderer spriteRenderer;
-        [SerializeField] private Sprite idleSprite;
-        [SerializeField] private Sprite moveSprite;
-        [Space]
-        [SerializeField] private AudioSource moveAudio;
+    public class Player : ColliderEntity<PlayerState, PlayerConfig>, IPlayer, IUpdate {
 
-        // position of bullet start (Hack)
-        public Vector3 WeaponWorldPosition => transform.position + transform.up * 0.2f;
+        public Vector3 WeaponWorldPosition => Transform.position + Transform.up * 0.2f;
 
+        protected override void Initialize() { }
 
-        protected override void Initialize() {
-            State.MoveState.Changed += OnMoveStateChanged;
-        }
+        public override void Reset() { }
 
-        private void OnMoveStateChanged(bool moveFlag) {
-            if (moveFlag) {
-                moveAudio.Play();
-                spriteRenderer.sprite = moveSprite;
+        public void Upd(float deltaTime) {
+            // Moving
+            if (State.MoveState.Value) {
+                if (State.inertialTime < 1) {
+                    State.inertialTime = Mathf.Min(1, State.inertialTime + deltaTime * (1 / Config.accelerationInertia));
+                    State.inertialSpeed = Mathf.Lerp(0, Config.speed, State.inertialTime);
+                }
             } else {
-                moveAudio.Stop();
-                spriteRenderer.sprite = idleSprite;
+                if (State.inertialTime > 0) {
+                    State.inertialTime = Mathf.Max(0, State.inertialTime - deltaTime * (1 / Config.brakingInertia));
+                    State.inertialSpeed = Mathf.Lerp(0, Config.speed, State.inertialTime);
+                }
             }
-        }
 
-        public override void Reset() {
-            base.Reset();
+            if (State.inertialTime > 0) {
+                // transform.Translate(transform.up * (config.speed * deltaTime));
+                Vector3 direction;
+                if (State.MoveState.Value) {
+                    direction = Vector3.Lerp(State.lastDirection, Transform.up, deltaTime / Config.leftOverInertia); // leftover inertia
+                } else {
+                    direction = State.lastDirection; // don't change direction without acceleration
+                }
+                State.lastDirection = direction * State.inertialTime;
 
-            Transform t = transform;
-            t.position = Vector3.zero;
-            t.eulerAngles = Vector3.zero;
+                Vector3 position = Transform.position;
+                position += direction * (State.inertialSpeed * deltaTime);
+                Transform.position = position;
+            }
+
+
+            // Rotation
+            if (State.RotateState.Value != 0) {
+                Transform.Rotate(0, 0, Config.rotationSpeed * deltaTime * State.RotateState.Value);
+            }
+
+            // Calculate speed
+            Vector3 pos = Transform.position;
+            State.speed = Vector3.Distance(State.lastPos, pos) / Time.deltaTime;
+            State.lastPos = pos;
         }
 
     }

@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
+using Core.Interface.Containers;
+using Core.Interface.Objects;
 using Core.Interface.State;
+using Core.Interface.View;
 using Core.Objects.Base;
+using Core.State.Base;
 using UnityEngine;
 
 namespace Core.Pools.Base {
@@ -8,7 +12,7 @@ namespace Core.Pools.Base {
     /// Call 'Entity.Destroy()' for Return entity to Pool
     /// </summary>
     public class EntityPool<TEntity, TState, TConfig> where TEntity : Entity<TState, TConfig>
-        where TState : class, IStateData, new()
+        where TState : EntityState, new()
         where TConfig : ScriptableObject, new() {
 
         private readonly GameObject prefab;
@@ -24,9 +28,9 @@ namespace Core.Pools.Base {
         }
 
         private TEntity CreateNewEntity() {
-            GameObject go = Object.Instantiate(prefab);
-            TEntity entity = go.GetComponent<TEntity>();
-            entity.SetData(new TState(), config);
+            GameObject entityObject = Object.Instantiate(prefab);
+            TEntity entity = (TEntity)entityObject.GetComponent<IEntityView>().Entity;
+            entity.SetConfig(config);
             entity.Dispose += e => Return(entity);
             return entity;
         }
@@ -37,15 +41,15 @@ namespace Core.Pools.Base {
                 entity = CreateNewEntity();
             }
 
-            if (!entity.gameObject.activeSelf)
-                entity.gameObject.SetActive(true);
+            if (!entity.GameObject.activeSelf)
+                entity.GameObject.SetActive(true);
 
             active.Add(entity);
             return entity;
         }
 
         private void Return(TEntity entity) {
-            entity.gameObject.SetActive(false);
+            entity.GameObject.SetActive(false);
             active.Remove(entity);
             stack.Push(entity);
         }

@@ -1,10 +1,11 @@
 ﻿using Core.Interface.Config;
 using Core.Interface.Containers;
 using Core.Interface.State;
+using Core.State.Base;
 using UnityEngine;
 
 namespace Core.State {
-    public class UfoState : IStateData, IDirectionContainer {
+    public class UfoState : EntityState, IDirectionContainer {
 
         public bool huntState;
         public float huntCountdown;
@@ -13,7 +14,7 @@ namespace Core.State {
         public Vector3 Direction { get; set; }
 
 
-        public void Reset() {
+        public override void Reset() {
             huntState = default;
             huntCountdown = default;
             target = default;

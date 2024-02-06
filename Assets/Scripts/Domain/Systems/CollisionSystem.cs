@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Domain.Systems {
     public class CollisionSystem : SystemBase, IUpdateSystem {
-        private Player Player { get; }
+        private ICollider Player { get; }
 
         // Active objects in world
         private Dictionary<AsteroidConfig.Size, AsteroidPool> AsteroidPools { get; }
@@ -30,7 +30,7 @@ namespace Domain.Systems {
             ObjectsState objects = state.objects;
 
             // Link properties
-            Player = objects.player;
+            Player = (ICollider)objects.player;
             AsteroidPools = objects.asteroidPools;
             Ufos = objects.ufosPool.active;
             Bullets = objects.ammo1Pool.active;
