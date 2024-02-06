@@ -1,5 +1,5 @@
 ﻿using Core.Base;
-using Core.State.Base;
+using Core.Interface.State;
 using UnityEngine;
 
 namespace Core.State {

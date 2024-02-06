@@ -1,5 +1,6 @@
 ﻿using Core.Interface.Config;
-using Core.State.Base;
+using Core.Interface.Containers;
+using Core.Interface.State;
 using UnityEngine;
 
 namespace Core.State {

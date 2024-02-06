@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Core.Objects;
-using Core.State.Base;
+using Core.Interface.State;
+using Core.Objects.Base;
 using UnityEngine;
 
-namespace Core.Base {
+namespace Core.Pools.Base {
     /// <summary>
     /// Call 'Entity.Destroy()' for Return entity to Pool
     /// </summary>

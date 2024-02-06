@@ -1,9 +1,8 @@
-﻿using Core.Interface.Config;
-using Core.Objects.Base;
-using Core.State.Base;
+﻿using Core.Interface.Containers;
+using Core.Interface.State;
 using UnityEngine;
 
-namespace Core.Objects {
+namespace Core.Objects.Base {
     public abstract class Ammo<TState, TConfig> : ColliderEntity<TState, TConfig>
         where TState : class, IStateData, IDirectionContainer, new()
         where TConfig : ScriptableObject, IColliderRadiusContainer, new() {

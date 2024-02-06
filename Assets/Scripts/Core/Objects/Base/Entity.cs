@@ -1,7 +1,7 @@
-﻿using Core.State.Base;
+﻿using Core.Interface.State;
 using UnityEngine;
 
-namespace Core.Objects {
+namespace Core.Objects.Base {
     public abstract class Entity<TState, TConfig> : EntityBase
         where TState : class, IStateData, new()
         where TConfig : ScriptableObject {

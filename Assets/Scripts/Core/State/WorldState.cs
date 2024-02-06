@@ -1,4 +1,4 @@
-﻿using Core.State.Base;
+﻿using Core.Interface.State;
 
 namespace Core.State {
     public class WorldState : IStateData {

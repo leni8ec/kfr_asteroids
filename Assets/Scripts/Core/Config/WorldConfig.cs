@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Core.Interface.Config;
+using UnityEngine;
 
 namespace Core.Config {
     [CreateAssetMenu(menuName = "Data/WorldData")]

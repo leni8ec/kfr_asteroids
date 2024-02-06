@@ -1,6 +1,6 @@
 ﻿using System;
 using Core.Base;
-using Core.State.Base;
+using Core.Interface.State;
 
 namespace Core.State {
     public class WeaponState : IStateData {

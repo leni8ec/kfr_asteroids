@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Core.Interface.Config {
+namespace Core.Interface.Containers {
     public interface IDirectionContainer {
 
         public Vector3 Direction { get; set; }

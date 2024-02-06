@@ -1,7 +1,7 @@
 ﻿using Core.Interface.Objects;
 using UnityEngine;
 
-namespace Core.Objects {
+namespace Core.Objects.Base {
     public abstract class EntityBase : MonoBehaviour, IEntity {
 
         public delegate void DisposeEvent(EntityBase entity);

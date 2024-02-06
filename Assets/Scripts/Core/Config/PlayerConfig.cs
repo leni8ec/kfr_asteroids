@@ -1,4 +1,5 @@
 ﻿using Core.Interface.Config;
+using Core.Interface.Containers;
 using UnityEngine;
 
 namespace Core.Config {
