@@ -20,6 +20,7 @@ namespace Core.Objects.Base {
             Initialize();
         }
 
+
         private void InternalReset() {
             State.Reset();
             Reset();
@@ -30,6 +31,11 @@ namespace Core.Objects.Base {
             InternalReset();
         }
 
+
+        /// <summary>
+        /// Called when object is initialized.
+        /// <para>When data (State and Config) - is set.</para>
+        /// </summary>
         protected abstract void Initialize();
     }
 }

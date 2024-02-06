@@ -14,6 +14,16 @@ namespace Core.Objects {
 
         protected override void Initialize() { }
 
+        public override void Reset() {
+            huntAudio.Stop();
+        }
+
+        public override void Destroy() {
+            base.Destroy();
+            Explosion?.Invoke();
+        }
+
+
         // todo: move to state
         public void SetTarget(Transform target) {
             State.target = target;
@@ -24,17 +34,6 @@ namespace Core.Objects {
             normalAudio.Stop();
             huntAudio.Play();
         }
-
-        public override void Reset() {
-            base.Reset();
-            huntAudio.Stop();
-        }
-
-        public override void Destroy() {
-            base.Destroy();
-            Explosion?.Invoke();
-        }
-
 
         private void Update() {
             if ((State.huntCountdown -= Time.deltaTime) > 0) {

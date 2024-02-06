@@ -9,6 +9,8 @@ namespace Core.Objects {
 
         protected override void Initialize() { }
 
+        public override void Reset() { }
+
         public void Fire() {
             State.lifetime = Config.lifetime;
         }

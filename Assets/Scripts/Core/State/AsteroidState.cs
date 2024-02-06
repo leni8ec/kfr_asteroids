@@ -1,5 +1,4 @@
-﻿using Core.Interface.Config;
-using Core.Interface.Containers;
+﻿using Core.Interface.Containers;
 using Core.Interface.State;
 using Core.State.Base;
 using UnityEngine;
