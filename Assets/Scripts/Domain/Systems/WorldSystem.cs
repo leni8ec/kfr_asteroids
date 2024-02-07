@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Core.Config;
 using Core.Interface.Objects;
 using Core.Objects;
+using Core.Objects.Base;
 using Core.Pools;
 using Core.State;
 using Core.Unity;
@@ -18,7 +18,7 @@ namespace Domain.Systems {
         private Player Player { get; }
         private Camera Camera { get; }
 
-        private IEnumerable<Bullet> ActiveBullets { get; }
+        private BulletPool BulletPool { get; }
 
         private UfoPool UfoPool { get; }
         private Dictionary<AsteroidConfig.Size, AsteroidPool> AsteroidPools { get; }
@@ -43,7 +43,7 @@ namespace Domain.Systems {
             // Link properties
             Player = objects.player;
             Camera = objects.camera;
-            ActiveBullets = objects.ammo1Pool.Active;
+            BulletPool = objects.ammo1Pool;
             UfoPool = objects.ufosPool;
             AsteroidPools = objects.asteroidPools;
 
@@ -66,10 +66,11 @@ namespace Domain.Systems {
         private void ResetHandler() {
             Reset();
             active = false;
-            foreach (Ufo ufo in UfoPool.Active) ufo.Destroy();
-            foreach (Asteroid asteroid in AsteroidPools.Values.SelectMany(asteroidPool => asteroidPool.Active)) {
-                asteroid.Destroy();
-            }
+
+            void Destroy(IEntity entity) => entity.Destroy();
+            UfoPool.ForEachActive(Destroy);
+            foreach (AsteroidPool asteroidPool in AsteroidPools.Values)
+                asteroidPool.ForEachActive(Destroy);
         }
 
         // ReSharper disable once MemberCanBePrivate.Global
@@ -114,20 +115,22 @@ namespace Domain.Systems {
 
         private void ProcessInfinityScreen() {
             Rect worldBorders = GetWorldLimits(Config.screenInfinityOutsideOffset);
+            void ProcessEntity(EntityBase entity) => ProcessObjectOutOfScreen(worldBorders, entity);
 
             // Player
-            ProcessObjectOutOfScreen(worldBorders, Player.Transform);
+            ProcessObjectOutOfScreen(worldBorders, Player);
+
             // Enemies
-            foreach (Ufo ufo in UfoPool.Active) ProcessObjectOutOfScreen(worldBorders, ufo.Transform);
-            foreach (Asteroid asteroid in AsteroidPools.Values.SelectMany(asteroidPool => asteroidPool.Active)) {
-                ProcessObjectOutOfScreen(worldBorders, asteroid.Transform);
-            }
+            UfoPool.ForEachActive(ProcessEntity);
+            foreach (AsteroidPool asteroidPool in AsteroidPools.Values)
+                asteroidPool.ForEachActive(ProcessEntity);
+
             // Bullets
-            foreach (Bullet bullet in ActiveBullets) ProcessObjectOutOfScreen(worldBorders, bullet.Transform);
+            BulletPool.ForEachActive(ProcessEntity);
         }
 
-        private void ProcessObjectOutOfScreen(Rect worldBorders, Transform target) {
-            Vector3 pos = target.position;
+        private void ProcessObjectOutOfScreen(Rect worldBorders, EntityBase entity) {
+            Vector3 pos = entity.Transform.position;
             if (worldBorders.Contains(pos)) return;
 
             if (pos.x < worldBorders.x) pos.x = worldBorders.xMax;
@@ -135,7 +138,7 @@ namespace Domain.Systems {
             else if (pos.x > worldBorders.xMax) pos.x = worldBorders.x;
             else if (pos.y > worldBorders.yMax) pos.y = worldBorders.y;
 
-            target.position = pos;
+            entity.Transform.position = pos;
         }
 
 
