@@ -6,9 +6,8 @@ using Presentation.Objects.Base;
 namespace Presentation.Objects {
     public class BulletView : EntityView<Bullet, BulletAmmoState, BulletConfig> {
 
-        private void Start() {
+        protected override void SubscribeEvents() {
             Entity.FireEvent += FireHandle;
-
         }
 
         private void FireHandle() { }

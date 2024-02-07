@@ -20,15 +20,16 @@ namespace Core.Objects.Base {
             Initialize();
         }
 
-
-        private void InternalReset() {
+        public sealed override void Reset() {
             State.Reset();
-            Reset();
+            OnReset();
         }
+
+        protected abstract void OnReset();
 
         public override void Destroy() {
             base.Destroy();
-            InternalReset();
+            Reset();
         }
 
 

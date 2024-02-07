@@ -13,7 +13,7 @@ namespace Presentation.Objects {
         [Space]
         [SerializeField] private AudioSource moveAudio;
 
-        private void Start() {
+        protected override void SubscribeEvents() {
             State.MoveState.Changed += OnMoveStateChanged;
         }
 

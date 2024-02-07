@@ -7,19 +7,18 @@ using UnityEngine;
 
 namespace Core.Objects {
     public class Ufo : Enemy<UfoState, UfoConfig>, IUfo {
-        public delegate void ExplosionEvent();
-        public static event ExplosionEvent Explosion;
 
         public event Action HuntEvent;
         public event Action ResetEvent;
+        public static event Action ExplosionEvent;
 
-        public override void Reset() {
+        protected override void OnReset() {
             ResetEvent?.Invoke();
         }
 
         public override void Destroy() {
             base.Destroy();
-            Explosion?.Invoke();
+            ExplosionEvent?.Invoke();
         }
 
         protected override void Initialize() { }

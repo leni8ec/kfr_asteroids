@@ -16,14 +16,14 @@ namespace Domain.Processors {
             updateSystems = new List<IUpdateSystem>();
 
             // Systems and processors                     //        Order of initialization:
-            Add(new PlayerSystem(state, config, prefab)); //        1. Player
-            Add(new WeaponSystem(state, config, prefab)); //        2. Weapon
-            Add(new WorldSystem(state, config, prefab)); //         3. World
-            Add(new CollisionSystem(state, config, prefab)); //     4. Collision
-            Add(new ObjectsUpdateSystem(state, config, prefab)); // 5. [last] Objects update
-            Add(new GameStateSystem(state, config, prefab));
+            Add(new PlayerSystem(state, config, prefab)); //        1. Player (player control)
+            Add(new WeaponSystem(state, config, prefab)); //        2. Weapon (spawn ammo)
+            Add(new WorldSystem(state, config, prefab)); //         3. World (spawn enemies)
+            Add(new ObjectsUpdateSystem(state, config, prefab)); // 4. Objects update
+            Add(new CollisionSystem(state, config, prefab)); //     6. Collision
             Add(new ScoreSystem(state, config, prefab));
             Add(new AudioSystem(state, config, prefab));
+            Add(new GameStateSystem(state, config, prefab)); //     [Last] NewGame event
         }
 
         private void Add<T>(T system) where T : ISystem {

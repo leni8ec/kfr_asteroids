@@ -8,7 +8,7 @@ namespace Core.State {
         public float lifetime;
         public Vector3 Direction { get; set; }
 
-        public override void Reset() {
+        protected override void OnReset() {
             lifetime = default;
             Direction = default;
         }

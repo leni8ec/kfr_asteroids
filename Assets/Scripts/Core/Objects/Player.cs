@@ -11,7 +11,7 @@ namespace Core.Objects {
 
         protected override void Initialize() { }
 
-        public override void Reset() { }
+        protected override void OnReset() { }
 
         public override void Upd(float deltaTime) {
             // Moving

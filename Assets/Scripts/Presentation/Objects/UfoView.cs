@@ -9,7 +9,7 @@ namespace Presentation.Objects {
         [SerializeField] private AudioSource normalAudio;
         [SerializeField] private AudioSource huntAudio;
 
-        private void Start() {
+        protected override void SubscribeEvents() {
             Entity.HuntEvent += HuntHandler;
             Entity.ResetEvent += ResetHandler;
         }

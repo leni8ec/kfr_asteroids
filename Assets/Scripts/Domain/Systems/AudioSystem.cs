@@ -9,12 +9,17 @@ namespace Domain.Systems {
     public class AudioSystem : SystemBase {
         private SoundsConfig Config { get; }
 
+        private bool active;
+
         public AudioSystem(StateCollector state, ConfigCollector config, PrefabCollector prefab) {
             Config = config.sounds;
 
             Subscribe();
-        }
 
+            // Game state
+            GameStateSystem.NewGameEvent += () => active = true;
+            GameStateSystem.GameOverEvent += () => active = false;
+        }
 
         private void Subscribe() {
             WeaponSystem.Fire1Event += () => Play(Config.fire1);
@@ -26,11 +31,12 @@ namespace Domain.Systems {
                 else if (asteroid.Size == AsteroidConfig.Size.Small) Play(Config.explosionSmall);
             };
 
-            Ufo.Explosion += () => Play(Config.explosionMedium);
+            Ufo.ExplosionEvent += () => Play(Config.explosionMedium);
 
         }
 
         private void Play(AudioClip clip) {
+            if (!active) return;
             AudioSource.PlayClipAtPoint(clip, Vector3.zero);
         }
 
