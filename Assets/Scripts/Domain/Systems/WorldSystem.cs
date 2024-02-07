@@ -18,7 +18,7 @@ namespace Domain.Systems {
         private Player Player { get; }
         private Camera Camera { get; }
 
-        private List<Bullet> ActiveBullets { get; }
+        private IEnumerable<Bullet> ActiveBullets { get; }
 
         private UfoPool UfoPool { get; }
         private Dictionary<AsteroidConfig.Size, AsteroidPool> AsteroidPools { get; }
@@ -43,7 +43,7 @@ namespace Domain.Systems {
             // Link properties
             Player = objects.player;
             Camera = objects.camera;
-            ActiveBullets = objects.ammo1Pool.active;
+            ActiveBullets = objects.ammo1Pool.Active;
             UfoPool = objects.ufosPool;
             AsteroidPools = objects.asteroidPools;
 
@@ -66,9 +66,9 @@ namespace Domain.Systems {
         private void ResetHandler() {
             Reset();
             active = false;
-            for (int i = UfoPool.active.Count - 1; i >= 0; i--) UfoPool.active[i].Destroy();
-            foreach (AsteroidPool asteroidsPool in AsteroidPools.Values) {
-                for (int i = asteroidsPool.active.Count - 1; i >= 0; i--) asteroidsPool.active[i].Destroy();
+            foreach (Ufo ufo in UfoPool.Active) ufo.Destroy();
+            foreach (Asteroid asteroid in AsteroidPools.Values.SelectMany(asteroidPool => asteroidPool.Active)) {
+                asteroid.Destroy();
             }
         }
 
@@ -79,12 +79,13 @@ namespace Domain.Systems {
 
         public void Upd(float deltaTime) {
             if (!active) return;
+
             // Spawn
             if ((State.asteroidSpawnCountdown -= deltaTime) <= 0) {
                 // Check asteroids count limit
-                int totalActiveAsteroids = AsteroidPools[AsteroidConfig.Size.Large].active.Count
-                                           + AsteroidPools[AsteroidConfig.Size.Medium].active.Count
-                                           + AsteroidPools[AsteroidConfig.Size.Small].active.Count;
+                int totalActiveAsteroids = AsteroidPools[AsteroidConfig.Size.Large].ActiveCount
+                                           + AsteroidPools[AsteroidConfig.Size.Medium].ActiveCount
+                                           + AsteroidPools[AsteroidConfig.Size.Small].ActiveCount;
                 if (totalActiveAsteroids < Config.asteroidsLimit) {
                     State.asteroidSpawnCountdown = 1 / Config.asteroidsSpawnRate;
                     SpawnAsteroid();
@@ -92,7 +93,7 @@ namespace Domain.Systems {
             }
 
             if ((State.ufoSpawnCountdown -= deltaTime) <= 0) {
-                int totalActiveUfo = UfoPool.active.Count;
+                int totalActiveUfo = UfoPool.ActiveCount;
                 if (totalActiveUfo < Config.ufosLimit) {
                     State.ufoSpawnCountdown = 1 / Config.ufoSpawnRate;
                     SpawnUfo();
@@ -111,22 +112,15 @@ namespace Domain.Systems {
             return limits;
         }
 
-        public List<Asteroid> GetActiveAsteroids(AsteroidConfig.Size size) {
-            return AsteroidPools[size].active;
-        }
-
         private void ProcessInfinityScreen() {
             Rect worldBorders = GetWorldLimits(Config.screenInfinityOutsideOffset);
 
             // Player
             ProcessObjectOutOfScreen(worldBorders, Player.Transform);
             // Enemies
-            foreach (Ufo ufo in UfoPool.active) ProcessObjectOutOfScreen(worldBorders, ufo.Transform);
-            foreach (AsteroidPool asteroidsPool in AsteroidPools.Values) {
-                for (int i = asteroidsPool.active.Count - 1; i >= 0; i--) {
-                    Asteroid asteroid = asteroidsPool.active[i];
-                    ProcessObjectOutOfScreen(worldBorders, asteroid.Transform);
-                }
+            foreach (Ufo ufo in UfoPool.Active) ProcessObjectOutOfScreen(worldBorders, ufo.Transform);
+            foreach (Asteroid asteroid in AsteroidPools.Values.SelectMany(asteroidPool => asteroidPool.Active)) {
+                ProcessObjectOutOfScreen(worldBorders, asteroid.Transform);
             }
             // Bullets
             foreach (Bullet bullet in ActiveBullets) ProcessObjectOutOfScreen(worldBorders, bullet.Transform);

@@ -2,7 +2,6 @@
 using Core.Config;
 using Core.Interface.Objects;
 using Core.Objects;
-using Core.Objects.Base;
 using Core.Pools;
 using Core.State;
 using Core.Unity;
@@ -15,9 +14,9 @@ namespace Domain.Systems {
 
         // Active objects in world
         private Dictionary<AsteroidConfig.Size, AsteroidPool> AsteroidPools { get; }
-        private List<Ufo> Ufos { get; }
-        private List<Bullet> Bullets { get; }
-        private List<Laser> Lasers { get; }
+        private IEnumerable<Ufo> Ufos { get; }
+        private IEnumerable<Bullet> Bullets { get; }
+        private IEnumerable<Laser> Lasers { get; }
 
         // Events
         public delegate void PlayerHitEvent(ICollider enemy);
@@ -33,16 +32,16 @@ namespace Domain.Systems {
             // Link properties
             Player = (ICollider)objects.player;
             AsteroidPools = objects.asteroidPools;
-            Ufos = objects.ufosPool.active;
-            Bullets = objects.ammo1Pool.active;
-            Lasers = objects.ammo2Pool.active;
+            Ufos = objects.ufosPool.Active;
+            Bullets = objects.ammo1Pool.Active;
+            Lasers = objects.ammo2Pool.Active;
         }
 
         public void Upd(float deltaTime) {
-            List<Asteroid>.Enumerator asteroidsLargeEnum = AsteroidPools[AsteroidConfig.Size.Large].active.GetEnumerator();
-            List<Asteroid>.Enumerator asteroidsMediumEnum = AsteroidPools[AsteroidConfig.Size.Medium].active.GetEnumerator();
-            List<Asteroid>.Enumerator asteroidsSmallEnum = AsteroidPools[AsteroidConfig.Size.Small].active.GetEnumerator();
-            List<Ufo>.Enumerator ufosEnum = Ufos.GetEnumerator();
+            IEnumerator<Asteroid> asteroidsLargeEnum = AsteroidPools[AsteroidConfig.Size.Large].Active.GetEnumerator();
+            IEnumerator<Asteroid> asteroidsMediumEnum = AsteroidPools[AsteroidConfig.Size.Medium].Active.GetEnumerator();
+            IEnumerator<Asteroid> asteroidsSmallEnum = AsteroidPools[AsteroidConfig.Size.Small].Active.GetEnumerator();
+            IEnumerator<Ufo> ufosEnum = Ufos.GetEnumerator();
 
             do {
                 ICollider enemy;

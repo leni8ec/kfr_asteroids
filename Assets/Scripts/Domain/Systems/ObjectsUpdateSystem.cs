@@ -34,18 +34,14 @@ namespace Domain.Systems {
             State.player.Upd(deltaTime);
 
             // Update Enemies
-            foreach (Ufo ufo in State.ufosPool.active) ufo.Upd(deltaTime);
-            foreach (Asteroid asteroid in State.asteroidPools.Values.SelectMany(asteroidsPool => asteroidsPool.active)) {
+            foreach (Ufo ufo in State.ufosPool.Active) ufo.Upd(deltaTime);
+            foreach (Asteroid asteroid in State.asteroidPools.Values.SelectMany(asteroidsPool => asteroidsPool.Active)) {
                 asteroid.Upd(deltaTime);
             }
 
             // Update Ammo (use reverse loop - because the list is subject to change)
-            for (int i = State.ammo1Pool.active.Count - 1; i >= 0; i--) {
-                State.ammo1Pool.active[i].Upd(deltaTime);
-            }
-            for (int i = State.ammo2Pool.active.Count - 1; i >= 0; i--) {
-                State.ammo2Pool.active[i].Upd(deltaTime);
-            }
+            foreach (Bullet bullet in State.ammo1Pool.Active) bullet.Upd(deltaTime);
+            foreach (Laser laser in State.ammo2Pool.Active) laser.Upd(deltaTime);
         }
     }
 }

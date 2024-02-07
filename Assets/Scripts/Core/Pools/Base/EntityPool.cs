@@ -11,15 +11,19 @@ namespace Core.Pools.Base {
     public class EntityPool<TEntity, TState, TConfig> where TEntity : Entity<TState, TConfig>
         where TState : EntityState, new()
         where TConfig : ScriptableObject, new() {
-        public readonly List<TEntity> active = new();
-        private readonly TConfig config;
-
-        private readonly GameObject prefab;
 
         private readonly Stack<TEntity> stack = new();
-        private readonly TState state;
+        private readonly LinkedList<TEntity> active = new(); // use Linked List - as better performance for many add/remove events
+        public IEnumerable<TEntity> Active => active;
 
-        public EntityPool(GameObject prefab, TConfig config) {
+        public int ActiveCount => active.Count;
+
+        private readonly TState state;
+        private readonly TConfig config;
+        private readonly GameObject prefab;
+
+
+        protected EntityPool(GameObject prefab, TConfig config) {
             this.prefab = prefab;
             this.config = config;
         }
@@ -39,7 +43,7 @@ namespace Core.Pools.Base {
             if (!entity.GameObject.activeSelf)
                 entity.GameObject.SetActive(true);
 
-            active.Add(entity);
+            active.AddLast(entity);
             return entity;
         }
 
