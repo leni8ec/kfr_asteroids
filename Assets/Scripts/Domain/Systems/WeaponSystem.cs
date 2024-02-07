@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Core.Config;
+﻿using Core.Config;
+using Core.Interface.Objects;
 using Core.Objects;
 using Core.Pools;
 using Core.Pools.Base;
@@ -16,9 +16,6 @@ namespace Domain.Systems {
 
         private EntityPool<Bullet, BulletAmmoState, BulletConfig> Ammo1Pool { get; }
         private EntityPool<Laser, LaserAmmoState, LaserConfig> Ammo2Pool { get; }
-
-        private IEnumerable<Bullet> ActiveBullets => Ammo1Pool.Active;
-        private IEnumerable<Laser> ActiveLasers => Ammo2Pool.Active;
 
         private float Fire1Delay => 1 / Ammo1Config.fireRate;
         private float Fire2Delay => 1 / Ammo2Config.fireRate;
@@ -60,11 +57,12 @@ namespace Domain.Systems {
 
         private void Reset() {
             active = false;
-            // for (int i = 0; i < ActiveBullets.Count; i++) ActiveBullets[i].Destroy();
-            // for (int i = ActiveLasers.Count - 1; i >= 0; i--) ActiveLasers[i].Destroy();
-            foreach (Bullet bullet in ActiveBullets) bullet.Destroy();
-            foreach (Laser laser in ActiveLasers) laser.Destroy();
-            
+
+            // Destroy Ammo
+            void DestroyEntity(IEntity entity) => entity.Destroy();
+            Ammo1Pool.ForEachActive(DestroyEntity);
+            Ammo2Pool.ForEachActive(DestroyEntity);
+
             State.Reset();
         }
 

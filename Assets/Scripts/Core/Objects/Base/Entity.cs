@@ -11,8 +11,8 @@ namespace Core.Objects.Base {
         public TConfig Config { get; private set; }
 
         // Sugar
-        public Transform Transform => State.Transform;
-        public GameObject GameObject => State.GameObject;
+        public override Transform Transform => State.Transform;
+        public override GameObject GameObject => State.GameObject;
 
         public void SetConfig(TConfig config) {
             Config = config;

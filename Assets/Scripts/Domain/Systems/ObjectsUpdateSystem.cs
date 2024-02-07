@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using Core.Objects;
+﻿using Core.Interface.Objects;
+using Core.Pools;
 using Core.State;
 using Core.Unity;
 using Domain.Base;
@@ -34,14 +34,17 @@ namespace Domain.Systems {
             State.player.Upd(deltaTime);
 
             // Update Enemies
-            foreach (Ufo ufo in State.ufosPool.Active) ufo.Upd(deltaTime);
-            foreach (Asteroid asteroid in State.asteroidPools.Values.SelectMany(asteroidsPool => asteroidsPool.Active)) {
-                asteroid.Upd(deltaTime);
-            }
+            State.ufosPool.ForEachActive(UpdEntity);
+            foreach (AsteroidPool asteroidPool in State.asteroidPools.Values)
+                asteroidPool.ForEachActive(UpdEntity);
 
-            // Update Ammo (use reverse loop - because the list is subject to change)
-            foreach (Bullet bullet in State.ammo1Pool.Active) bullet.Upd(deltaTime);
-            foreach (Laser laser in State.ammo2Pool.Active) laser.Upd(deltaTime);
+            // Update Ammo
+            State.ammo1Pool.ForEachActive(UpdEntity);
+            State.ammo2Pool.ForEachActive(UpdEntity);
+
+            return;
+            void UpdEntity(IEntity entity) => entity.Upd(deltaTime);
         }
+
     }
 }

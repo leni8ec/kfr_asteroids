@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Core.Interface.View;
 using Core.Objects.Base;
 using Core.State.Base;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Core.Pools.Base {
     /// <summary>
@@ -16,6 +18,9 @@ namespace Core.Pools.Base {
         private readonly LinkedList<TEntity> active = new(); // use Linked List - as better performance for many add/remove events
         public IEnumerable<TEntity> Active => active;
 
+        /// <summary>
+        /// Don't in List mutable cases (don't safe to list changes)
+        /// </summary>
         public int ActiveCount => active.Count;
 
         private readonly TState state;
@@ -52,5 +57,20 @@ namespace Core.Pools.Base {
             active.Remove(entity);
             stack.Push(entity);
         }
+
+
+        /// <summary>
+        /// Iterate for all active entities (safe to list changes)
+        /// </summary>
+        public void ForEachActive(Action<TEntity> action) {
+            LinkedListNode<TEntity> node = active.First;
+            while (node != null) {
+                LinkedListNode<TEntity> nextNode = node.Next;
+                action(node.Value);
+                node = nextNode;
+            }
+
+        }
+
     }
 }
