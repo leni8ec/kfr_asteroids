@@ -1,7 +1,6 @@
 ﻿using Core.Interface.Config;
 using Core.Interface.Containers;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Core.Config {
     [CreateAssetMenu(menuName = "Data/UfoData")]

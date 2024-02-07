@@ -1,6 +1,5 @@
 ﻿using Core.Config;
 using Core.Objects;
-using Core.Objects.Base;
 using Core.Pools.Base;
 using Core.State;
 using UnityEngine;
