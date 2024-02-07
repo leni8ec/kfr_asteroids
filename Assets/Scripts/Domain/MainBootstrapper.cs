@@ -8,7 +8,7 @@ namespace Domain {
 
         protected override void Awake() {
             base.Awake();
-            systemsProcessor = new SystemsProcessor(state, sceneData.configCollector, sceneData.prefabCollector);
+            systemsProcessor = new SystemsProcessor(states, sceneData.configCollector, sceneData.prefabCollector);
         }
 
         private void Update() {

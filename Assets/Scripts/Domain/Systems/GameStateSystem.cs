@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Domain.Systems {
     public class GameStateSystem : SystemBase {
-        private GameState State { get; }
+        private GameSystemState State { get; }
 
         // Events
         public static event Action NewGameEvent;

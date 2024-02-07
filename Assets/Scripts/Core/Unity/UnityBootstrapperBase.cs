@@ -8,16 +8,16 @@ namespace Core.Unity {
     /// </summary>
     public abstract class UnityBootstrapperBase : MonoBehaviour {
         protected SceneData sceneData;
-        protected StateCollector state;
+        protected StateCollector states;
 
         protected virtual void Awake() {
             // Data - init first
-            state = new StateCollector();
+            states = new StateCollector();
             sceneData = SceneData.Handler;
-            sceneData.SetGameData(state);
+            sceneData.SetGameData(states);
 
             // Fill objects state
-            state.objects.camera = sceneData.mainCamera;
+            states.objects.camera = sceneData.mainCamera;
         }
 
     }

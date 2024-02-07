@@ -3,7 +3,7 @@ using Core.Base;
 using Core.Interface.State;
 
 namespace Core.State {
-    public class WeaponState : IStateData {
+    public class WeaponSystemState : IStateData {
 
         #region Input state
 

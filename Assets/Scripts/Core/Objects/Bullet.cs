@@ -1,25 +1,28 @@
-﻿using Core.Config;
+﻿using System;
+using Core.Config;
+using Core.Interface.Base;
 using Core.Interface.Objects;
 using Core.Objects.Base;
 using Core.State;
-using UnityEngine;
 
 namespace Core.Objects {
     public class Bullet : Ammo<BulletAmmoState, BulletConfig>, IBullet {
 
-        protected override void Initialize() { }
+        public event Action FireEvent;
 
         public override void Reset() { }
 
+        protected override void Initialize() { }
+
         public void Fire() {
             State.lifetime = Config.lifetime;
+            FireEvent?.Invoke();
         }
 
-        private void Update() {
-            Transform.Translate(State.Direction * (Config.speed * Time.deltaTime));
+        public override void Upd(float deltaTime) {
+            Transform.Translate(State.Direction * (Config.speed * deltaTime));
 
-            if ((State.lifetime -= Time.deltaTime) <= 0) Destroy();
+            if ((State.lifetime -= deltaTime) <= 0) Destroy();
         }
-
     }
 }

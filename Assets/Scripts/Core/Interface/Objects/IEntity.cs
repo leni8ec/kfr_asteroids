@@ -2,7 +2,7 @@
 
 namespace Core.Interface.Objects {
 
-    public interface IEntity : IDestroy, IReset {
+    public interface IEntity : IDestroy, IReset, IUpdate {
 
     }
 

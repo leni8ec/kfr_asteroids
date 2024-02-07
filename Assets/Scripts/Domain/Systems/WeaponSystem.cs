@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Domain.Systems {
     public class WeaponSystem : SystemBase, IUpdateSystem {
-        private WeaponState State { get; }
+        private WeaponSystemState State { get; }
         private BulletConfig Ammo1Config { get; }
         private LaserConfig Ammo2Config { get; }
 
@@ -68,14 +68,14 @@ namespace Domain.Systems {
         public void Upd(float deltaTime) {
             if (!active) return;
 
-            bool fired = State.FireState.Value != WeaponState.Weapon.Empty;
-            if (fired && State.FireState.Value.HasFlag(WeaponState.Weapon.Gun) && State.fire1Countdown <= 0) {
+            bool fired = State.FireState.Value != WeaponSystemState.Weapon.Empty;
+            if (fired && State.FireState.Value.HasFlag(WeaponSystemState.Weapon.Gun) && State.fire1Countdown <= 0) {
                 State.fire1Countdown = Fire1Delay;
                 SpawnBullet();
                 Fire1Event?.Invoke();
             }
 
-            if (fired && State.FireState.Value.HasFlag(WeaponState.Weapon.Laser) && State.fire2Countdown <= 0 && State.laserShotsCount > 0) {
+            if (fired && State.FireState.Value.HasFlag(WeaponSystemState.Weapon.Laser) && State.fire2Countdown <= 0 && State.laserShotsCount > 0) {
                 State.fire2Countdown = Fire2Delay;
                 State.laserShotsCount--;
                 SpawnLaser();
@@ -92,6 +92,7 @@ namespace Domain.Systems {
                     State.laserShotsCount++;
                 }
             }
+
         }
 
         private void SpawnBullet() {

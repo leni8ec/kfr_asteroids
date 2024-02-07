@@ -1,5 +1,6 @@
 ﻿using Core.Config;
 using Core.Objects;
+using Core.Objects.Base;
 using Core.State;
 using Core.Unity;
 using Domain.Base;

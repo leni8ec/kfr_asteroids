@@ -1,4 +1,5 @@
-﻿using Core.Config;
+﻿using System;
+using Core.Config;
 using Core.Interface.Objects;
 using Core.Objects.Base;
 using Core.State;
@@ -6,16 +7,14 @@ using UnityEngine;
 
 namespace Core.Objects {
     public class Ufo : Enemy<UfoState, UfoConfig>, IUfo {
-        [SerializeField] private AudioSource normalAudio;
-        [SerializeField] private AudioSource huntAudio;
-
         public delegate void ExplosionEvent();
         public static event ExplosionEvent Explosion;
 
-        protected override void Initialize() { }
+        public event Action HuntEvent;
+        public event Action ResetEvent;
 
         public override void Reset() {
-            huntAudio.Stop();
+            ResetEvent?.Invoke();
         }
 
         public override void Destroy() {
@@ -23,30 +22,28 @@ namespace Core.Objects {
             Explosion?.Invoke();
         }
 
+        protected override void Initialize() { }
 
-        // todo: move to state
         public void SetTarget(Transform target) {
             State.target = target;
             State.huntCountdown = Config.huntDelay;
         }
 
         public void Hunt() {
-            normalAudio.Stop();
-            huntAudio.Play();
+            HuntEvent?.Invoke();
         }
 
-        private void Update() {
+        public override void Upd(float deltaTime) {
             if ((State.huntCountdown -= Time.deltaTime) > 0) {
-                Transform.Translate(State.Direction * (Config.startSpeed * Time.deltaTime));
+                Transform.Translate(State.Direction * (Config.startSpeed * deltaTime));
             } else {
                 if (!State.huntState) {
                     State.huntState = true;
                     Hunt();
                 }
                 Vector3 huntDirection = -(Transform.position - State.target.position).normalized;
-                Transform.Translate(huntDirection * (Config.huntSpeed * Time.deltaTime));
+                Transform.Translate(huntDirection * (Config.huntSpeed * deltaTime));
             }
         }
-
     }
 }

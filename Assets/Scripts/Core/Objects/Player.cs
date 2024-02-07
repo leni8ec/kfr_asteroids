@@ -6,7 +6,7 @@ using Core.State;
 using UnityEngine;
 
 namespace Core.Objects {
-    public class Player : ColliderEntity<PlayerState, PlayerConfig>, IPlayer, IUpdate {
+    public class Player : ColliderEntity<PlayerState, PlayerConfig>, IPlayer {
 
         public Vector3 WeaponWorldPosition => Transform.position + Transform.up * 0.2f;
 
@@ -14,7 +14,7 @@ namespace Core.Objects {
 
         public override void Reset() { }
 
-        public void Upd(float deltaTime) {
+        public override void Upd(float deltaTime) {
             // Moving
             if (State.MoveState.Value) {
                 if (State.inertialTime < 1) {
@@ -51,8 +51,9 @@ namespace Core.Objects {
 
             // Calculate speed
             Vector3 pos = Transform.position;
-            State.speed = Vector3.Distance(State.lastPos, pos) / Time.deltaTime;
+            State.speed = Vector3.Distance(State.lastPos, pos) / deltaTime;
             State.lastPos = pos;
+
         }
 
     }

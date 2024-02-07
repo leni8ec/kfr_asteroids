@@ -8,6 +8,5 @@ namespace Core.Pools {
     public class UfoPool : EntityPool<Ufo, UfoState, UfoConfig> {
 
         public UfoPool(GameObject prefab, UfoConfig config) : base(prefab, config) { }
-
     }
 }

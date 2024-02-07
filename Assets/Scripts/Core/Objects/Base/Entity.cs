@@ -7,8 +7,8 @@ namespace Core.Objects.Base {
         where TState : EntityState, new()
         where TConfig : ScriptableObject {
 
-        public TConfig Config { get; private set; }
         public TState State { get; } = new();
+        public TConfig Config { get; private set; }
 
         // Sugar
         public Transform Transform => State.Transform;

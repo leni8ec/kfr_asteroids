@@ -11,5 +11,7 @@ namespace Core.Objects.Base {
         }
 
         public abstract void Reset();
+
+        public abstract void Upd(float deltaTime);
     }
 }

@@ -15,11 +15,12 @@ namespace Domain.Processors {
             systems = new Dictionary<Type, ISystem>();
             updateSystems = new List<IUpdateSystem>();
 
-            // Systems and processors                     //     Order of initialization:
-            Add(new PlayerSystem(state, config, prefab)); //     1. Player
-            Add(new WeaponSystem(state, config, prefab)); //     2. Weapon
-            Add(new WorldSystem(state, config, prefab)); //      3. World
-            Add(new CollisionSystem(state, config, prefab)); //  4. Collision
+            // Systems and processors                     //        Order of initialization:
+            Add(new PlayerSystem(state, config, prefab)); //        1. Player
+            Add(new WeaponSystem(state, config, prefab)); //        2. Weapon
+            Add(new WorldSystem(state, config, prefab)); //         3. World
+            Add(new CollisionSystem(state, config, prefab)); //     4. Collision
+            Add(new ObjectsUpdateSystem(state, config, prefab)); // 5. [last] Objects update
             Add(new GameStateSystem(state, config, prefab));
             Add(new ScoreSystem(state, config, prefab));
             Add(new AudioSystem(state, config, prefab));

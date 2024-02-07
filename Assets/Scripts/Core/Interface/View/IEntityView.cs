@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Core.Interface.View {
     public interface IEntityView {
 
-        public IEntity Entity { get; }
+        public IEntity EntityLink { get; }
 
         GameObject GameObject { get; }
         Transform Transform { get; }

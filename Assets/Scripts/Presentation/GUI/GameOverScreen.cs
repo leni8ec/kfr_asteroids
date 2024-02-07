@@ -5,8 +5,8 @@ namespace Presentation.GUI {
         public TextMeshProUGUI score;
 
         private void OnEnable() {
-            if (State == null) return;
-            score.SetText($"Score\n{State.score.Points.Value}");
+            if (States == null) return;
+            score.SetText($"Score\n{States.score.Points.Value}");
         }
     }
 }

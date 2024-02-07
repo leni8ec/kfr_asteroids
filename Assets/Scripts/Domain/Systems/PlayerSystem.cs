@@ -1,5 +1,4 @@
 ﻿using Core.Config;
-using Core.Interface.Objects;
 using Core.Interface.View;
 using Core.Objects;
 using Core.State;
@@ -40,7 +39,7 @@ namespace Domain.Systems {
 
         private Player CreatePlayer(GameObject playerPrefab, PlayerConfig playerConfig) {
             GameObject playerObject = Object.Instantiate(playerPrefab);
-            Player targetPlayer = (Player)playerObject.GetComponent<IEntityView>().Entity;
+            Player targetPlayer = (Player)playerObject.GetComponent<IEntityView>().EntityLink;
             targetPlayer.SetConfig(playerConfig);
             return targetPlayer;
         }
@@ -49,8 +48,6 @@ namespace Domain.Systems {
         public void Upd(float deltaTime) {
             if (!active) return;
 
-            // Update player
-            Player.Upd(deltaTime);
         }
     }
 }

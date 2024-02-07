@@ -8,7 +8,7 @@ namespace Presentation.GUI {
         public GameOverScreen gameOverScreen;
 
         private void Start() {
-            State.game.Status.Changed += OnGameStatusChanged;
+            States.game.Status.Changed += OnGameStatusChanged;
             OnGameStatusChanged(GameStatus.Playing); // hack
         }
 

@@ -1,6 +1,7 @@
 ﻿using Core.Config;
 using Core.Objects;
 using Core.State;
+using Presentation.Objects.Base;
 using UnityEngine;
 
 namespace Presentation.Objects {

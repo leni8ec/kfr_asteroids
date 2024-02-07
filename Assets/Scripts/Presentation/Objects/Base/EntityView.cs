@@ -5,18 +5,19 @@ using Core.Objects.Base;
 using Core.State.Base;
 using UnityEngine;
 
-namespace Presentation.Objects {
+namespace Presentation.Objects.Base {
     public abstract class EntityView<TEntity, TState, TConfig> : MonoBehaviour, IEntityView
         where TEntity : Entity<TState, TConfig>, new()
         where TState : EntityState, new()
         where TConfig : ScriptableObject {
 
-        private IDataContainer<TState, TConfig> data;
         // Sugar
         protected TState State => data.State;
         protected TConfig Config => data.Config;
 
-        public IEntity Entity { get; private set; }
+        private IDataContainer<TState, TConfig> data; //    use internal only
+        public TEntity Entity { get; private set; } //      use in 'View'
+        public IEntity EntityLink { get; private set; } //  use in 'Core'
         public GameObject GameObject { get; private set; }
         public Transform Transform { get; private set; }
 
@@ -25,9 +26,15 @@ namespace Presentation.Objects {
             GameObject = gameObject;
 
             // Create new Entity object
-            TEntity entity = new TEntity();
-            data = entity;
+            TEntity entity = new();
+            EntityLink = entity;
             Entity = entity;
+
+            data = entity;
+
+            // Set Unity object required data to state
+            data.State.GameObject = GameObject;
+            data.State.Transform = transform;
         }
 
     }

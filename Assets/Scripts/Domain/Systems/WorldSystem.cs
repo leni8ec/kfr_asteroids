@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Core.Config;
 using Core.Interface.Objects;
 using Core.Objects;
@@ -11,7 +12,7 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace Domain.Systems {
     public class WorldSystem : SystemBase, IUpdateSystem {
-        private WorldState State { get; }
+        private WorldSystemState State { get; }
         private WorldConfig Config { get; }
 
         private Player Player { get; }
@@ -37,6 +38,7 @@ namespace Domain.Systems {
                 { AsteroidConfig.Size.Medium, new AsteroidPool(prefabCollector.asteroidMedium, configCollector.asteroidMedium) },
                 { AsteroidConfig.Size.Small, new AsteroidPool(prefabCollector.asteroidSmall, configCollector.asteroidSmall) }
             };
+
 
             // Link properties
             Player = objects.player;
@@ -97,10 +99,10 @@ namespace Domain.Systems {
                 }
             }
 
-            ProcessInfinityScreen();
             // CheckDisposeOutOfScreenObjects(deltaTime);
-
+            ProcessInfinityScreen();
         }
+
 
         private Rect GetWorldLimits(float screenOffset) {
             Vector2 min = Camera.ScreenToWorldPoint(Vector3.zero);

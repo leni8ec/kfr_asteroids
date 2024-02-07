@@ -12,7 +12,7 @@ namespace Presentation.GUI {
         public TextMeshProUGUI laserCountdown;
 
         private void Start() {
-            State.score.Points.Changed += score => points.SetText($"Score: {score}");
+            States.score.Points.Changed += score => points.SetText($"Score: {score}");
         }
 
         private void Update() {
@@ -24,9 +24,9 @@ namespace Presentation.GUI {
 
             coords.SetText($"Coords: [{playerPosition.x:F1}:{playerPosition.y:F1}]");
             angle.SetText($"Angle: {playerTransform.eulerAngles.z:F0}");
-            speed.SetText($"Speed: {State.player.speed:N}");
-            laserCount.SetText($"Laser Count: {State.weapon.laserShotsCount}");
-            laserCountdown.SetText($"Laser Countdown: {State.weapon.laserShotCountdownDuration:0.00}");
+            speed.SetText($"Speed: {States.objects.player.State.speed:N}");
+            laserCount.SetText($"Laser Count: {States.weapon.laserShotsCount}");
+            laserCountdown.SetText($"Laser Countdown: {States.weapon.laserShotCountdownDuration:0.00}");
         }
 
     }

@@ -3,7 +3,7 @@ using Core.Game;
 using Core.Interface.State;
 
 namespace Core.State {
-    public class GameState : IStateData {
+    public class GameSystemState : IStateData {
 
         public ValueChange<bool> ContinueFlag { get; } = new();
         public ValueChange<GameStatus> Status { get; } = new();
