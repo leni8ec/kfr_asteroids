@@ -1,9 +1,9 @@
-﻿using Core.State;
+﻿using Core.Input;
 using Presentation.GUI;
 using UnityEngine.InputSystem;
 
 namespace Presentation.Input {
-    public class InputHandler : GuiBase {
+    public class UnityInputListener : GuiBase {
 
         // Player Actions
         public InputAction moveAction;
@@ -14,8 +14,11 @@ namespace Presentation.Input {
         // Game Actions
         public InputAction continueAction;
 
+        private InputHandler handler;
 
-        private void Awake() {
+        private void Start() {
+            handler = new InputHandler(States);
+
             moveAction.performed += context => OnMoveAction(true, context);
             rotateAction.performed += context => OnRotateAction(true, context);
             fire1Action.performed += context => OnFireAction(true, 1 << 0, context);
@@ -47,29 +50,20 @@ namespace Presentation.Input {
         }
 
 
-        private void OnFireAction(bool actionFlag, int weaponFlag, InputAction.CallbackContext context) {
-            if (actionFlag) {
-                States.weapon.FireState.Value |= (WeaponSystemState.Weapon)weaponFlag;
-            } else {
-                States.weapon.FireState.Value &= ~(WeaponSystemState.Weapon)weaponFlag;
-            }
+        private void OnFireAction(bool actionFlag, int weaponNumber, InputAction.CallbackContext context) {
+            handler.OnFire(actionFlag, weaponNumber);
         }
 
         private void OnMoveAction(bool actionFlag, InputAction.CallbackContext context) {
-            States.objects.player.State.MoveState.Value = actionFlag;
+            handler.OnMoveAction(actionFlag);
         }
 
         private void OnRotateAction(bool actionFlag, InputAction.CallbackContext context) {
-            if (actionFlag) {
-                States.objects.player.State.RotateState.Value = context.ReadValue<float>() < 0 ? 1 : -1;
-            } else {
-                States.objects.player.State.RotateState.Value = 0;
-            }
+            handler.OnRotateAction(actionFlag, -context.ReadValue<float>()); // send inversion value
         }
 
-
         private void OnContinueAction(InputAction.CallbackContext context) {
-            States.game.ContinueFlag.Value = true;
+            handler.OnContinueAction();
         }
 
     }
