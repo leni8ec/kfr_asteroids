@@ -1,0 +1,17 @@
+{
+    "name": "Control",
+    "rootNamespace": "",
+    "references": [
+        "GUID:544c420e7ca0c0648b42bbc22605dd2f",
+        "GUID:231e5a06af220a94fb6ef4a169c2284b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
