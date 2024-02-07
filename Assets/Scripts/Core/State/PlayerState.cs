@@ -35,7 +35,7 @@ namespace Core.State {
         public Vector3 weaponWorldPosition;
 
 
-        public override void Reset() {
+        protected override void OnReset() {
             MoveState.Reset();
             RotateState.Reset();
             inertialSpeed = default;

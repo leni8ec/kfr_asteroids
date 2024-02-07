@@ -9,7 +9,8 @@ namespace Presentation.Objects {
         [SerializeField] private Transform scaledTransform;
         [SerializeField] private SpriteRenderer laserSprite;
 
-        private void Start() {
+
+        protected override void SubscribeEvents() {
             Entity.FireEvent += FireHandle;
         }
 

@@ -12,7 +12,7 @@ namespace Core.State {
         public Vector3 Direction { get; set; }
 
 
-        public override void Reset() {
+        protected override void OnReset() {
             huntState = default;
             huntCountdown = default;
             target = default;

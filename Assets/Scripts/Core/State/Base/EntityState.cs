@@ -7,10 +7,14 @@ namespace Core.State.Base {
         public GameObject GameObject { get; set; }
         public Transform Transform { get; set; }
 
-        public virtual void Reset() {
+        public void Reset() {
             Transform.position = default;
             Transform.eulerAngles = default;
-            Transform.localScale = default;
+            Transform.localScale = Vector3.one;
+
+            OnReset();
         }
+
+        protected abstract void OnReset();
     }
 }

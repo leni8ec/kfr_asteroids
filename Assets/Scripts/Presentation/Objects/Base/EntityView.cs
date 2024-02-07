@@ -35,7 +35,11 @@ namespace Presentation.Objects.Base {
             // Set Unity object required data to state
             data.State.GameObject = GameObject;
             data.State.Transform = transform;
+
+            SubscribeEvents();
         }
+
+        protected abstract void SubscribeEvents();
 
     }
 

@@ -14,15 +14,15 @@ namespace Core.Objects {
 
         protected override void Initialize() { }
 
-        public override void Reset() { }
+        protected override void OnReset() { }
 
         public override void Upd(float deltaTime) {
             Transform.Translate(State.Direction * (Config.speed * deltaTime));
         }
 
         public override void Destroy() {
+            Explosion?.Invoke(this); // Explosion must be before Destroy!
             base.Destroy();
-            Explosion?.Invoke(this);
         }
 
     }

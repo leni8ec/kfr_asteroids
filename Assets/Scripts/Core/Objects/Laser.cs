@@ -12,7 +12,7 @@ namespace Core.Objects {
         public event Action FireEvent;
 
 
-        public override void Reset() { }
+        protected override void OnReset() { }
 
         protected override void Initialize() { }
 

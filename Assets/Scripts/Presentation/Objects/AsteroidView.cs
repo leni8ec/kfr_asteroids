@@ -16,5 +16,7 @@ namespace Presentation.Objects {
             spriteRenderer.sprite = sprites[index];
         }
 
+        protected override void SubscribeEvents() { }
+
     }
 }
