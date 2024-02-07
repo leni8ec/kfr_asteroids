@@ -885,7 +885,7 @@ GameObject:
   - component: {fileID: 504463728}
   - component: {fileID: 504463729}
   m_Layer: 0
-  m_Name: InputHandler
+  m_Name: InputListener
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
