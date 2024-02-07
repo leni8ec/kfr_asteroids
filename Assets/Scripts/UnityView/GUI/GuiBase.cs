@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UnityView.GUI {
     public class GuiBase : MonoBehaviour {
-        protected static SceneData SceneData => SceneData.Handler;
+        protected static SceneData SceneData => SceneData.self;
         protected static StateCollector States => SceneData.State;
     }
 }

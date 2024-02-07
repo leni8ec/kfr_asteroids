@@ -9,6 +9,7 @@ namespace UnityView {
     /// Base class - don't place it to unity scene!
     /// </summary>
     public class UnityBootstrapper : MonoBehaviour {
+        [Space]
         [SerializeField] private SceneData sceneData;
 
         private Bootstrapper bootstrapper;
@@ -16,12 +17,12 @@ namespace UnityView {
         private void Awake() {
             // Data - init first
             StateCollector states = new();
-            sceneData = SceneData.Handler;
-            sceneData.SetGameData(states);
 
             // Fill objects state
             states.objects.camera = sceneData.mainCamera;
 
+            sceneData.SetGameData(states);
+            // Bootstrapper
             bootstrapper = new Bootstrapper(states, sceneData.configCollector, sceneData.prefabCollector);
         }
 

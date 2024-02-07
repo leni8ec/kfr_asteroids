@@ -1,8 +1,7 @@
-﻿using Model.Core.Unity.Helpers;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Model.Core.Unity {
-    public class PrefabCollector : MonoBehaviourHandler<PrefabCollector> {
+    public class PrefabCollector : MonoBehaviour {
         public GameObject player;
 
         [Header("Weapon")]
