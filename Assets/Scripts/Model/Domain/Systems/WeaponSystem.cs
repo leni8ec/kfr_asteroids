@@ -2,7 +2,7 @@
 using Model.Core.Data;
 using Model.Core.Data.State;
 using Model.Core.Interface.Objects;
-using Model.Core.Objects.Game;
+using Model.Core.Objects;
 using Model.Core.Pools;
 using Model.Core.Pools.Base;
 using Model.Core.Unity.Data.Config;

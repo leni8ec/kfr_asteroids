@@ -1,10 +1,10 @@
 ﻿using Model.Core.Data.State;
-using Model.Core.Objects.Game;
+using Model.Core.Objects;
 using Model.Core.Unity.Data.Config;
 using UnityEngine;
-using UnityView.Objects.Game.Base;
+using UnityView.Objects.Base;
 
-namespace UnityView.Objects.Game {
+namespace UnityView.Objects {
     public class UfoView : EntityView<Ufo, UfoState, UfoConfig> {
         [SerializeField] private AudioSource normalAudio;
         [SerializeField] private AudioSource huntAudio;

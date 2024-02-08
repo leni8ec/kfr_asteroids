@@ -1,9 +1,9 @@
 ﻿using Model.Core.Data.State;
-using Model.Core.Objects.Game;
+using Model.Core.Objects;
 using Model.Core.Unity.Data.Config;
-using UnityView.Objects.Game.Base;
+using UnityView.Objects.Base;
 
-namespace UnityView.Objects.Game {
+namespace UnityView.Objects {
     public class BulletView : EntityView<Bullet, BulletAmmoState, BulletConfig> {
 
         protected override void SubscribeEvents() {

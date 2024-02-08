@@ -2,7 +2,7 @@ using Model.Core.Interface.Adapters;
 using UnityEngine;
 using UnityView.Base;
 
-namespace UnityView.Objects.World {
+namespace UnityView.Adapters {
     public class CameraAdapter : MonoBase, ICameraAdapter {
 
         [SerializeField] private Camera mainCamera;

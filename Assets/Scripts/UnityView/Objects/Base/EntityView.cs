@@ -2,10 +2,10 @@
 using Model.Core.Interface.Containers;
 using Model.Core.Interface.Objects;
 using Model.Core.Interface.View;
-using Model.Core.Objects.Game.Base;
+using Model.Core.Objects.Base;
 using UnityEngine;
 
-namespace UnityView.Objects.Game.Base {
+namespace UnityView.Objects.Base {
     public abstract class EntityView<TEntity, TState, TConfig> : MonoBehaviour, IEntityView
         where TEntity : Entity<TState, TConfig>, new()
         where TState : EntityState, new()

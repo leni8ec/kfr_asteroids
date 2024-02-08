@@ -1,10 +1,10 @@
 ﻿using Model.Core.Data.State;
 using Model.Core.Interface.Objects;
-using Model.Core.Objects.Game.Base;
+using Model.Core.Objects.Base;
 using Model.Core.Unity.Data.Config;
 using UnityEngine;
 
-namespace Model.Core.Objects.Game {
+namespace Model.Core.Objects {
     public class Player : ColliderEntity<PlayerState, PlayerConfig>, IPlayer {
 
         public Vector3 WeaponWorldPosition => Transform.position + Transform.up * 0.2f;

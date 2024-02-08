@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Model.Core.Data.State.Base;
 using Model.Core.Interface.View;
-using Model.Core.Objects.Game.Base;
+using Model.Core.Objects.Base;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

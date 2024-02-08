@@ -1,11 +1,11 @@
 ﻿using System;
 using Model.Core.Data.State;
 using Model.Core.Interface.Objects;
-using Model.Core.Objects.Game.Base;
+using Model.Core.Objects.Base;
 using Model.Core.Unity.Data.Config;
 using UnityEngine;
 
-namespace Model.Core.Objects.Game {
+namespace Model.Core.Objects {
     public class Ufo : Enemy<UfoState, UfoConfig>, IUfo {
 
         public event Action HuntEvent;

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Model.Core.Objects.Game;
+using Model.Core.Objects;
 using Model.Core.Pools;
 using Model.Core.Unity.Data.Config;
 using UnityEngine;

@@ -1,7 +1,7 @@
 ﻿using Model.Core.Interface.Objects;
 using UnityEngine;
 
-namespace Model.Core.Objects.Game.Base {
+namespace Model.Core.Objects.Base {
     public abstract class EntityBase : IEntity {
 
         // Sugar

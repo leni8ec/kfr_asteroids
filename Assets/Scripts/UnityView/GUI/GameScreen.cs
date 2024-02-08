@@ -1,4 +1,4 @@
-﻿using Model.Core.Objects.Game;
+﻿using Model.Core.Objects;
 using TMPro;
 using UnityEngine;
 using UnityView.Base;

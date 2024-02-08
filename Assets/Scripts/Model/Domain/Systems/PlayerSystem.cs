@@ -1,7 +1,7 @@
 ﻿using Model.Core.Adapters;
 using Model.Core.Data;
 using Model.Core.Interface.View;
-using Model.Core.Objects.Game;
+using Model.Core.Objects;
 using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
 using UnityEngine;

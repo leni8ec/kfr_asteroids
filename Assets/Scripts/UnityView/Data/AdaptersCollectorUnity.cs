@@ -1,6 +1,6 @@
 using Model.Core.Adapters;
 using UnityEngine;
-using UnityView.Objects.World;
+using UnityView.Adapters;
 
 namespace UnityView.Data {
     public class AdaptersCollectorUnity : MonoBehaviour {

@@ -2,8 +2,6 @@
 
 namespace Model.Core.Interface.Objects {
 
-    public interface IEntity : IDestroy, IReset, IUpdate {
-
-    }
+    public interface IEntity : IDestroy, IReset, IUpdate { }
 
 }
