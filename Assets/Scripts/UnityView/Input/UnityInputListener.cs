@@ -1,9 +1,9 @@
 ﻿using Control.Input;
 using UnityEngine.InputSystem;
-using UnityView.GUI;
+using UnityView.Base;
 
 namespace UnityView.Input {
-    public class UnityInputListener : GuiBase {
+    public class UnityInputListener : MonoBase {
 
         // Player Actions
         public InputAction moveAction;

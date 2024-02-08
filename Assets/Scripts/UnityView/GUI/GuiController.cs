@@ -1,8 +1,9 @@
 ﻿using Model.Core.Game;
 using UnityEngine;
+using UnityView.Base;
 
 namespace UnityView.GUI {
-    public class GuiController : GuiBase {
+    public class GuiController : MonoBase {
         public GameObject bgAudio;
         public GameScreen gameScreen;
         public GameOverScreen gameOverScreen;

@@ -1,7 +1,8 @@
-﻿using Model.Core.Interface.Objects;
+﻿using Model.Core.Adapters;
+using Model.Core.Data;
+using Model.Core.Data.State;
+using Model.Core.Interface.Objects;
 using Model.Core.Pools;
-using Model.Core.State;
-using Model.Core.Unity;
 using Model.Domain.Systems.Base;
 
 namespace Model.Domain.Systems {
@@ -10,8 +11,8 @@ namespace Model.Domain.Systems {
 
         private bool active;
 
-        public ObjectsUpdateSystem(StateCollector state, ConfigCollector config, PrefabCollector prefab) {
-            State = state.objects;
+        public ObjectsUpdateSystem(DataCollector data, AdaptersCollector adapters) {
+            State = data.States.objects;
 
             // Game state listeners
             GameStateSystem.NewGameEvent += Play;

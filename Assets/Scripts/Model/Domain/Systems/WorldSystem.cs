@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
-using Model.Core.Config;
+using Model.Core.Adapters;
+using Model.Core.Data;
+using Model.Core.Data.State;
+using Model.Core.Interface.Adapters;
 using Model.Core.Interface.Objects;
-using Model.Core.Objects;
-using Model.Core.Objects.Base;
+using Model.Core.Objects.Game;
+using Model.Core.Objects.Game.Base;
 using Model.Core.Pools;
-using Model.Core.State;
-using Model.Core.Unity;
+using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
@@ -16,7 +18,7 @@ namespace Model.Domain.Systems {
         private WorldConfig Config { get; }
 
         private Player Player { get; }
-        private Camera Camera { get; }
+        private ICameraAdapter Camera { get; }
 
         private BulletPool BulletPool { get; }
 
@@ -26,23 +28,23 @@ namespace Model.Domain.Systems {
 
         private bool active;
 
-        public WorldSystem(StateCollector state, ConfigCollector configCollector, PrefabCollector prefabCollector) {
-            State = state.world;
-            Config = configCollector.world;
+        public WorldSystem(DataCollector data, AdaptersCollector adapters) {
+            State = data.States.world;
+            Config = data.Configs.world;
 
             // Fill objects state
-            ObjectsState objects = state.objects;
-            objects.ufosPool = new UfoPool(prefabCollector.ufo, configCollector.ufo);
+            ObjectsState objects = data.States.objects;
+            objects.ufosPool = new UfoPool(data.Prefabs.ufo, data.Configs.ufo);
             objects.asteroidPools = new Dictionary<AsteroidConfig.Size, AsteroidPool> {
-                { AsteroidConfig.Size.Large, new AsteroidPool(prefabCollector.asteroidLarge, configCollector.asteroidLarge) },
-                { AsteroidConfig.Size.Medium, new AsteroidPool(prefabCollector.asteroidMedium, configCollector.asteroidMedium) },
-                { AsteroidConfig.Size.Small, new AsteroidPool(prefabCollector.asteroidSmall, configCollector.asteroidSmall) }
+                { AsteroidConfig.Size.Large, new AsteroidPool(data.Prefabs.asteroidLarge, data.Configs.asteroidLarge) },
+                { AsteroidConfig.Size.Medium, new AsteroidPool(data.Prefabs.asteroidMedium, data.Configs.asteroidMedium) },
+                { AsteroidConfig.Size.Small, new AsteroidPool(data.Prefabs.asteroidSmall, data.Configs.asteroidSmall) }
             };
 
 
             // Link properties
+            Camera = adapters.camera;
             Player = objects.player;
-            Camera = objects.camera;
             BulletPool = objects.ammo1Pool;
             UfoPool = objects.ufosPool;
             AsteroidPools = objects.asteroidPools;
@@ -108,7 +110,7 @@ namespace Model.Domain.Systems {
 
         private Rect GetWorldLimits(float screenOffset) {
             Vector2 min = Camera.ScreenToWorldPoint(Vector3.zero);
-            Vector2 max = Camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
+            Vector2 max = Camera.ScreenToWorldPoint(new Vector3(Camera.ScreenWidth, Camera.ScreenHeight));
             Rect limits = new(min.x - screenOffset, min.y - screenOffset, max.x - min.x + screenOffset * 2, max.y - min.y + screenOffset * 2);
             return limits;
         }

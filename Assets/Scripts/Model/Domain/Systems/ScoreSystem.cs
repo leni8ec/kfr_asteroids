@@ -1,14 +1,15 @@
-﻿using Model.Core.Interface.Objects;
-using Model.Core.State;
-using Model.Core.Unity;
+﻿using Model.Core.Adapters;
+using Model.Core.Data;
+using Model.Core.Data.State;
+using Model.Core.Interface.Objects;
 using Model.Domain.Systems.Base;
 
 namespace Model.Domain.Systems {
     public class ScoreSystem : SystemBase {
         private ScoreState State { get; }
 
-        public ScoreSystem(StateCollector state, ConfigCollector config, PrefabCollector prefab) {
-            State = state.score;
+        public ScoreSystem(DataCollector data, AdaptersCollector adapters) {
+            State = data.States.score;
 
             CollisionSystem.EnemyHit += EnemyHitHandler;
             GameStateSystem.NewGameEvent += ResetHandler;

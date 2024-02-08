@@ -1,4 +1,4 @@
-﻿using Model.Core.State.Base;
+﻿using Model.Core.Data.State.Base;
 using UnityEngine;
 
 namespace Model.Core.Interface.Containers {

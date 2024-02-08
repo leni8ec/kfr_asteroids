@@ -1,10 +1,11 @@
-﻿using Model.Core.Config;
+﻿using Model.Core.Adapters;
+using Model.Core.Data;
+using Model.Core.Data.State;
 using Model.Core.Interface.Objects;
-using Model.Core.Objects;
+using Model.Core.Objects.Game;
 using Model.Core.Pools;
 using Model.Core.Pools.Base;
-using Model.Core.State;
-using Model.Core.Unity;
+using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
 using UnityEngine;
 
@@ -29,21 +30,21 @@ namespace Model.Domain.Systems {
 
         private bool active;
 
-        public WeaponSystem(StateCollector state, ConfigCollector configCollector, PrefabCollector prefabCollector) {
-            State = state.weapon;
-            Player = state.objects.player;
+        public WeaponSystem(DataCollector data, AdaptersCollector adapters) {
+            State = data.States.weapon;
+            Player = data.States.objects.player;
 
             // Fill objects state
-            ObjectsState objects = state.objects;
-            objects.ammo1Pool = new BulletPool(prefabCollector.bullet, configCollector.bullet);
-            objects.ammo2Pool = new LaserPool(prefabCollector.laser, configCollector.laser);
+            ObjectsState objects = data.States.objects;
+            objects.ammo1Pool = new BulletPool(data.Prefabs.bullet, data.Configs.bullet);
+            objects.ammo2Pool = new LaserPool(data.Prefabs.laser, data.Configs.laser);
 
             // Link properties
             Ammo1Pool = objects.ammo1Pool;
             Ammo2Pool = objects.ammo2Pool;
 
-            Ammo1Config = configCollector.bullet;
-            Ammo2Config = configCollector.laser;
+            Ammo1Config = data.Configs.bullet;
+            Ammo2Config = data.Configs.laser;
 
             // Game state listeners
             GameStateSystem.NewGameEvent += Play;

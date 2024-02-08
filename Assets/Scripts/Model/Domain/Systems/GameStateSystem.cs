@@ -1,8 +1,9 @@
 ﻿using System;
+using Model.Core.Adapters;
+using Model.Core.Data;
+using Model.Core.Data.State;
 using Model.Core.Game;
 using Model.Core.Interface.Objects;
-using Model.Core.State;
-using Model.Core.Unity;
 using Model.Domain.Systems.Base;
 using UnityEngine;
 
@@ -15,8 +16,8 @@ namespace Model.Domain.Systems {
         public static event Action GameOverEvent;
 
 
-        public GameStateSystem(StateCollector state, ConfigCollector config, PrefabCollector prefab) {
-            State = state.game;
+        public GameStateSystem(DataCollector data, AdaptersCollector adapters) {
+            State = data.States.game;
 
             CollisionSystem.PlayerHit += PlayerHitHandler;
             State.ContinueFlag.Changed += ContinueFlagChangedHandler;

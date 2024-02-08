@@ -1,11 +1,12 @@
-using Model.Core.State;
+using Model.Core.Data.State;
+using Model.Core.Data.State.Base;
 
 namespace Control.Input {
 
     public class InputHandler {
-        private StateCollector States { get; }
+        private StatesCollector States { get; }
 
-        public InputHandler(StateCollector states) {
+        public InputHandler(StatesCollector states) {
             States = states;
         }
 

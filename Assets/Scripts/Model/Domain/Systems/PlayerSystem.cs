@@ -1,8 +1,8 @@
-﻿using Model.Core.Config;
+﻿using Model.Core.Adapters;
+using Model.Core.Data;
 using Model.Core.Interface.View;
-using Model.Core.Objects;
-using Model.Core.State;
-using Model.Core.Unity;
+using Model.Core.Objects.Game;
+using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
 using UnityEngine;
 
@@ -12,10 +12,10 @@ namespace Model.Domain.Systems {
 
         private bool active;
 
-        public PlayerSystem(StateCollector state, ConfigCollector configCollector, PrefabCollector prefabCollector) {
+        public PlayerSystem(DataCollector data, AdaptersCollector adapters) {
             // Fill objects state
-            Player createdPlayer = CreatePlayer(prefabCollector.player, configCollector.player);
-            state.objects.player = createdPlayer;
+            Player createdPlayer = CreatePlayer(data.Prefabs.player, data.Configs.player);
+            data.States.objects.player = createdPlayer;
 
             // Link properties
             Player = createdPlayer;

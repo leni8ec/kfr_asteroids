@@ -1,7 +1,8 @@
 ﻿using TMPro;
+using UnityView.Base;
 
 namespace UnityView.GUI {
-    public class GameOverScreen : GuiBase {
+    public class GameOverScreen : MonoBase {
         public TextMeshProUGUI score;
 
         private void OnEnable() {

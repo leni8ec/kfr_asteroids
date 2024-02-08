@@ -1,7 +1,7 @@
-﻿using Model.Core.Config;
-using Model.Core.Objects;
-using Model.Core.State;
-using Model.Core.Unity;
+﻿using Model.Core.Adapters;
+using Model.Core.Data;
+using Model.Core.Objects.Game;
+using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
 using UnityEngine;
 
@@ -11,8 +11,8 @@ namespace Model.Domain.Systems {
 
         private bool active;
 
-        public AudioSystem(StateCollector state, ConfigCollector config, PrefabCollector prefab) {
-            Config = config.sounds;
+        public AudioSystem(DataCollector data, AdaptersCollector adapters) {
+            Config = data.Configs.sounds;
 
             Subscribe();
 

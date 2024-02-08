@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
-using Model.Core.Config;
+using Model.Core.Adapters;
+using Model.Core.Data;
+using Model.Core.Data.State;
 using Model.Core.Interface.Objects;
-using Model.Core.Objects;
+using Model.Core.Objects.Game;
 using Model.Core.Pools;
-using Model.Core.State;
-using Model.Core.Unity;
+using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
 using UnityEngine;
 
@@ -26,8 +27,8 @@ namespace Model.Domain.Systems {
         public static event EnemyHitEvent EnemyHit;
 
 
-        public CollisionSystem(StateCollector state, ConfigCollector config, PrefabCollector prefab) {
-            ObjectsState objects = state.objects;
+        public CollisionSystem(DataCollector data, AdaptersCollector adapters) {
+            ObjectsState objects = data.States.objects;
 
             // Link properties
             Player = (ICollider)objects.player;

@@ -1,9 +1,10 @@
-﻿using Model.Core.Objects;
+﻿using Model.Core.Objects.Game;
 using TMPro;
 using UnityEngine;
+using UnityView.Base;
 
 namespace UnityView.GUI {
-    public class GameScreen : GuiBase {
+    public class GameScreen : MonoBase {
         public TextMeshProUGUI points;
         public TextMeshProUGUI coords;
         public TextMeshProUGUI angle;
@@ -16,7 +17,7 @@ namespace UnityView.GUI {
         }
 
         private void Update() {
-            Player player = SceneData.State.objects.player;
+            Player player = SceneData.States.objects.player;
             if (player == null) return; // if player doesn't initialized
 
             Transform playerTransform = player.Transform;

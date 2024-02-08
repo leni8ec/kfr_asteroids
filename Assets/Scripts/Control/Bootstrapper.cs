@@ -1,13 +1,13 @@
-﻿using Model.Core.State;
-using Model.Core.Unity;
+﻿using Model.Core.Adapters;
+using Model.Core.Data;
 using Model.Domain.Processors;
 
 namespace Control {
     public class Bootstrapper {
         private readonly SystemsProcessor systemsProcessor;
 
-        public Bootstrapper( StateCollector states, ConfigCollector configs, PrefabCollector prefabs) {
-            systemsProcessor = new SystemsProcessor(states, configs, prefabs);
+        public Bootstrapper(DataCollector data, AdaptersCollector adapters) {
+            systemsProcessor = new SystemsProcessor(data, adapters);
         }
 
         public void Upd(float deltaTime) {
