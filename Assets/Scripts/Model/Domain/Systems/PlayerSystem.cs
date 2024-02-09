@@ -1,6 +1,6 @@
 ﻿using Model.Core.Adapters;
 using Model.Core.Data;
-using Model.Core.Objects;
+using Model.Core.Entity;
 using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
 
@@ -11,9 +11,9 @@ namespace Model.Domain.Systems {
         private bool active;
 
         public PlayerSystem(DataCollector data, AdaptersCollector adapters) {
-            // Fill objects state
+            // Fill entities state
             Player createdPlayer = CreatePlayer(data.Configs.player);
-            data.States.objects.player = createdPlayer;
+            data.States.entity.player = createdPlayer;
 
             // Link properties
             Player = createdPlayer;

@@ -1,6 +1,6 @@
 ﻿using Model.Core.Adapters;
 using Model.Core.Data;
-using Model.Core.Objects;
+using Model.Core.Entity;
 using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
 using UnityEngine;

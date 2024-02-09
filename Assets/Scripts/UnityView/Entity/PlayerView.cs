@@ -1,10 +1,10 @@
 ﻿using Model.Core.Data.State;
-using Model.Core.Objects;
+using Model.Core.Entity;
 using Model.Core.Unity.Data.Config;
 using UnityEngine;
-using UnityView.Objects.Base;
+using UnityView.Entity.Base;
 
-namespace UnityView.Objects {
+namespace UnityView.Entity {
     public class PlayerView : EntityView<Player, PlayerState, PlayerConfig> {
         [Space]
         [SerializeField] private SpriteRenderer spriteRenderer;

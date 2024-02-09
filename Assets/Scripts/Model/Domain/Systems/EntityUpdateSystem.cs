@@ -1,18 +1,18 @@
 ﻿using Model.Core.Adapters;
 using Model.Core.Data;
 using Model.Core.Data.State;
-using Model.Core.Interface.Objects;
+using Model.Core.Interface.Entity;
 using Model.Core.Pools;
 using Model.Domain.Systems.Base;
 
 namespace Model.Domain.Systems {
-    public class ObjectsUpdateSystem : SystemBase, IUpdateSystem {
-        private ObjectsState State { get; }
+    public class EntityUpdateSystem : SystemBase, IUpdateSystem {
+        private EntitiesState State { get; }
 
         private bool active;
 
-        public ObjectsUpdateSystem(DataCollector data, AdaptersCollector adapters) {
-            State = data.States.objects;
+        public EntityUpdateSystem(DataCollector data, AdaptersCollector adapters) {
+            State = data.States.entity;
 
             // Game state listeners
             GameStateSystem.NewGameEvent += Play;

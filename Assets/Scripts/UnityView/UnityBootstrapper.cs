@@ -23,7 +23,7 @@ namespace UnityView {
             DataCollector data = new(states, sceneData.configsCollector);
             AdaptersCollector adaptersCollector = sceneData.adaptersCollectorUnity.CreateCollector();
 
-            // Fill objects state
+            // Fill entities state
             sceneData.SetGameData(states);
 
             // Entities

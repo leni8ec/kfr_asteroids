@@ -1,11 +1,10 @@
 ﻿using Control.Model;
-using Model.Core.Interface.Objects;
+using Model.Core.Interface.Entity;
 using Model.Core.Interface.View;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace UnityView.Handlers {
-    // todo
     public class UnityEntityCreateListener<TEntityView> : IEntityCreateListener where TEntityView : IEntityView {
 
         protected GameObject prefab;

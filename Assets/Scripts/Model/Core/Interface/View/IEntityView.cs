@@ -1,4 +1,4 @@
-﻿using Model.Core.Interface.Objects;
+﻿using Model.Core.Interface.Entity;
 using UnityEngine;
 
 namespace Model.Core.Interface.View {

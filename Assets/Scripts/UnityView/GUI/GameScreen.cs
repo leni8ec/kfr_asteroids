@@ -1,4 +1,4 @@
-﻿using Model.Core.Objects;
+﻿using Model.Core.Entity;
 using TMPro;
 using UnityEngine;
 using UnityView.Base;
@@ -17,7 +17,7 @@ namespace UnityView.GUI {
         }
 
         private void Update() {
-            Player player = SceneData.States.objects.player;
+            Player player = SceneData.States.entity.player;
             if (player == null) return; // if player doesn't initialized
 
             Transform playerTransform = player.Transform;
@@ -25,7 +25,7 @@ namespace UnityView.GUI {
 
             coords.SetText($"Coords: [{playerPosition.x:F1}:{playerPosition.y:F1}]");
             angle.SetText($"Angle: {playerTransform.eulerAngles.z:F0}");
-            speed.SetText($"Speed: {States.objects.player.State.speed:N}");
+            speed.SetText($"Speed: {States.entity.player.State.speed:N}");
             laserCount.SetText($"Laser Count: {States.weapon.laserShotsCount}");
             laserCountdown.SetText($"Laser Countdown: {States.weapon.laserShotCountdownDuration:0.00}");
         }

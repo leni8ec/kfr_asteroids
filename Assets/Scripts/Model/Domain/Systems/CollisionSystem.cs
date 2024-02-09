@@ -2,8 +2,8 @@
 using Model.Core.Adapters;
 using Model.Core.Data;
 using Model.Core.Data.State;
-using Model.Core.Interface.Objects;
-using Model.Core.Objects;
+using Model.Core.Entity;
+using Model.Core.Interface.Entity;
 using Model.Core.Pools;
 using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
@@ -13,7 +13,7 @@ namespace Model.Domain.Systems {
     public class CollisionSystem : SystemBase, IUpdateSystem {
         private ICollider Player { get; }
 
-        // Active objects in world
+        // Active entities in world
         private Dictionary<AsteroidConfig.Size, AsteroidPool> AsteroidPools { get; }
         private IEnumerable<Ufo> Ufos { get; }
         private IEnumerable<Bullet> Bullets { get; }
@@ -28,14 +28,14 @@ namespace Model.Domain.Systems {
 
 
         public CollisionSystem(DataCollector data, AdaptersCollector adapters) {
-            ObjectsState objects = data.States.objects;
+            EntitiesState entities = data.States.entity;
 
             // Link properties
-            Player = (ICollider)objects.player;
-            AsteroidPools = objects.asteroidPools;
-            Ufos = objects.ufosPool.Active;
-            Bullets = objects.ammo1Pool.Active;
-            Lasers = objects.ammo2Pool.Active;
+            Player = (ICollider)entities.player;
+            AsteroidPools = entities.asteroidPools;
+            Ufos = entities.ufosPool.Active;
+            Bullets = entities.ammo1Pool.Active;
+            Lasers = entities.ammo2Pool.Active;
         }
 
         public void Upd(float deltaTime) {

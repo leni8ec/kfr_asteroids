@@ -1,14 +1,10 @@
 ﻿using System.Collections.Generic;
-using Model.Core.Objects;
+using Model.Core.Entity;
 using Model.Core.Pools;
 using Model.Core.Unity.Data.Config;
-using UnityEngine;
 
 namespace Model.Core.Data.State {
-    public class ObjectsState {
-
-        // Base
-        public Camera camera;
+    public class EntitiesState {
 
         // Player
         public Player player;

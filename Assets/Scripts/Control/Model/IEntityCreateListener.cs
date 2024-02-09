@@ -1,4 +1,4 @@
-﻿using Model.Core.Interface.Objects;
+﻿using Model.Core.Interface.Entity;
 
 namespace Control.Model {
     public interface IEntityCreateListener {

@@ -19,7 +19,7 @@ namespace Model.Domain.Processors {
             Add(new PlayerSystem(data, adapters)); //        1. Player (player control)
             Add(new WeaponSystem(data, adapters)); //        2. Weapon (spawn ammo)
             Add(new WorldSystem(data, adapters)); //         3. World (spawn enemies)
-            Add(new ObjectsUpdateSystem(data, adapters)); // 4. Objects update
+            Add(new EntityUpdateSystem(data, adapters)); //  4. Entities update
             Add(new CollisionSystem(data, adapters)); //     6. Collision
             Add(new ScoreSystem(data, adapters));
             Add(new AudioSystem(data, adapters));

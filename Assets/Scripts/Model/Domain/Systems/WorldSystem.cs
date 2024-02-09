@@ -2,10 +2,10 @@
 using Model.Core.Adapters;
 using Model.Core.Data;
 using Model.Core.Data.State;
+using Model.Core.Entity;
+using Model.Core.Entity.Base;
 using Model.Core.Interface.Adapters;
-using Model.Core.Interface.Objects;
-using Model.Core.Objects;
-using Model.Core.Objects.Base;
+using Model.Core.Interface.Entity;
 using Model.Core.Pools;
 using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
@@ -32,10 +32,10 @@ namespace Model.Domain.Systems {
             State = data.States.world;
             Config = data.Configs.world;
 
-            // Fill objects state
-            ObjectsState objects = data.States.objects;
-            objects.ufosPool = new UfoPool(data.Configs.ufo);
-            objects.asteroidPools = new Dictionary<AsteroidConfig.Size, AsteroidPool> {
+            // Fill entities state
+            EntitiesState entities = data.States.entity;
+            entities.ufosPool = new UfoPool(data.Configs.ufo);
+            entities.asteroidPools = new Dictionary<AsteroidConfig.Size, AsteroidPool> {
                 { AsteroidConfig.Size.Large, new AsteroidPool(data.Configs.asteroidLarge) },
                 { AsteroidConfig.Size.Medium, new AsteroidPool(data.Configs.asteroidMedium) },
                 { AsteroidConfig.Size.Small, new AsteroidPool(data.Configs.asteroidSmall) }
@@ -44,10 +44,10 @@ namespace Model.Domain.Systems {
 
             // Link properties
             Camera = adapters.camera;
-            Player = objects.player;
-            BulletPool = objects.ammo1Pool;
-            UfoPool = objects.ufosPool;
-            AsteroidPools = objects.asteroidPools;
+            Player = entities.player;
+            BulletPool = entities.ammo1Pool;
+            UfoPool = entities.ufosPool;
+            AsteroidPools = entities.asteroidPools;
 
             // Subscribe
             CollisionSystem.EnemyHitEvent += EnemyHitHandler;
@@ -103,7 +103,6 @@ namespace Model.Domain.Systems {
                 }
             }
 
-            // CheckDisposeOutOfScreenObjects(deltaTime);
             ProcessInfinityScreen();
         }
 
@@ -117,10 +116,10 @@ namespace Model.Domain.Systems {
 
         private void ProcessInfinityScreen() {
             Rect worldBorders = GetWorldLimits(Config.screenInfinityOutsideOffset);
-            void ProcessEntity(EntityBase entity) => ProcessObjectOutOfScreen(worldBorders, entity);
+            void ProcessEntity(EntityBase entity) => ProcessEntityOutOfScreen(worldBorders, entity);
 
             // Player
-            ProcessObjectOutOfScreen(worldBorders, Player);
+            ProcessEntityOutOfScreen(worldBorders, Player);
 
             // Enemies
             UfoPool.ForEachActive(ProcessEntity);
@@ -131,7 +130,7 @@ namespace Model.Domain.Systems {
             BulletPool.ForEachActive(ProcessEntity);
         }
 
-        private void ProcessObjectOutOfScreen(Rect worldBorders, EntityBase entity) {
+        private void ProcessEntityOutOfScreen(Rect worldBorders, EntityBase entity) {
             Vector3 pos = entity.Transform.position;
             if (worldBorders.Contains(pos)) return;
 

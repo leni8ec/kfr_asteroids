@@ -1,8 +1,8 @@
 ﻿using Model.Core.Adapters;
 using Model.Core.Data;
 using Model.Core.Data.State;
-using Model.Core.Interface.Objects;
-using Model.Core.Objects;
+using Model.Core.Entity;
+using Model.Core.Interface.Entity;
 using Model.Core.Pools;
 using Model.Core.Pools.Base;
 using Model.Core.Unity.Data.Config;
@@ -32,16 +32,16 @@ namespace Model.Domain.Systems {
 
         public WeaponSystem(DataCollector data, AdaptersCollector adapters) {
             State = data.States.weapon;
-            Player = data.States.objects.player;
+            Player = data.States.entity.player;
 
-            // Fill objects state
-            ObjectsState objects = data.States.objects;
-            objects.ammo1Pool = new BulletPool(data.Configs.bullet);
-            objects.ammo2Pool = new LaserPool(data.Configs.laser);
+            // Fill entities state
+            EntitiesState entities = data.States.entity;
+            entities.ammo1Pool = new BulletPool(data.Configs.bullet);
+            entities.ammo2Pool = new LaserPool(data.Configs.laser);
 
             // Link properties
-            Ammo1Pool = objects.ammo1Pool;
-            Ammo2Pool = objects.ammo2Pool;
+            Ammo1Pool = entities.ammo1Pool;
+            Ammo2Pool = entities.ammo2Pool;
 
             Ammo1Config = data.Configs.bullet;
             Ammo2Config = data.Configs.laser;

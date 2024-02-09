@@ -1,7 +1,7 @@
 ﻿using Control.Model;
-using Model.Core.Objects;
+using Model.Core.Entity;
 using Model.Core.Unity.Data;
-using UnityView.Objects;
+using UnityView.Entity;
 
 namespace UnityView.Handlers {
     public class UnityEntitiesCreateHandler {

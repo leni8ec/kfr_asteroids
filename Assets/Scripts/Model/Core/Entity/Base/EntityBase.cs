@@ -1,7 +1,7 @@
-﻿using Model.Core.Interface.Objects;
+﻿using Model.Core.Interface.Entity;
 using UnityEngine;
 
-namespace Model.Core.Objects.Base {
+namespace Model.Core.Entity.Base {
     public abstract class EntityBase : IEntity {
 
         // Sugar
@@ -30,18 +30,18 @@ namespace Model.Core.Objects.Base {
 
 
         /// <summary>
-        /// Called when object is initialized.
-        /// <para>When data (State and Config) - is set.</para>
+        /// Called when entity is created.
+        /// <para>After data (state and config) - is set.</para>
         /// </summary>
         protected virtual void OnCreate() { }
 
         /// <summary>
-        /// Called on destroy object (before reset)
+        /// Called on destroy entity (before reset)
         /// </summary>
         protected virtual void OnDestroy() { }
 
         /// <summary>
-        /// Called after Destroy and after return object to pool
+        /// Called after Destroy and after return entity to pool
         /// </summary>
         protected virtual void OnReset() { }
 

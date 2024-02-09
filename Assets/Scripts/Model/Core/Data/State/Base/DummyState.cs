@@ -2,7 +2,7 @@
 
 namespace Model.Core.Data.State.Base {
     /// <summary>
-    /// Empty State. Used for new prototype objects
+    /// Empty State. Used for new prototype entities
     /// </summary>
     public class DummyState : IStateData {
 

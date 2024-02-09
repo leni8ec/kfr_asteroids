@@ -2,7 +2,7 @@
     // todo: implement DI
     public class StatesCollector {
 
-        public readonly ObjectsState objects = new();
+        public readonly EntitiesState entity = new();
         public readonly WorldSystemState world = new();
 
         public readonly GameSystemState game = new();

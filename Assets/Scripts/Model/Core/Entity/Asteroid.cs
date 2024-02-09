@@ -1,9 +1,9 @@
 ﻿using Model.Core.Data.State;
-using Model.Core.Interface.Objects;
-using Model.Core.Objects.Base;
+using Model.Core.Entity.Base;
+using Model.Core.Interface.Entity;
 using Model.Core.Unity.Data.Config;
 
-namespace Model.Core.Objects {
+namespace Model.Core.Entity {
     public class Asteroid : Enemy<AsteroidState, AsteroidConfig>, IAsteroid {
         public delegate void ExplosionEventHandler(Asteroid asteroid);
         public static event ExplosionEventHandler ExplosionEvent;

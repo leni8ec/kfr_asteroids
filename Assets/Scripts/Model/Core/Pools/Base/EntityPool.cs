@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Model.Core.Data.State.Base;
-using Model.Core.Objects.Base;
+using Model.Core.Entity.Base;
 using UnityEngine;
 
 namespace Model.Core.Pools.Base {

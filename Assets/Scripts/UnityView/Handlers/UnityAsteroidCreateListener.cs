@@ -1,8 +1,8 @@
-﻿using Model.Core.Interface.Objects;
-using Model.Core.Objects;
+﻿using Model.Core.Entity;
+using Model.Core.Interface.Entity;
 using Model.Core.Unity.Data.Config;
 using UnityEngine;
-using UnityView.Objects;
+using UnityView.Entity;
 
 namespace UnityView.Handlers {
     public class UnityAsteroidCreateListener : UnityEntityCreateListener<AsteroidView> {

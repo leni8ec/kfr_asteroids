@@ -2,7 +2,7 @@
 using Model.Core.Interface.Containers;
 using UnityEngine;
 
-namespace Model.Core.Objects.Base {
+namespace Model.Core.Entity.Base {
     public abstract class Ammo<TState, TConfig> : ColliderEntity<TState, TConfig>
         where TState : EntityState, IDirectionContainer, new()
         where TConfig : ScriptableObject, IColliderRadiusContainer, new() {

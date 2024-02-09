@@ -23,14 +23,14 @@ namespace Control.View {
         }
 
         public void OnMoveAction(bool activeFlag) {
-            States.objects.player.State.MoveState.Value = activeFlag;
+            States.entity.player.State.MoveState.Value = activeFlag;
         }
 
         public void OnRotateAction(bool activeFlag, float value) {
             if (activeFlag) {
-                States.objects.player.State.RotateState.Value = value < 0 ? -1 : 1;
+                States.entity.player.State.RotateState.Value = value < 0 ? -1 : 1;
             } else {
-                States.objects.player.State.RotateState.Value = 0;
+                States.entity.player.State.RotateState.Value = 0;
             }
         }
 

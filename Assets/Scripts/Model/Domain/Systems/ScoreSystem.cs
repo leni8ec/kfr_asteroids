@@ -1,7 +1,7 @@
 ﻿using Model.Core.Adapters;
 using Model.Core.Data;
 using Model.Core.Data.State;
-using Model.Core.Interface.Objects;
+using Model.Core.Interface.Entity;
 using Model.Domain.Systems.Base;
 
 namespace Model.Domain.Systems {

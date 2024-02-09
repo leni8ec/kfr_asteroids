@@ -1,11 +1,11 @@
 ﻿using Model.Core.Data.State.Base;
+using Model.Core.Entity.Base;
 using Model.Core.Interface.Containers;
-using Model.Core.Interface.Objects;
+using Model.Core.Interface.Entity;
 using Model.Core.Interface.View;
-using Model.Core.Objects.Base;
 using UnityEngine;
 
-namespace UnityView.Objects.Base {
+namespace UnityView.Entity.Base {
     public abstract class EntityView<TEntity, TState, TConfig> : MonoBehaviour, IEntityView
         where TEntity : Entity<TState, TConfig>, new()
         where TState : EntityState, new()

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Model.Core.Interface.Objects;
-using Model.Core.Objects.Base;
+using Model.Core.Entity.Base;
+using Model.Core.Interface.Entity;
 using UnityEngine;
 
 namespace Control.Model {
