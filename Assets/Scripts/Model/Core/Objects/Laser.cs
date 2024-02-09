@@ -12,10 +12,6 @@ namespace Model.Core.Objects {
         public event Action FireEvent;
 
 
-        protected override void OnReset() { }
-
-        protected override void Initialize() { }
-
         public void Fire() {
             State.duration = Config.duration;
             Transform.up = State.Direction;

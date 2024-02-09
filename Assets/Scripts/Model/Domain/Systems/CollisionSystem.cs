@@ -20,11 +20,11 @@ namespace Model.Domain.Systems {
         private IEnumerable<Laser> Lasers { get; }
 
         // Events
-        public delegate void PlayerHitEvent(ICollider enemy);
-        public delegate void EnemyHitEvent(ICollider enemy, ICollider ammo);
+        public delegate void PlayerHitEventHandler(ICollider enemy);
+        public delegate void EnemyHitEventHandler(ICollider enemy, ICollider ammo);
 
-        public static event PlayerHitEvent PlayerHit;
-        public static event EnemyHitEvent EnemyHit;
+        public static event PlayerHitEventHandler PlayerHitEvent;
+        public static event EnemyHitEventHandler EnemyHitEvent;
 
 
         public CollisionSystem(DataCollector data, AdaptersCollector adapters) {
@@ -57,7 +57,7 @@ namespace Model.Domain.Systems {
                 bool toBreak = false;
                 foreach (ICollider ammo in Bullets) {
                     if (IsIntersect(enemy, ammo)) {
-                        EnemyHit?.Invoke(enemy, ammo);
+                        EnemyHitEvent?.Invoke(enemy, ammo);
                         toBreak = true;
                         break;
                     }
@@ -75,7 +75,7 @@ namespace Model.Domain.Systems {
                     float distance = Vector2.Distance(enemy.Pos, laserNearestPoint);
                     float collisionDistance = laser.ColliderRadius + enemy.ColliderRadius;
                     if (distance <= collisionDistance) {
-                        EnemyHit?.Invoke(enemy, laser);
+                        EnemyHitEvent?.Invoke(enemy, laser);
                         toBreak = true;
                         // Don't break here (for laser)
                     }
@@ -84,7 +84,7 @@ namespace Model.Domain.Systems {
 
                 // Check player (latest, after bullets)
                 if (IsIntersect(enemy, Player)) {
-                    PlayerHit?.Invoke(enemy);
+                    PlayerHitEvent?.Invoke(enemy);
                     break;
                 }
 

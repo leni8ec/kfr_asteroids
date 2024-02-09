@@ -5,24 +5,19 @@ using Model.Core.Unity.Data.Config;
 
 namespace Model.Core.Objects {
     public class Asteroid : Enemy<AsteroidState, AsteroidConfig>, IAsteroid {
-        public delegate void ExplosionEvent(Asteroid asteroid);
-        public static event ExplosionEvent Explosion;
+        public delegate void ExplosionEventHandler(Asteroid asteroid);
+        public static event ExplosionEventHandler ExplosionEvent;
 
         public float DestroyedFragments => Config.destroyFragments;
         public AsteroidConfig.Size Size => Config.size;
 
 
-        protected override void Initialize() { }
-
-        protected override void OnReset() { }
-
         public override void Upd(float deltaTime) {
             Transform.Translate(State.Direction * (Config.speed * deltaTime));
         }
 
-        public override void Destroy() {
-            Explosion?.Invoke(this); // Explosion must be before Destroy!
-            base.Destroy();
+        protected override void OnDestroy() {
+            ExplosionEvent?.Invoke(this);
         }
 
     }

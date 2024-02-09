@@ -36,8 +36,8 @@ namespace Model.Domain.Systems {
 
             // Fill objects state
             ObjectsState objects = data.States.objects;
-            objects.ammo1Pool = new BulletPool(data.Prefabs.bullet, data.Configs.bullet);
-            objects.ammo2Pool = new LaserPool(data.Prefabs.laser, data.Configs.laser);
+            objects.ammo1Pool = new BulletPool(data.Configs.bullet);
+            objects.ammo2Pool = new LaserPool(data.Configs.laser);
 
             // Link properties
             Ammo1Pool = objects.ammo1Pool;

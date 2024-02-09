@@ -2,11 +2,10 @@
 using Model.Core.Objects;
 using Model.Core.Pools.Base;
 using Model.Core.Unity.Data.Config;
-using UnityEngine;
 
 namespace Model.Core.Pools {
     public class LaserPool : EntityPool<Laser, LaserAmmoState, LaserConfig> {
 
-        public LaserPool(GameObject prefab, LaserConfig config) : base(prefab, config) { }
+        public LaserPool(LaserConfig config) : base(config) { }
     }
 }

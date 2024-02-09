@@ -25,7 +25,7 @@ namespace Model.Domain.Systems {
             WeaponSystem.Fire1Event += () => Play(Config.fire1);
             WeaponSystem.Fire2Event += () => Play(Config.fire2);
 
-            Asteroid.Explosion += asteroid => {
+            Asteroid.ExplosionEvent += asteroid => {
                 if (asteroid.Size == AsteroidConfig.Size.Large) Play(Config.explosionLarge);
                 else if (asteroid.Size == AsteroidConfig.Size.Medium) Play(Config.explosionMedium);
                 else if (asteroid.Size == AsteroidConfig.Size.Small) Play(Config.explosionSmall);

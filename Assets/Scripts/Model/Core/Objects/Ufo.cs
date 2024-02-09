@@ -12,16 +12,14 @@ namespace Model.Core.Objects {
         public event Action ResetEvent;
         public static event Action ExplosionEvent;
 
+
         protected override void OnReset() {
             ResetEvent?.Invoke();
         }
 
-        public override void Destroy() {
-            base.Destroy();
+        protected override void OnDestroy() {
             ExplosionEvent?.Invoke();
         }
-
-        protected override void Initialize() { }
 
         public void SetTarget(Transform target) {
             State.target = target;

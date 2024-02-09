@@ -10,13 +10,12 @@ namespace UnityView.Objects {
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private Sprite[] sprites;
 
+        protected override void SubscribeEvents() { }
 
         private void Start() {
             int index = new Random().Next(sprites.Length);
             spriteRenderer.sprite = sprites[index];
         }
-
-        protected override void SubscribeEvents() { }
 
     }
 }

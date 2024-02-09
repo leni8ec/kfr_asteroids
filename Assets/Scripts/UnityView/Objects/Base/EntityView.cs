@@ -11,37 +11,40 @@ namespace UnityView.Objects.Base {
         where TState : EntityState, new()
         where TConfig : ScriptableObject {
 
-        // Sugar
-        protected TState State => data.State;
-        protected TConfig Config => data.Config;
+        protected TEntity Entity { get; private set; } //      use in 'View'
+        private IDataContainer<TState, TConfig> Data => Entity; //    use internal only
 
-        private IDataContainer<TState, TConfig> data; //    use internal only
-        public TEntity Entity { get; private set; } //      use in 'View'
-        public IEntity EntityLink { get; private set; } //  use in 'Core'
         public GameObject GameObject { get; private set; }
         public Transform Transform { get; private set; }
+
+        // Sugar
+        protected TState State => Data.State;
+        protected TConfig Config => Data.Config;
+
 
         protected virtual void Awake() {
             Transform = transform;
             GameObject = gameObject;
-
-            // Create new Entity object
-            TEntity entity = new();
-            EntityLink = entity;
-            Entity = entity;
-
-            data = entity;
-
-            // Set Unity object required data to state
-            data.State.GameObject = GameObject;
-            data.State.Transform = transform;
-
-            SubscribeEvents();
         }
 
+        public void Create(IEntity entity) {
+            Entity = (TEntity)entity;
+            State.GameObject = GameObject;
+            State.Transform = Transform;
+            SubscribeEvents();
+            OnCreate();
+        }
+
+
+        /// <summary>
+        /// Subscribe for entity events and data changes (called after 'Awake' and before 'OnCreate', 'Start')
+        /// </summary>
         protected abstract void SubscribeEvents();
 
+        /// <summary>
+        /// Called when Entity is created (called after 'Awake', 'SubscribeEvents' and before 'Start')
+        /// </summary>
+        protected virtual void OnCreate() { }
+
     }
-
-
 }

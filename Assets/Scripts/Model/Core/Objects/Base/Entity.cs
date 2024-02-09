@@ -14,10 +14,9 @@ namespace Model.Core.Objects.Base {
         public override Transform Transform => State.Transform;
         public override GameObject GameObject => State.GameObject;
 
-        public void SetConfig(TConfig config) {
+        public void Create(TConfig config) {
             Config = config;
-
-            Initialize();
+            CreateInternal();
         }
 
         public sealed override void Reset() {
@@ -25,18 +24,5 @@ namespace Model.Core.Objects.Base {
             OnReset();
         }
 
-        protected abstract void OnReset();
-
-        public override void Destroy() {
-            base.Destroy();
-            Reset();
-        }
-
-
-        /// <summary>
-        /// Called when object is initialized.
-        /// <para>When data (State and Config) - is set.</para>
-        /// </summary>
-        protected abstract void Initialize();
     }
 }

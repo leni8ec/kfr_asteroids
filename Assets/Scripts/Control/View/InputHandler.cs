@@ -1,7 +1,7 @@
 using Model.Core.Data.State;
 using Model.Core.Data.State.Base;
 
-namespace Control.Input {
+namespace Control.View {
 
     public class InputHandler {
         private StatesCollector States { get; }

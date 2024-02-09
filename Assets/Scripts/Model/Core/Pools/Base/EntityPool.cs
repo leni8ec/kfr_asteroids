@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using Model.Core.Data.State.Base;
-using Model.Core.Interface.View;
 using Model.Core.Objects.Base;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Model.Core.Pools.Base {
     /// <summary>
     ///     Call 'Entity.Destroy()' for Return entity to Pool
     /// </summary>
-    public class EntityPool<TEntity, TState, TConfig> where TEntity : Entity<TState, TConfig>
+    public class EntityPool<TEntity, TState, TConfig>
+        where TEntity : Entity<TState, TConfig>, new()
         where TState : EntityState, new()
-        where TConfig : ScriptableObject, new() {
+        where TConfig : ScriptableObject {
 
         private readonly Stack<TEntity> stack = new();
         private readonly LinkedList<TEntity> active = new(); // use Linked List - as better performance for many add/remove events
@@ -25,22 +24,18 @@ namespace Model.Core.Pools.Base {
 
         private readonly TState state;
         private readonly TConfig config;
-        private readonly GameObject prefab;
 
 
-        protected EntityPool(GameObject prefab, TConfig config) {
-            this.prefab = prefab;
+        protected EntityPool(TConfig config) {
             this.config = config;
         }
 
         private TEntity CreateNewEntity() {
-            GameObject entityObject = Object.Instantiate(prefab);
-            TEntity entity = (TEntity)entityObject.GetComponent<IEntityView>().EntityLink;
-            entity.SetConfig(config);
-            entity.Dispose += e => Return(entity);
+            TEntity entity = new();
+            entity.Create(config);
+            entity.DestroyEvent += () => Return(entity);
             return entity;
         }
-
 
         public TEntity Take() {
             if (!stack.TryPop(out TEntity entity)) entity = CreateNewEntity();

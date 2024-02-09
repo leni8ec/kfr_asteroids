@@ -34,11 +34,11 @@ namespace Model.Domain.Systems {
 
             // Fill objects state
             ObjectsState objects = data.States.objects;
-            objects.ufosPool = new UfoPool(data.Prefabs.ufo, data.Configs.ufo);
+            objects.ufosPool = new UfoPool(data.Configs.ufo);
             objects.asteroidPools = new Dictionary<AsteroidConfig.Size, AsteroidPool> {
-                { AsteroidConfig.Size.Large, new AsteroidPool(data.Prefabs.asteroidLarge, data.Configs.asteroidLarge) },
-                { AsteroidConfig.Size.Medium, new AsteroidPool(data.Prefabs.asteroidMedium, data.Configs.asteroidMedium) },
-                { AsteroidConfig.Size.Small, new AsteroidPool(data.Prefabs.asteroidSmall, data.Configs.asteroidSmall) }
+                { AsteroidConfig.Size.Large, new AsteroidPool(data.Configs.asteroidLarge) },
+                { AsteroidConfig.Size.Medium, new AsteroidPool(data.Configs.asteroidMedium) },
+                { AsteroidConfig.Size.Small, new AsteroidPool(data.Configs.asteroidSmall) }
             };
 
 
@@ -50,8 +50,8 @@ namespace Model.Domain.Systems {
             AsteroidPools = objects.asteroidPools;
 
             // Subscribe
-            CollisionSystem.EnemyHit += EnemyHitHandler;
-            Asteroid.Explosion += AsteroidExplosionHandler;
+            CollisionSystem.EnemyHitEvent += EnemyHitHandler;
+            Asteroid.ExplosionEvent += AsteroidExplosionHandler;
 
             // Game state
             GameStateSystem.NewGameEvent += PlayHandler;

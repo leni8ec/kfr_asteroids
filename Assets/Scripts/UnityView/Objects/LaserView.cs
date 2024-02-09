@@ -9,7 +9,6 @@ namespace UnityView.Objects {
         [SerializeField] private Transform scaledTransform;
         [SerializeField] private SpriteRenderer laserSprite;
 
-
         protected override void SubscribeEvents() {
             Entity.FireEvent += FireHandle;
         }

@@ -1,10 +1,8 @@
 ﻿using Model.Core.Adapters;
 using Model.Core.Data;
-using Model.Core.Interface.View;
 using Model.Core.Objects;
 using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
-using UnityEngine;
 
 namespace Model.Domain.Systems {
     public class PlayerSystem : SystemBase, IUpdateSystem {
@@ -14,7 +12,7 @@ namespace Model.Domain.Systems {
 
         public PlayerSystem(DataCollector data, AdaptersCollector adapters) {
             // Fill objects state
-            Player createdPlayer = CreatePlayer(data.Prefabs.player, data.Configs.player);
+            Player createdPlayer = CreatePlayer(data.Configs.player);
             data.States.objects.player = createdPlayer;
 
             // Link properties
@@ -37,11 +35,10 @@ namespace Model.Domain.Systems {
         }
 
 
-        private Player CreatePlayer(GameObject playerPrefab, PlayerConfig playerConfig) {
-            GameObject playerObject = Object.Instantiate(playerPrefab);
-            Player targetPlayer = (Player)playerObject.GetComponent<IEntityView>().EntityLink;
-            targetPlayer.SetConfig(playerConfig);
-            return targetPlayer;
+        private Player CreatePlayer(PlayerConfig playerConfig) {
+            Player player = new Player();
+            player.Create(playerConfig);
+            return player;
         }
 
 

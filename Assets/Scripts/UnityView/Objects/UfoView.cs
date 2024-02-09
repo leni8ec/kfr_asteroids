@@ -11,11 +11,10 @@ namespace UnityView.Objects {
 
         protected override void SubscribeEvents() {
             Entity.HuntEvent += HuntHandler;
-            Entity.ResetEvent += ResetHandler;
+            Entity.DestroyEvent += DestroyHandler;
         }
 
-
-        private void ResetHandler() {
+        private void DestroyHandler() {
             huntAudio.Stop();
         }
 

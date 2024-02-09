@@ -19,7 +19,7 @@ namespace Model.Domain.Systems {
         public GameStateSystem(DataCollector data, AdaptersCollector adapters) {
             State = data.States.game;
 
-            CollisionSystem.PlayerHit += PlayerHitHandler;
+            CollisionSystem.PlayerHitEvent += PlayerHitHandler;
             State.ContinueFlag.Changed += ContinueFlagChangedHandler;
 
             NewGame();

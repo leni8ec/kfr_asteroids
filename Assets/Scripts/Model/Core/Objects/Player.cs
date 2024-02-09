@@ -9,9 +9,6 @@ namespace Model.Core.Objects {
 
         public Vector3 WeaponWorldPosition => Transform.position + Transform.up * 0.2f;
 
-        protected override void Initialize() { }
-
-        protected override void OnReset() { }
 
         public override void Upd(float deltaTime) {
             // Moving

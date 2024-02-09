@@ -12,12 +12,12 @@ namespace Model.Core.Unity.Data.Config {
         public float shotRestoreCountdown = 3;
         [Space]
         [Tooltip("shots per sec")]
-        public float fireRate = 0.3f;
+        public float fireRate = 1f;
         [Space]
-        public float maxDistance = 5;
+        public float maxDistance = 8;
         [Space]
         [Tooltip("lifetime")]
-        public float duration = 0.7f;
+        public float duration = 1f;
 
         [Header("Collision")]
         public float colliderRadius = 0.05f;

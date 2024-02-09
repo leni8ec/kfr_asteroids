@@ -11,7 +11,7 @@ namespace Model.Domain.Systems {
         public ScoreSystem(DataCollector data, AdaptersCollector adapters) {
             State = data.States.score;
 
-            CollisionSystem.EnemyHit += EnemyHitHandler;
+            CollisionSystem.EnemyHitEvent += EnemyHitHandler;
             GameStateSystem.NewGameEvent += ResetHandler;
         }
 

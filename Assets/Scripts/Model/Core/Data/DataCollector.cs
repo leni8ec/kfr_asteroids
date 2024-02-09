@@ -6,12 +6,10 @@ namespace Model.Core.Data {
 
         public StatesCollector States { get; }
         public ConfigsCollector Configs { get; }
-        public PrefabsCollector Prefabs { get; }
 
-        public DataCollector(StatesCollector statesCollector, ConfigsCollector configsCollector, PrefabsCollector prefabsCollector) {
+        public DataCollector(StatesCollector statesCollector, ConfigsCollector configsCollector) {
             this.States = statesCollector;
             this.Configs = configsCollector;
-            this.Prefabs = prefabsCollector;
         }
     }
 }
