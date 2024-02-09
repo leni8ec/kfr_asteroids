@@ -2,8 +2,10 @@
 using Model.Core.Adapters;
 using Model.Core.Data;
 using Model.Core.Data.State;
+using Model.Core.Data.State.Base;
 using Model.Core.Entity;
 using Model.Core.Entity.Base;
+using Model.Core.Game;
 using Model.Core.Interface.Adapters;
 using Model.Core.Interface.Entity;
 using Model.Core.Pools;
@@ -26,6 +28,7 @@ namespace Model.Domain.Systems {
         private Dictionary<AsteroidConfig.Size, AsteroidPool> AsteroidPools { get; }
 
 
+        private ValueChange<GameStatus> GameStatus { get; }
         private bool active;
 
         public WorldSystem(DataCollector data, AdaptersCollector adapters) {
@@ -48,6 +51,7 @@ namespace Model.Domain.Systems {
             BulletPool = entities.ammo1Pool;
             UfoPool = entities.ufosPool;
             AsteroidPools = entities.asteroidPools;
+            GameStatus = data.States.game.Status;
 
             // Subscribe
             CollisionSystem.EnemyHitEvent += EnemyHitHandler;
@@ -197,6 +201,8 @@ namespace Model.Domain.Systems {
         }
 
         private void AsteroidExplosionHandler(Asteroid destroyedAsteroid) {
+            if (GameStatus.Value != Core.Game.GameStatus.Playing) return; // hack
+
             if (destroyedAsteroid.Size == AsteroidConfig.Size.Medium) return; // Don't split medium asteroids
             if (destroyedAsteroid.Size == AsteroidConfig.Size.Small) return;
 
