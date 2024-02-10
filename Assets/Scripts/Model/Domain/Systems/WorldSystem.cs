@@ -68,7 +68,6 @@ namespace Model.Domain.Systems {
             State.ufoSpawnCountdown = 1 / Config.ufoSpawnRate;
         }
 
-
         private void Reset() {
             Disable();
             State.Reset();

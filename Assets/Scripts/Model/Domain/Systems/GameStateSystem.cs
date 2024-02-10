@@ -8,7 +8,7 @@ using Model.Domain.Systems.Base;
 using UnityEngine;
 
 namespace Model.Domain.Systems {
-    public class GameStateSystem : SystemBase {
+    public class GameStateSystem : SystemBase, IStartSystem {
         private GameSystemState State { get; }
 
         // Events
@@ -21,7 +21,10 @@ namespace Model.Domain.Systems {
 
             CollisionSystem.PlayerHitEvent += PlayerHitHandler;
             State.ContinueFlag.Changed += ContinueFlagChangedHandler;
+        }
 
+        public void Start() {
+            // Call "New Game" automatically on system start
             NewGame();
         }
 
@@ -47,5 +50,6 @@ namespace Model.Domain.Systems {
             GameOverEvent?.Invoke();
             Debug.Log("Game Over");
         }
+
     }
 }

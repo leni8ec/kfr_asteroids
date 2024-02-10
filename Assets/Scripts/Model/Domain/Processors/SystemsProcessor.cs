@@ -24,6 +24,15 @@ namespace Model.Domain.Processors {
             Add(new ScoreSystem(data, adapters));
             Add(new AudioSystem(data, adapters));
             Add(new GameStateSystem(data, adapters)); //     [Last] NewGame event
+
+
+            // Called after all systems constructors is called
+            Initialization();
+        }
+
+        private void Initialization() {
+            // Init systems
+            foreach (ISystem system in systems.Values) system.Initialize();
         }
 
         private void Add<T>(T system) where T : ISystem {
