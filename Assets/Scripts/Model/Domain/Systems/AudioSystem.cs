@@ -12,7 +12,6 @@ namespace Model.Domain.Systems {
         private SoundsConfig Config { get; }
 
         private ValueChange<GameStatus> GameStatus { get; }
-        private bool active;
 
         public AudioSystem(DataCollector data, AdaptersCollector adapters) {
             Config = data.Configs.sounds;
@@ -21,8 +20,8 @@ namespace Model.Domain.Systems {
             Subscribe();
 
             // Game state
-            GameStateSystem.NewGameEvent += () => active = true;
-            GameStateSystem.GameOverEvent += () => active = false;
+            GameStateSystem.NewGameEvent += Enable;
+            GameStateSystem.GameOverEvent += Disable;
         }
 
         private void Subscribe() {
@@ -40,7 +39,7 @@ namespace Model.Domain.Systems {
         }
 
         private void Play(AudioClip clip) {
-            if (!active || GameStatus.Value != Core.Game.GameStatus.Playing) return;
+            if (!Active || GameStatus.Value != Core.Game.GameStatus.Playing) return;
             AudioSource.PlayClipAtPoint(clip, Vector3.zero);
         }
 

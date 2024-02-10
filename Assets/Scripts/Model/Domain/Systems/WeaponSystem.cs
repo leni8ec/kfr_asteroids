@@ -28,8 +28,6 @@ namespace Model.Domain.Systems {
 
         private Player Player { get; }
 
-        private bool active;
-
         public WeaponSystem(DataCollector data, AdaptersCollector adapters) {
             State = data.States.weapon;
             Player = data.States.entity.player;
@@ -52,12 +50,12 @@ namespace Model.Domain.Systems {
         }
 
         private void Play() {
-            active = true;
+            Enable();
             State.laserShotCountdownDuration = Ammo2Config.shotRestoreCountdown;
         }
 
         private void Reset() {
-            active = false;
+            Disable();
 
             // Destroy Ammo
             void DestroyEntity(IEntity entity) => entity.Destroy();
@@ -68,8 +66,6 @@ namespace Model.Domain.Systems {
         }
 
         public void Upd(float deltaTime) {
-            if (!active) return;
-
             bool fired = State.FireState.Value != WeaponSystemState.Weapon.Empty;
             if (fired && State.FireState.Value.HasFlag(WeaponSystemState.Weapon.Gun) && State.fire1Countdown <= 0) {
                 State.fire1Countdown = Fire1Delay;

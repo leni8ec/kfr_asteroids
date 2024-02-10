@@ -9,28 +9,17 @@ namespace Model.Domain.Systems {
     public class EntityUpdateSystem : SystemBase, IUpdateSystem {
         private EntitiesState State { get; }
 
-        private bool active;
 
         public EntityUpdateSystem(DataCollector data, AdaptersCollector adapters) {
             State = data.States.entity;
 
-            // Game state listeners
-            GameStateSystem.NewGameEvent += Play;
-            GameStateSystem.GameOverEvent += Reset;
-        }
-
-        private void Play() {
-            active = true;
-        }
-
-        private void Reset() {
-            active = false;
+            // Game state
+            GameStateSystem.NewGameEvent += Enable;
+            GameStateSystem.GameOverEvent += Disable;
         }
 
 
         public void Upd(float deltaTime) {
-            if (!active) return;
-
             // Update Player
             State.player.Upd(deltaTime);
 

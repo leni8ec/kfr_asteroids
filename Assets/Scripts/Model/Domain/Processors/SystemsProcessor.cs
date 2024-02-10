@@ -36,7 +36,7 @@ namespace Model.Domain.Processors {
 
         public void Upd(float deltaTime) {
             foreach (IUpdateSystem updateSystem in updateSystems) {
-                updateSystem.Upd(deltaTime);
+                if (updateSystem.Active) updateSystem.Upd(deltaTime);
             }
         }
     }

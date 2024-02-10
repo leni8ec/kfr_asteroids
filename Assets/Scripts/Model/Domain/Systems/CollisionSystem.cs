@@ -36,6 +36,10 @@ namespace Model.Domain.Systems {
             Ufos = entities.ufosPool.Active;
             Bullets = entities.ammo1Pool.Active;
             Lasers = entities.ammo2Pool.Active;
+
+            // Game state
+            GameStateSystem.NewGameEvent += Enable;
+            GameStateSystem.GameOverEvent += Disable;
         }
 
         public void Upd(float deltaTime) {

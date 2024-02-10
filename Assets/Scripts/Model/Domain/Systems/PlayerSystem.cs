@@ -5,10 +5,8 @@ using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
 
 namespace Model.Domain.Systems {
-    public class PlayerSystem : SystemBase, IUpdateSystem {
+    public class PlayerSystem : SystemBase {
         private Player Player { get; }
-
-        private bool active;
 
         public PlayerSystem(DataCollector data, AdaptersCollector adapters) {
             // Fill entities state
@@ -24,12 +22,10 @@ namespace Model.Domain.Systems {
         }
 
         private void Play() {
-            active = true;
             Player.State.Active.Value = true;
         }
 
         private void Reset() {
-            active = false;
             Player.State.Active.Value = false;
             Player.Reset();
         }
@@ -41,10 +37,5 @@ namespace Model.Domain.Systems {
             return player;
         }
 
-
-        public void Upd(float deltaTime) {
-            if (!active) return;
-
-        }
     }
 }

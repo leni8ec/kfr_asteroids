@@ -29,7 +29,6 @@ namespace Model.Domain.Systems {
 
 
         private ValueChange<GameStatus> GameStatus { get; }
-        private bool active;
 
         public WorldSystem(DataCollector data, AdaptersCollector adapters) {
             State = data.States.world;
@@ -63,7 +62,7 @@ namespace Model.Domain.Systems {
         }
 
         private void PlayHandler() {
-            active = true;
+            Enable();
 
             State.asteroidSpawnCountdown = 1 / Config.asteroidsSpawnRate;
             State.ufoSpawnCountdown = 1 / Config.ufoSpawnRate;
@@ -71,7 +70,7 @@ namespace Model.Domain.Systems {
 
         private void ResetHandler() {
             Reset();
-            active = false;
+            Disable();
 
             void Destroy(IEntity entity) => entity.Destroy();
             UfoPool.ForEachActive(Destroy);
@@ -85,8 +84,6 @@ namespace Model.Domain.Systems {
         }
 
         public void Upd(float deltaTime) {
-            if (!active) return;
-
             // Spawn
             if ((State.asteroidSpawnCountdown -= deltaTime) <= 0) {
                 // Check asteroids count limit
