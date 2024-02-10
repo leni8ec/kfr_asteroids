@@ -1,7 +1,7 @@
 ﻿using Model.Core.Interface.Entity;
 using UnityEngine;
 
-namespace Model.Core.Interface.View {
+namespace UnityView.Entity.Base {
     public interface IEntityView {
 
         GameObject GameObject { get; }

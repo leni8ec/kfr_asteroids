@@ -40,15 +40,15 @@ namespace Model.Core.Pools.Base {
         public TEntity Take() {
             if (!stack.TryPop(out TEntity entity)) entity = CreateNewEntity();
 
-            if (!entity.GameObject.activeSelf)
-                entity.GameObject.SetActive(true);
+            if (!entity.State.Active.Value)
+                entity.State.Active.Value = true;
 
             active.AddLast(entity);
             return entity;
         }
 
         private void Return(TEntity entity) {
-            entity.GameObject.SetActive(false);
+            entity.State.Active.Value = false;
             active.Remove(entity);
             stack.Push(entity);
         }

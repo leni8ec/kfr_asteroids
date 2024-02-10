@@ -25,12 +25,12 @@ namespace Model.Domain.Systems {
 
         private void Play() {
             active = true;
-            Player.GameObject.SetActive(true);
+            Player.State.Active.Value = true;
         }
 
         private void Reset() {
             active = false;
-            Player.GameObject.SetActive(false);
+            Player.State.Active.Value = false;
             Player.Reset();
         }
 

@@ -2,7 +2,6 @@
 using Model.Core.Entity.Base;
 using Model.Core.Interface.Containers;
 using Model.Core.Interface.Entity;
-using Model.Core.Interface.View;
 using UnityEngine;
 
 namespace UnityView.Entity.Base {
@@ -27,10 +26,19 @@ namespace UnityView.Entity.Base {
             GameObject = gameObject;
         }
 
+        /// <summary>
+        /// Called when entity is created.
+        /// <para>- After entity data (state and config) - is set.</para>
+        /// <para>- After 'Awake' and before 'Start'</para>
+        /// </summary>
         public void Create(IEntity entity) {
             Entity = (TEntity)entity;
-            State.GameObject = GameObject;
             State.Transform = Transform;
+
+            // Game object state (active by default)
+            State.Active.Value = true;
+            State.Active.Changed += active => GameObject.SetActive(active);
+
             SubscribeEvents();
             OnCreate();
         }

@@ -6,7 +6,6 @@ namespace Model.Core.Entity.Base {
 
         // Sugar
         public abstract Transform Transform { get; }
-        public abstract GameObject GameObject { get; }
 
         public delegate void CreateEventHandler(EntityBase entity);
         public delegate void DisposeEventHandler();

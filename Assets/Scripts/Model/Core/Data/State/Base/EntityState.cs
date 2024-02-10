@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Model.Core.Data.State.Base {
     public abstract class EntityState : IStateData {
 
-        public GameObject GameObject { get; set; }
+        public ValueChange<bool> Active { get; } = new();
         public Transform Transform { get; set; }
 
         public void Reset() {

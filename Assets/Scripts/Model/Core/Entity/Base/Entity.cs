@@ -12,7 +12,6 @@ namespace Model.Core.Entity.Base {
 
         // Sugar
         public override Transform Transform => State.Transform;
-        public override GameObject GameObject => State.GameObject;
 
         public void Create(TConfig config) {
             Config = config;
