@@ -9,7 +9,7 @@ namespace Model.Core.Entity.Base {
         where TConfig : ScriptableObject, IColliderRadiusContainer {
 
         public float ColliderRadius => Config.ColliderRadius;
-        public Vector3 Pos => State.Transform.position;
+        public Vector3 Pos => Transform.position;
 
     }
 }
