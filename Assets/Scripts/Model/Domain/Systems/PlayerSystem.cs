@@ -16,7 +16,7 @@ namespace Model.Domain.Systems {
             // Link properties
             Player = createdPlayer;
 
-            // Game state listeners
+            // Game state events
             GameStateSystem.NewGameEvent += Play;
             GameStateSystem.GameOverEvent += Reset;
         }

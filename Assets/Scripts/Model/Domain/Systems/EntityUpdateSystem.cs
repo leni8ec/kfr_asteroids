@@ -13,7 +13,7 @@ namespace Model.Domain.Systems {
         public EntityUpdateSystem(DataCollector data, AdaptersCollector adapters) {
             State = data.States.entity;
 
-            // Game state
+            // Game state events
             GameStateSystem.NewGameEvent += Enable;
             GameStateSystem.GameOverEvent += Disable;
         }

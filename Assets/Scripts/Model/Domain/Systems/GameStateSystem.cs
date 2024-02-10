@@ -38,14 +38,14 @@ namespace Model.Domain.Systems {
             if (State.Status.Value == GameStatus.Playing) return;
             State.Status.Value = GameStatus.Playing;
             NewGameEvent?.Invoke();
-            Debug.Log("NewGame");
+            Debug.Log("New Game");
         }
 
         private void GameOver() {
             if (State.Status.Value == GameStatus.End) return;
             State.Status.Value = GameStatus.End;
             GameOverEvent?.Invoke();
-            Debug.Log("GameOver");
+            Debug.Log("Game Over");
         }
     }
 }

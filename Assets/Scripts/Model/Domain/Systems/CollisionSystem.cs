@@ -31,13 +31,13 @@ namespace Model.Domain.Systems {
             EntitiesState entities = data.States.entity;
 
             // Link properties
-            Player = (ICollider)entities.player;
+            Player = entities.player;
             AsteroidPools = entities.asteroidPools;
             Ufos = entities.ufosPool.Active;
             Bullets = entities.ammo1Pool.Active;
             Lasers = entities.ammo2Pool.Active;
 
-            // Game state
+            // Game state events
             GameStateSystem.NewGameEvent += Enable;
             GameStateSystem.GameOverEvent += Disable;
         }

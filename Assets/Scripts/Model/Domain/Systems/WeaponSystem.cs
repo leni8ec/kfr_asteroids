@@ -44,7 +44,7 @@ namespace Model.Domain.Systems {
             Ammo1Config = data.Configs.bullet;
             Ammo2Config = data.Configs.laser;
 
-            // Game state listeners
+            // Game state events
             GameStateSystem.NewGameEvent += Play;
             GameStateSystem.GameOverEvent += Reset;
         }
@@ -56,13 +56,14 @@ namespace Model.Domain.Systems {
 
         private void Reset() {
             Disable();
+            State.Reset();
 
             // Destroy Ammo
-            void DestroyEntity(IEntity entity) => entity.Destroy();
             Ammo1Pool.ForEachActive(DestroyEntity);
             Ammo2Pool.ForEachActive(DestroyEntity);
 
-            State.Reset();
+            return;
+            void DestroyEntity(IEntity entity) => entity.Destroy();
         }
 
         public void Upd(float deltaTime) {

@@ -11,11 +11,11 @@ namespace Model.Domain.Systems {
         public ScoreSystem(DataCollector data, AdaptersCollector adapters) {
             State = data.States.score;
 
+            GameStateSystem.NewGameEvent += Reset;
             CollisionSystem.EnemyHitEvent += EnemyHitHandler;
-            GameStateSystem.NewGameEvent += ResetHandler;
         }
 
-        private void ResetHandler() {
+        private void Reset() {
             State.Points.Value = 0;
         }
 

@@ -17,28 +17,29 @@ namespace Model.Domain.Systems {
             Config = data.Configs.sounds;
             GameStatus = data.States.game.Status;
 
-            Subscribe();
+            SubscribeEvents();
+        }
 
-            // Game state
+        private void SubscribeEvents() {
+            // Game state events
             GameStateSystem.NewGameEvent += Enable;
             GameStateSystem.GameOverEvent += Disable;
-        }
 
-        private void Subscribe() {
-            WeaponSystem.Fire1Event += () => Play(Config.fire1);
-            WeaponSystem.Fire2Event += () => Play(Config.fire2);
+            // Weapon events
+            WeaponSystem.Fire1Event += () => PlaySound(Config.fire1);
+            WeaponSystem.Fire2Event += () => PlaySound(Config.fire2);
 
+            // Entities events
             Asteroid.ExplosionEvent += asteroid => {
-                if (asteroid.Size == AsteroidConfig.Size.Large) Play(Config.explosionLarge);
-                else if (asteroid.Size == AsteroidConfig.Size.Medium) Play(Config.explosionMedium);
-                else if (asteroid.Size == AsteroidConfig.Size.Small) Play(Config.explosionSmall);
+                if (asteroid.Size == AsteroidConfig.Size.Large) PlaySound(Config.explosionLarge);
+                else if (asteroid.Size == AsteroidConfig.Size.Medium) PlaySound(Config.explosionMedium);
+                else if (asteroid.Size == AsteroidConfig.Size.Small) PlaySound(Config.explosionSmall);
             };
 
-            Ufo.ExplosionEvent += () => Play(Config.explosionMedium);
-
+            Ufo.ExplosionEvent += () => PlaySound(Config.explosionMedium);
         }
 
-        private void Play(AudioClip clip) {
+        private void PlaySound(AudioClip clip) {
             if (!Active || GameStatus.Value != Core.Game.GameStatus.Playing) return;
             AudioSource.PlayClipAtPoint(clip, Vector3.zero);
         }

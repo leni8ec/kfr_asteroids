@@ -56,31 +56,29 @@ namespace Model.Domain.Systems {
             CollisionSystem.EnemyHitEvent += EnemyHitHandler;
             Asteroid.ExplosionEvent += AsteroidExplosionHandler;
 
-            // Game state
-            GameStateSystem.NewGameEvent += PlayHandler;
-            GameStateSystem.GameOverEvent += ResetHandler;
+            // Game state events
+            GameStateSystem.NewGameEvent += Play;
+            GameStateSystem.GameOverEvent += Reset;
         }
 
-        private void PlayHandler() {
+        private void Play() {
             Enable();
 
             State.asteroidSpawnCountdown = 1 / Config.asteroidsSpawnRate;
             State.ufoSpawnCountdown = 1 / Config.ufoSpawnRate;
         }
 
-        private void ResetHandler() {
-            Reset();
-            Disable();
 
-            void Destroy(IEntity entity) => entity.Destroy();
+        private void Reset() {
+            Disable();
+            State.Reset();
+
             UfoPool.ForEachActive(Destroy);
             foreach (AsteroidPool asteroidPool in AsteroidPools.Values)
                 asteroidPool.ForEachActive(Destroy);
-        }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        public void Reset() {
-            State.Reset();
+            return;
+            void Destroy(IEntity entity) => entity.Destroy();
         }
 
         public void Upd(float deltaTime) {
