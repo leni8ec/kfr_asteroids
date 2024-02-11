@@ -6,6 +6,8 @@
 
 ---
 ### Todo:
-- Implement MVVM (MVP) for Client/Server case?
-- Implement commands (for Input)
 - Implement Dependency injection (DI, IoC)
+- Implement commands (for Input)
+
+### Done:
+✅ Implement MVC (MVVM, MVP) for Client/Server case
