@@ -16,9 +16,9 @@ namespace Control.View {
                 : WeaponSystemState.Weapon.Laser;
 
             if (activeFlag) {
-                States.weapon.FireState.Value |= weapon;
+                States.weapon.fireStatus |= weapon;
             } else {
-                States.weapon.FireState.Value &= ~weapon;
+                States.weapon.fireStatus &= ~weapon;
             }
         }
 

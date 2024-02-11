@@ -67,14 +67,14 @@ namespace Model.Domain.Systems {
         }
 
         public void Upd(float deltaTime) {
-            bool fired = State.FireState.Value != WeaponSystemState.Weapon.Empty;
-            if (fired && State.FireState.Value.HasFlag(WeaponSystemState.Weapon.Gun) && State.fire1Countdown <= 0) {
+            bool fired = State.fireStatus != WeaponSystemState.Weapon.Empty;
+            if (fired && State.fireStatus.HasFlag(WeaponSystemState.Weapon.Gun) && State.fire1Countdown <= 0) {
                 State.fire1Countdown = Fire1Delay;
                 SpawnBullet();
                 Fire1Event?.Invoke();
             }
 
-            if (fired && State.FireState.Value.HasFlag(WeaponSystemState.Weapon.Laser) && State.fire2Countdown <= 0 && State.laserShotsCount > 0) {
+            if (fired && State.fireStatus.HasFlag(WeaponSystemState.Weapon.Laser) && State.fire2Countdown <= 0 && State.laserShotsCount > 0) {
                 State.fire2Countdown = Fire2Delay;
                 State.laserShotsCount--;
                 SpawnLaser();

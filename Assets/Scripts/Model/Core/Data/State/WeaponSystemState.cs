@@ -10,7 +10,7 @@ namespace Model.Core.Data.State {
         /// <summary>
         /// State - Weapon
         /// </summary>
-        public ValueChange<Weapon> FireState { get; } = new();
+        public Weapon fireStatus;
 
         #endregion
 
@@ -23,7 +23,7 @@ namespace Model.Core.Data.State {
 
 
         public void Reset() {
-            FireState.Reset();
+            fireStatus = default;
             fire1Countdown = default;
             fire2Countdown = default;
             laserShotCountdownDuration = default;
