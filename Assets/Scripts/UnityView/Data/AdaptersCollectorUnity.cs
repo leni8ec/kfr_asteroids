@@ -6,10 +6,12 @@ namespace UnityView.Data {
     public class AdaptersCollectorUnity : MonoBehaviour {
 
         public new CameraAdapter camera;
+        public new UnityAudioAdapter audio;
 
         public AdaptersCollector CreateCollector() {
             AdaptersCollector collector = new() {
-                camera = camera
+                camera = camera,
+                audio = audio
             };
 
             return collector;

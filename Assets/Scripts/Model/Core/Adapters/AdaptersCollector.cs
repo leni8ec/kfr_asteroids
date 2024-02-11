@@ -6,6 +6,7 @@ namespace Model.Core.Adapters {
     public class AdaptersCollector {
 
         public ICameraAdapter camera;
+        public IAudioAdapter audio;
 
     }
 }
