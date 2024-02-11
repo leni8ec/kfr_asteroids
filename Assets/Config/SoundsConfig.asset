@@ -20,6 +20,7 @@ MonoBehaviour:
   explosionLarge: {fileID: 8300000, guid: c5586ea7b37b21f4fa790bb429120f0b, type: 3}
   explosionMedium: {fileID: 8300000, guid: cdf9ab7b0e53ad94e8aa41d8f88757e6, type: 3}
   explosionSmall: {fileID: 8300000, guid: ba72b16c0c077b34c9bfc9c5de125ad2, type: 3}
+  playerExplosion: {fileID: 8300000, guid: 3c8a0398e9c393f4fa8bc6f02c56383d, type: 3}
   extraShip: {fileID: 8300000, guid: 2ff5d55cf4d333744877c1cea35a7da8, type: 3}
   wavyBit1: {fileID: 8300000, guid: 2fa1065995b13bb458cfcb95922f6c76, type: 3}
   wavyBit2: {fileID: 8300000, guid: 79bd063baff80ca4db2314081350099a, type: 3}

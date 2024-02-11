@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityView.Base;
 
 namespace UnityView.Adapters {
-    public class CameraAdapter : MonoBase, ICameraAdapter {
+    // todo: rename to UnityCameraAdapter
+    public class UnityCameraAdapter : MonoBase, ICameraAdapter {
 
         [SerializeField] private Camera mainCamera;
 

@@ -5,7 +5,7 @@ using UnityView.Adapters;
 namespace UnityView.Data {
     public class AdaptersCollectorUnity : MonoBehaviour {
 
-        public new CameraAdapter camera;
+        public new UnityCameraAdapter camera;
         public new UnityAudioAdapter audio;
 
         public AdaptersCollector CreateCollector() {

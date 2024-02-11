@@ -8,6 +8,11 @@ namespace UnityView.Adapters {
         [SerializeField] private AudioSource audioSource;
 
         public void PlaySound(AudioClip clip) {
+            if (!clip) {
+                Debug.LogError("AudioClip is null!");
+                return;
+            }
+
             audioSource.PlayOneShot(clip);
         }
 

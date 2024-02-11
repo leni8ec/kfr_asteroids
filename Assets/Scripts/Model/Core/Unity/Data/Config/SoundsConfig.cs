@@ -5,6 +5,7 @@ namespace Model.Core.Unity.Data.Config {
     [CreateAssetMenu(menuName = "Data/SoundsData")]
     public class SoundsConfig : ScriptableObject, IConfigData {
         public AudioClip playerMove;
+        public AudioClip playerExplosion;
         [Space]
         public AudioClip fire1;
         public AudioClip fire2;

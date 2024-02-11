@@ -14,10 +14,12 @@ namespace Model.Domain.Systems {
 
         private ValueChange<GameStatus> GameStatus { get; }
         private IAudioAdapter Adapter { get; }
+        private ValueChange<bool> PlayerActiveState { get; }
 
         public AudioSystem(DataCollector data, AdaptersCollector adapters) {
             Config = data.Configs.sounds;
             GameStatus = data.States.game.Status;
+            PlayerActiveState = data.States.entity.player.State.Active;
 
             Adapter = adapters.audio;
 
@@ -41,10 +43,14 @@ namespace Model.Domain.Systems {
             };
 
             Ufo.ExplosionEvent += () => PlaySound(Config.explosionMedium);
+
+            PlayerActiveState.Changed += active => {
+                if (!active) PlaySound(Config.playerExplosion, true);
+            };
         }
 
-        private void PlaySound(AudioClip clip) {
-            if (!Active || GameStatus.Value != Core.Game.GameStatus.Playing) return;
+        private void PlaySound(AudioClip clip, bool forced = false) {
+            if (!forced && (!Active || GameStatus.Value != Core.Game.GameStatus.Playing)) return;
             Adapter.PlaySound(clip);
         }
 
