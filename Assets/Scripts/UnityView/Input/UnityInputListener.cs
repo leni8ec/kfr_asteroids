@@ -51,19 +51,19 @@ namespace UnityView.Input {
 
 
         private void OnFireAction(bool actionFlag, int weaponNumber, InputAction.CallbackContext context) {
-            handler.OnFire(actionFlag, weaponNumber);
+            handler.FireCommand.Execute(actionFlag, weaponNumber);
         }
 
         private void OnMoveAction(bool actionFlag, InputAction.CallbackContext context) {
-            handler.OnMoveAction(actionFlag);
+            handler.MoveCommand.Execute(actionFlag);
         }
 
         private void OnRotateAction(bool actionFlag, InputAction.CallbackContext context) {
-            handler.OnRotateAction(actionFlag, -context.ReadValue<float>()); // send inversion value
+            handler.RotateCommand.Execute(actionFlag, -context.ReadValue<float>()); // send inversion value of rotation
         }
 
         private void OnContinueAction(InputAction.CallbackContext context) {
-            handler.OnContinueAction();
+            handler.ContinueCommand.Execute();
         }
 
     }
