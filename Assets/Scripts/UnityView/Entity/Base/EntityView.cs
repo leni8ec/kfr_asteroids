@@ -1,5 +1,6 @@
 ﻿using Model.Core.Data.State.Base;
 using Model.Core.Entity.Base;
+using Model.Core.Interface.Config;
 using Model.Core.Interface.Containers;
 using Model.Core.Interface.Entity;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace UnityView.Entity.Base {
     public abstract class EntityView<TEntity, TState, TConfig> : MonoBehaviour, IEntityView
         where TEntity : Entity<TState, TConfig>, new()
         where TState : EntityState, new()
-        where TConfig : ScriptableObject {
+        where TConfig : IConfigData {
 
         protected TEntity Entity { get; private set; } //      use in 'View'
         private IDataContainer<TState, TConfig> Data => Entity; //    use internal only

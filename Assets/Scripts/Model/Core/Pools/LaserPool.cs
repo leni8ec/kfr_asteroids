@@ -6,6 +6,7 @@ using Model.Core.Unity.Data.Config;
 namespace Model.Core.Pools {
     public class LaserPool : EntityPool<Laser, LaserAmmoState, LaserConfig> {
 
-        public LaserPool(LaserConfig config) : base(config) { }
+        public LaserPool(LaserConfig config) : base(new EntityFactory<Laser, LaserAmmoState, LaserConfig>(config)) { }
+
     }
 }

@@ -1,11 +1,12 @@
 ﻿using Model.Core.Data.State.Base;
+using Model.Core.Interface.Config;
 using Model.Core.Interface.Containers;
 using UnityEngine;
 
 namespace Model.Core.Entity.Base {
     public abstract class Entity<TState, TConfig> : EntityBase, IDataContainer<TState, TConfig>
         where TState : EntityState, new()
-        where TConfig : ScriptableObject {
+        where TConfig : IConfigData {
 
         public TState State { get; } = new();
         public TConfig Config { get; private set; }

@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using Model.Core.Data.State.Base;
 using Model.Core.Entity.Base;
-using UnityEngine;
+using Model.Core.Interface.Config;
 
 namespace Model.Core.Pools.Base {
     /// <summary>
-    ///     Call 'Entity.Destroy()' for Return entity to Pool
+    ///     Call 'Entity.Destroy()' to Return entity back to Pool
     /// </summary>
     public class EntityPool<TEntity, TState, TConfig>
         where TEntity : Entity<TState, TConfig>, new()
         where TState : EntityState, new()
-        where TConfig : ScriptableObject {
+        where TConfig : IConfigData {
+
+        private readonly IEntityFactory<TEntity> factory;
 
         private readonly Stack<TEntity> stack = new();
         private readonly LinkedList<TEntity> active = new(); // use Linked List - as better performance for many add/remove events
@@ -22,40 +24,35 @@ namespace Model.Core.Pools.Base {
         /// </summary>
         public int ActiveCount => active.Count;
 
-        private readonly TState state;
-        private readonly TConfig config;
-
-
-        protected EntityPool(TConfig config) {
-            this.config = config;
+        protected EntityPool(IEntityFactory<TEntity> factory) {
+            this.factory = factory;
         }
 
-        private TEntity CreateNewEntity() {
-            TEntity entity = new();
-            entity.Create(config);
-            entity.DestroyEvent += () => Return(entity);
-            return entity;
-        }
 
         public TEntity Take() {
-            if (!stack.TryPop(out TEntity entity)) entity = CreateNewEntity();
+            if (!stack.TryPop(out TEntity entity)) {
+                entity = factory.CreateEntity();
+                entity.DestroyEvent += () => Return(entity);
+            }
 
-            if (!entity.State.Active.Value)
-                entity.State.Active.Value = true;
+            if (!entity.State.Active.Value) entity.State.Active.Value = true; // todo: move from this (or not)?
 
             active.AddLast(entity);
             return entity;
         }
 
+        /// <summary>
+        /// Call 'Entity.Destroy()' to Return entity back to Pool
+        /// </summary>
         private void Return(TEntity entity) {
-            entity.State.Active.Value = false;
+            entity.State.Active.Value = false; // todo: move from this (or not)?
             active.Remove(entity);
             stack.Push(entity);
         }
 
 
         /// <summary>
-        /// Iterate for all active entities (safe to list changes)
+        /// Iterate for all active entities (safe for list changes during iteration)
         /// </summary>
         public void ForEachActive(Action<TEntity> action) {
             LinkedListNode<TEntity> node = active.First;

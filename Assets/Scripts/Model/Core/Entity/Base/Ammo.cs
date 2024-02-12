@@ -1,11 +1,12 @@
 ﻿using Model.Core.Data.State.Base;
+using Model.Core.Interface.Config;
 using Model.Core.Interface.Containers;
 using UnityEngine;
 
 namespace Model.Core.Entity.Base {
     public abstract class Ammo<TState, TConfig> : ColliderEntity<TState, TConfig>
         where TState : EntityState, IDirectionContainer, new()
-        where TConfig : ScriptableObject, IColliderRadiusContainer, new() {
+        where TConfig : IConfigData, IColliderRadiusContainer, new() {
 
         public Vector3 Direction => State.Direction;
 

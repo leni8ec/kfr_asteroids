@@ -6,6 +6,7 @@ using Model.Core.Unity.Data.Config;
 namespace Model.Core.Pools {
     public class AsteroidPool : EntityPool<Asteroid, AsteroidState, AsteroidConfig> {
 
-        public AsteroidPool(AsteroidConfig config) : base(config) { }
+        public AsteroidPool(AsteroidConfig config) : base(new EntityFactory<Asteroid, AsteroidState, AsteroidConfig>(config)) { }
+
     }
 }

@@ -6,6 +6,7 @@ using Model.Core.Unity.Data.Config;
 namespace Model.Core.Pools {
     public class UfoPool : EntityPool<Ufo, UfoState, UfoConfig> {
 
-        public UfoPool(UfoConfig config) : base(config) { }
+        public UfoPool(UfoConfig config) : base(new EntityFactory<Ufo, UfoState, UfoConfig>(config)) { }
+
     }
 }
