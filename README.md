@@ -5,9 +5,20 @@
 
 
 ---
-### Todo:
-- Implement Dependency injection (DI, IoC)
-- Implement commands (for Input)
 
-### Done:
-✅ Implement MVC (MVVM, MVP) for Client/Server case
+### ✅ Architecture used
+- **MVC** - base architecture pattern (also to be able to Client/Server case?)
+- **Factory Method** - create new entities (use in Pool)
+- **Object Pool** - spawn and reuse entities
+- **Command pattern** - input
+- **Adapter pattern** - view implementations for some model objects (`camera`, `audio`)
+- The **Data** (`state`, `config`) is split from **Logic** (`systems`)
+
+### 🔲 Unity
+- **Scriptable objects** (for config)
+- **Input system**
+
+---
+
+### ➡️ Todo
+- Implement **Dependency Injection** (DI, IoC)
