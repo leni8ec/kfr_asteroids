@@ -1,12 +1,6 @@
-using System;
-using Model.Core.Interface.Adapters;
+using Model.Core.Container.Object;
+using Model.Core.Interface.Adapters.Base;
 
 namespace Model.Core.Adapters {
-    [Serializable]
-    public class AdaptersCollector {
-
-        public ICameraAdapter camera;
-        public IAudioAdapter audio;
-
-    }
+    public class AdaptersCollector : CollectorBase<IAdapter> { }
 }

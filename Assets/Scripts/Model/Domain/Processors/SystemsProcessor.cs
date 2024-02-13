@@ -1,30 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using Model.Core.Adapters;
-using Model.Core.Data;
+using Model.Core.Container.Ioc;
 using Model.Domain.Systems;
 using Model.Domain.Systems.Base;
 
 namespace Model.Domain.Processors {
     public class SystemsProcessor {
-        // ReSharper disable once CollectionNeverQueried.Local
-        private readonly Dictionary<Type, ISystem> systems; // todo: DI container
+        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
+        private readonly DependencyContainer container;
+        private readonly Dictionary<Type, ISystem> systems;
         private readonly List<IUpdateSystem> updateSystems;
 
-        public SystemsProcessor(DataCollector data, AdaptersCollector adapters) {
+        public SystemsProcessor(DependencyContainer container) {
+            this.container = container;
+
             systems = new Dictionary<Type, ISystem>();
             updateSystems = new List<IUpdateSystem>();
 
-            // Systems and processors                     //        Order of initialization:
-            Add(new PlayerSystem(data, adapters)); //        1. Player (player control)
-            Add(new WeaponSystem(data, adapters)); //        2. Weapon (spawn ammo)
-            Add(new WorldSystem(data, adapters)); //         3. World (spawn enemies)
-            Add(new EntityUpdateSystem(data, adapters)); //  4. Entities update
-            Add(new CollisionSystem(data, adapters)); //     6. Collision
-            Add(new ScoreSystem(data, adapters));
-            Add(new AudioSystem(data, adapters));
-            Add(new GameStateSystem(data, adapters)); //     [Last] NewGame event
-
+            // Resolve Systems                              Order of initialization:
+            Add<PlayerSystem>(); //        1. Player (player control)
+            Add<WeaponSystem>(); //        2. Weapon (spawn ammo)
+            Add<WorldSystem>(); //         3. World (spawn enemies)
+            Add<EntityUpdateSystem>(); //  4. Entities update
+            Add<CollisionSystem>(); //     5. Collision
+            Add<ScoreSystem>();
+            Add<AudioSystem>();
+            Add<GameStateSystem>(); //     [Last] NewGame event
 
             // Called after all systems constructors is called
             Initialization();
@@ -35,11 +36,12 @@ namespace Model.Domain.Processors {
             foreach (ISystem system in systems.Values) system.Initialize();
         }
 
-        private void Add<T>(T system) where T : ISystem {
-            // Fill systems Hashmap
-            systems.Add(typeof(T), system);
+        private void Add<T>() where T : ISystem {
+            ISystem system = container.ResolveUnregistered<T>();
 
-            // Fill update systems
+            // Fill systems
+            systems.Add(typeof(T), system);
+            // Fill update
             if (system is IUpdateSystem updateSystem) updateSystems.Add(updateSystem);
         }
 
@@ -48,5 +50,6 @@ namespace Model.Domain.Processors {
                 if (updateSystem.Active) updateSystem.Upd(deltaTime);
             }
         }
+
     }
 }

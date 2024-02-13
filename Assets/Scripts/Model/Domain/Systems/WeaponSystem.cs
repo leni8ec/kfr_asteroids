@@ -1,5 +1,4 @@
-﻿using Model.Core.Adapters;
-using Model.Core.Data;
+﻿using JetBrains.Annotations;
 using Model.Core.Data.State;
 using Model.Core.Entity;
 using Model.Core.Interface.Entity;
@@ -10,6 +9,7 @@ using Model.Domain.Systems.Base;
 using UnityEngine;
 
 namespace Model.Domain.Systems {
+    [UsedImplicitly]
     public class WeaponSystem : SystemBase, IUpdateSystem {
         private WeaponSystemState State { get; }
         private BulletConfig Ammo1Config { get; }
@@ -28,21 +28,20 @@ namespace Model.Domain.Systems {
 
         private Player Player { get; }
 
-        public WeaponSystem(DataCollector data, AdaptersCollector adapters) {
-            State = data.States.weapon;
-            Player = data.States.entity.player;
+        public WeaponSystem(WeaponSystemState state, BulletConfig bulletConfig, LaserConfig laserConfig, EntitiesState entities) {
+            State = state;
+            Player = entities.player;
 
             // Fill entities state
-            EntitiesState entities = data.States.entity;
-            entities.ammo1Pool = new BulletPool(data.Configs.bullet);
-            entities.ammo2Pool = new LaserPool(data.Configs.laser);
+            entities.ammo1Pool = new BulletPool(bulletConfig);
+            entities.ammo2Pool = new LaserPool(laserConfig);
 
             // Link properties
             Ammo1Pool = entities.ammo1Pool;
             Ammo2Pool = entities.ammo2Pool;
 
-            Ammo1Config = data.Configs.bullet;
-            Ammo2Config = data.Configs.laser;
+            Ammo1Config = bulletConfig;
+            Ammo2Config = laserConfig;
 
             // Game state events
             GameStateSystem.NewGameEvent += Play;

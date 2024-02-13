@@ -1,4 +1,5 @@
-﻿using Model.Core.Game;
+﻿using Model.Core.Data.State;
+using Model.Core.Game;
 using UnityEngine;
 using UnityView.Base;
 
@@ -9,7 +10,9 @@ namespace UnityView.GUI {
         public GameOverScreen gameOverScreen;
 
         private void Start() {
-            States.game.Status.Changed += OnGameStatusChanged;
+            GameSystemState gameSystemState = States.Get<GameSystemState>();
+
+            gameSystemState.Status.Changed += OnGameStatusChanged;
             OnGameStatusChanged(GameStatus.Playing); // hack
         }
 

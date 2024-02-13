@@ -1,4 +1,5 @@
-﻿using Model.Core.Entity;
+﻿using Model.Core.Data.State;
+using Model.Core.Entity;
 using TMPro;
 using UnityEngine;
 using UnityView.Base;
@@ -12,12 +13,20 @@ namespace UnityView.GUI {
         public TextMeshProUGUI laserCount;
         public TextMeshProUGUI laserCountdown;
 
+        private EntitiesState entitiesState;
+        private ScoreSystemState scoreSystemState;
+        private WeaponSystemState weaponSystemState;
+
         private void Start() {
-            States.score.Points.Changed += score => points.SetText($"Score: {score}");
+            entitiesState = States.Get<EntitiesState>();
+            scoreSystemState = States.Get<ScoreSystemState>();
+            weaponSystemState = States.Get<WeaponSystemState>();
+
+            scoreSystemState.Points.Changed += score => points.SetText($"Score: {score}");
         }
 
         private void Update() {
-            Player player = SceneData.States.entity.player;
+            Player player = entitiesState.player;
             if (player == null) return; // if player doesn't initialized
 
             Transform playerTransform = player.Transform;
@@ -25,9 +34,9 @@ namespace UnityView.GUI {
 
             coords.SetText($"Coords: [{playerPosition.x:F1}:{playerPosition.y:F1}]");
             angle.SetText($"Angle: {playerTransform.eulerAngles.z:F0}");
-            speed.SetText($"Speed: {States.entity.player.State.speed:N}");
-            laserCount.SetText($"Laser Count: {States.weapon.laserShotsCount}");
-            laserCountdown.SetText($"Laser Countdown: {States.weapon.laserShotCountdownDuration:0.00}");
+            speed.SetText($"Speed: {entitiesState.player.State.speed:N}");
+            laserCount.SetText($"Laser Count: {weaponSystemState.laserShotsCount}");
+            laserCountdown.SetText($"Laser Countdown: {weaponSystemState.laserShotCountdownDuration:0.00}");
         }
 
     }

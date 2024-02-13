@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-namespace Model.Core.Unity.Data {
-    public class PrefabsCollector : MonoBehaviour {
+namespace UnityView.Data {
+    public class UnityPrefabCollector : MonoBehaviour {
         public GameObject player;
 
         [Header("Weapon")]

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using Model.Core.Adapters;
-using Model.Core.Data;
+using JetBrains.Annotations;
 using Model.Core.Data.State;
 using Model.Core.Entity;
 using Model.Core.Interface.Entity;
@@ -10,6 +9,7 @@ using Model.Domain.Systems.Base;
 using UnityEngine;
 
 namespace Model.Domain.Systems {
+    [UsedImplicitly]
     public class CollisionSystem : SystemBase, IUpdateSystem {
         private ICollider Player { get; }
 
@@ -27,9 +27,7 @@ namespace Model.Domain.Systems {
         public static event EnemyHitEventHandler EnemyHitEvent;
 
 
-        public CollisionSystem(DataCollector data, AdaptersCollector adapters) {
-            EntitiesState entities = data.States.entity;
-
+        public CollisionSystem(EntitiesState entities) {
             // Link properties
             Player = entities.player;
             AsteroidPools = entities.asteroidPools;

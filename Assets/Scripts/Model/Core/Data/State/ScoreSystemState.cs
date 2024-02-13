@@ -2,7 +2,7 @@
 using Model.Core.Interface.State;
 
 namespace Model.Core.Data.State {
-    public class ScoreState : IStateData {
+    public class ScoreSystemState : IStateData {
 
         public ValueChange<int> Points { get; } = new();
 

@@ -1,6 +1,5 @@
 ﻿using System;
-using Model.Core.Adapters;
-using Model.Core.Data;
+using JetBrains.Annotations;
 using Model.Core.Data.State;
 using Model.Core.Game;
 using Model.Core.Interface.Entity;
@@ -8,6 +7,7 @@ using Model.Domain.Systems.Base;
 using UnityEngine;
 
 namespace Model.Domain.Systems {
+    [UsedImplicitly]
     public class GameStateSystem : SystemBase, IStartSystem {
         private GameSystemState State { get; }
 
@@ -16,8 +16,8 @@ namespace Model.Domain.Systems {
         public static event Action GameOverEvent;
 
 
-        public GameStateSystem(DataCollector data, AdaptersCollector adapters) {
-            State = data.States.game;
+        public GameStateSystem(GameSystemState state) {
+            State = state;
 
             CollisionSystem.PlayerHitEvent += PlayerHitHandler;
             State.ContinueFlag.Changed += ContinueFlagChangedHandler;

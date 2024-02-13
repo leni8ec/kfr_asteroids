@@ -1,7 +1,8 @@
+using Model.Core.Interface.Adapters.Base;
 using UnityEngine;
 
 namespace Model.Core.Interface.Adapters {
-    public interface ICameraAdapter {
+    public interface ICameraAdapter : IAdapter {
 
         Vector3 ScreenToWorldPoint(Vector3 screenPoint);
 

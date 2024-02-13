@@ -1,20 +1,20 @@
 ﻿using Control.Model;
 using Model.Core.Entity;
-using Model.Core.Unity.Data;
+using UnityView.Data;
 using UnityView.Entity;
 
 namespace UnityView.Handlers {
     public class UnityEntitiesCreateHandler {
 
-        public UnityEntitiesCreateHandler(PrefabsCollector prefabs) {
+        public UnityEntitiesCreateHandler(UnityPrefabCollector prefab) {
             EntitiesCreateHandler entitiesCreateHandler = new();
 
-            entitiesCreateHandler.AddListener<Player>(new UnityEntityCreateListener<PlayerView>(prefabs.player));
-            entitiesCreateHandler.AddListener<Bullet>(new UnityEntityCreateListener<BulletView>(prefabs.bullet));
-            entitiesCreateHandler.AddListener<Laser>(new UnityEntityCreateListener<LaserView>(prefabs.laser));
-            entitiesCreateHandler.AddListener<Ufo>(new UnityEntityCreateListener<UfoView>(prefabs.ufo));
+            entitiesCreateHandler.AddListener<Player>(new UnityEntityCreateListener<PlayerView>(prefab.player));
+            entitiesCreateHandler.AddListener<Bullet>(new UnityEntityCreateListener<BulletView>(prefab.bullet));
+            entitiesCreateHandler.AddListener<Laser>(new UnityEntityCreateListener<LaserView>(prefab.laser));
+            entitiesCreateHandler.AddListener<Ufo>(new UnityEntityCreateListener<UfoView>(prefab.ufo));
             // Asteroids has own logic
-            entitiesCreateHandler.AddListener<Asteroid>(new UnityAsteroidCreateListener(prefabs.asteroidLarge, prefabs.asteroidMedium, prefabs.asteroidSmall));
+            entitiesCreateHandler.AddListener<Asteroid>(new UnityAsteroidCreateListener(prefab.asteroidLarge, prefab.asteroidMedium, prefab.asteroidSmall));
 
         }
 

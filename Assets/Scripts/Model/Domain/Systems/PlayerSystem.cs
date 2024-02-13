@@ -1,17 +1,18 @@
-﻿using Model.Core.Adapters;
-using Model.Core.Data;
+﻿using JetBrains.Annotations;
+using Model.Core.Data.State;
 using Model.Core.Entity;
 using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
 
 namespace Model.Domain.Systems {
+    [UsedImplicitly]
     public class PlayerSystem : SystemBase {
         private Player Player { get; }
 
-        public PlayerSystem(DataCollector data, AdaptersCollector adapters) {
+        public PlayerSystem(PlayerConfig config, EntitiesState entities) {
             // Fill entities state
-            Player createdPlayer = CreatePlayer(data.Configs.player);
-            data.States.entity.player = createdPlayer;
+            Player createdPlayer = CreatePlayer(config);
+            entities.player = createdPlayer;
 
             // Link properties
             Player = createdPlayer;

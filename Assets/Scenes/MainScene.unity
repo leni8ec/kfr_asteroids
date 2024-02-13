@@ -2286,9 +2286,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb5d80bcdf194a8b92e2f4a85950150b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  configsCollector: {fileID: 325981402}
-  prefabsCollector: {fileID: 1178423395}
-  adaptersCollectorUnity: {fileID: 1513576196}
+  config: {fileID: 325981402}
+  prefab: {fileID: 1178423395}
+  adapter: {fileID: 1513576196}
 --- !u!1 &1829534433
 GameObject:
   m_ObjectHideFlags: 0

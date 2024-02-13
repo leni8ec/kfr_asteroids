@@ -3,6 +3,7 @@ using Model.Core.Interface.Containers;
 using UnityEngine;
 
 namespace Model.Core.Unity.Data.Config {
+
     [CreateAssetMenu(menuName = "Data/AsteroidData")]
     public class AsteroidConfig : ScriptableObject, IConfigData, IColliderRadiusContainer {
         [Space]
@@ -22,7 +23,6 @@ namespace Model.Core.Unity.Data.Config {
             Medium,
             Small
         }
-
     }
 
 }

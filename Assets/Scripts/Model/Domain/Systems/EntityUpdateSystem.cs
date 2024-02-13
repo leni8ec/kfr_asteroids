@@ -1,23 +1,21 @@
-﻿using Model.Core.Adapters;
-using Model.Core.Data;
+﻿using JetBrains.Annotations;
 using Model.Core.Data.State;
 using Model.Core.Interface.Entity;
 using Model.Core.Pools;
 using Model.Domain.Systems.Base;
 
 namespace Model.Domain.Systems {
+    [UsedImplicitly]
     public class EntityUpdateSystem : SystemBase, IUpdateSystem {
         private EntitiesState State { get; }
 
-
-        public EntityUpdateSystem(DataCollector data, AdaptersCollector adapters) {
-            State = data.States.entity;
+        public EntityUpdateSystem(EntitiesState entities) {
+            State = entities;
 
             // Game state events
             GameStateSystem.NewGameEvent += Enable;
             GameStateSystem.GameOverEvent += Disable;
         }
-
 
         public void Upd(float deltaTime) {
             // Update Player

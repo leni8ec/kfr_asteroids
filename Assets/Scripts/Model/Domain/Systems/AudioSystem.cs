@@ -1,5 +1,5 @@
-﻿using Model.Core.Adapters;
-using Model.Core.Data;
+﻿using JetBrains.Annotations;
+using Model.Core.Data.State;
 using Model.Core.Data.State.Base;
 using Model.Core.Entity;
 using Model.Core.Game;
@@ -9,6 +9,7 @@ using Model.Domain.Systems.Base;
 using UnityEngine;
 
 namespace Model.Domain.Systems {
+    [UsedImplicitly]
     public class AudioSystem : SystemBase {
         private SoundsConfig Config { get; }
 
@@ -16,12 +17,12 @@ namespace Model.Domain.Systems {
         private IAudioAdapter Adapter { get; }
         private ValueChange<bool> PlayerActiveState { get; }
 
-        public AudioSystem(DataCollector data, AdaptersCollector adapters) {
-            Config = data.Configs.sounds;
-            GameStatus = data.States.game.Status;
-            PlayerActiveState = data.States.entity.player.State.Active;
+        public AudioSystem(SoundsConfig config, GameSystemState gameSystemState, EntitiesState entities, IAudioAdapter audioAdapter) {
+            Config = config;
+            GameStatus = gameSystemState.Status;
+            PlayerActiveState = entities.player.State.Active;
 
-            Adapter = adapters.audio;
+            Adapter = audioAdapter;
 
             SubscribeEvents();
         }

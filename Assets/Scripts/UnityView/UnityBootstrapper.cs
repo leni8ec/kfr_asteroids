@@ -1,7 +1,7 @@
 using Control;
 using Model.Core.Adapters;
 using Model.Core.Data;
-using Model.Core.Data.State.Base;
+using Model.Core.Data.Collectors;
 using UnityEngine;
 using UnityView.Data;
 using UnityView.Handlers;
@@ -19,15 +19,15 @@ namespace UnityView {
 
         private void Awake() {
             // Data - init first
-            StatesCollector states = new();
-            DataCollector data = new(states, sceneData.configsCollector);
-            AdaptersCollector adaptersCollector = sceneData.adaptersCollectorUnity.CreateCollector();
+            StateCollector states = new();
+            GameDataCollector data = new(sceneData.config.CreateCollector(), states);
+            AdaptersCollector adaptersCollector = sceneData.adapter.CreateCollector();
 
             // Fill entities state
             sceneData.SetGameData(states);
 
             // Entities
-            UnityEntitiesCreateHandler unityEntitiesCreateHandler = new(sceneData.prefabsCollector);
+            UnityEntitiesCreateHandler unityEntitiesCreateHandler = new(sceneData.prefab);
 
             // Bootstrapper
             bootstrapper = new Bootstrapper(data, adaptersCollector);

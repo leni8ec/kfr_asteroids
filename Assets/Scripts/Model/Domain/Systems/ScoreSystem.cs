@@ -1,15 +1,15 @@
-﻿using Model.Core.Adapters;
-using Model.Core.Data;
+﻿using JetBrains.Annotations;
 using Model.Core.Data.State;
 using Model.Core.Interface.Entity;
 using Model.Domain.Systems.Base;
 
 namespace Model.Domain.Systems {
+    [UsedImplicitly]
     public class ScoreSystem : SystemBase {
-        private ScoreState State { get; }
+        private ScoreSystemState State { get; }
 
-        public ScoreSystem(DataCollector data, AdaptersCollector adapters) {
-            State = data.States.score;
+        public ScoreSystem(ScoreSystemState state) {
+            State = state;
 
             GameStateSystem.NewGameEvent += Reset;
             CollisionSystem.EnemyHitEvent += EnemyHitHandler;

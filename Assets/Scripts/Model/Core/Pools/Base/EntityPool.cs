@@ -61,7 +61,6 @@ namespace Model.Core.Pools.Base {
                 action(node.Value);
                 node = nextNode;
             }
-
         }
 
     }

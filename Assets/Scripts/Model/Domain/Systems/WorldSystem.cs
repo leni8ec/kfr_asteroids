@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
-using Model.Core.Adapters;
-using Model.Core.Data;
+using JetBrains.Annotations;
+using Model.Core.Container.Object;
 using Model.Core.Data.State;
 using Model.Core.Data.State.Base;
 using Model.Core.Entity;
 using Model.Core.Entity.Base;
 using Model.Core.Game;
 using Model.Core.Interface.Adapters;
+using Model.Core.Interface.Config;
 using Model.Core.Interface.Entity;
 using Model.Core.Pools;
 using Model.Core.Unity.Data.Config;
@@ -15,6 +16,7 @@ using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
 namespace Model.Domain.Systems {
+    [UsedImplicitly]
     public class WorldSystem : SystemBase, IUpdateSystem {
         private WorldSystemState State { get; }
         private WorldConfig Config { get; }
@@ -30,27 +32,30 @@ namespace Model.Domain.Systems {
 
         private ValueChange<GameStatus> GameStatus { get; }
 
-        public WorldSystem(DataCollector data, AdaptersCollector adapters) {
-            State = data.States.world;
-            Config = data.Configs.world;
+        public WorldSystem(WorldConfig config, WorldSystemState state,
+            UfoConfig ufoConfig, ObjectPointers<IConfigData, object> asteroidConfigs, // todo: Resolve this
+            EntitiesState entities, GameSystemState gameSystemState,
+            ICameraAdapter cameraAdapter) {
+
+            Config = config;
+            State = state;
 
             // Fill entities state
-            EntitiesState entities = data.States.entity;
-            entities.ufosPool = new UfoPool(data.Configs.ufo);
+            entities.ufosPool = new UfoPool(ufoConfig);
             entities.asteroidPools = new Dictionary<AsteroidConfig.Size, AsteroidPool> {
-                { AsteroidConfig.Size.Large, new AsteroidPool(data.Configs.asteroidLarge) },
-                { AsteroidConfig.Size.Medium, new AsteroidPool(data.Configs.asteroidMedium) },
-                { AsteroidConfig.Size.Small, new AsteroidPool(data.Configs.asteroidSmall) }
+                { AsteroidConfig.Size.Large, new AsteroidPool((AsteroidConfig)asteroidConfigs.Get(AsteroidConfig.Size.Large)) }, // todo: Resolve this
+                { AsteroidConfig.Size.Medium, new AsteroidPool((AsteroidConfig)asteroidConfigs.Get(AsteroidConfig.Size.Medium)) },
+                { AsteroidConfig.Size.Small, new AsteroidPool((AsteroidConfig)asteroidConfigs.Get(AsteroidConfig.Size.Small)) }
             };
 
 
             // Link properties
-            Camera = adapters.camera;
+            Camera = cameraAdapter;
             Player = entities.player;
             BulletPool = entities.ammo1Pool;
             UfoPool = entities.ufosPool;
             AsteroidPools = entities.asteroidPools;
-            GameStatus = data.States.game.Status;
+            GameStatus = gameSystemState.Status;
 
             // Subscribe
             CollisionSystem.EnemyHitEvent += EnemyHitHandler;
