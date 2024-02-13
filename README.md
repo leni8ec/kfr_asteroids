@@ -6,8 +6,9 @@
 
 ---
 
-### ✅ Architecture used
+### ✅ Architecture used (design patterns)
 - **MVC** - base architecture pattern (also to be able to Client/Server case?)
+- **IoC, DI**  (`DependencyContainer`)
 - **Factory Method** - create new entities (use in Pool)
 - **Object Pool** - spawn and reuse entities
 - **Command pattern** - input
@@ -21,4 +22,4 @@
 ---
 
 ### ➡️ Todo
-- Implement **Dependency Injection** (DI, IoC)
+- Code cleanup (documentation)
