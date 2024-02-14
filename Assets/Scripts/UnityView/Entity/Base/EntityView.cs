@@ -33,7 +33,7 @@ namespace UnityView.Entity.Base {
         /// <para>- After 'Awake' and before 'Start'</para>
         /// </summary>
         public void Create(IEntity entity) {
-            Entity = (TEntity)entity;
+            Entity = (TEntity) entity;
             State.Transform = Transform;
 
             // Game object state (active by default)

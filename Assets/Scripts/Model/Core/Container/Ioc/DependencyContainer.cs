@@ -32,7 +32,7 @@ namespace Model.Core.Container.Ioc {
         }
 
         public TTypeToResolve Resolve<TTypeToResolve>() {
-            return (TTypeToResolve)ResolveObject(typeof(TTypeToResolve));
+            return (TTypeToResolve) ResolveObject(typeof(TTypeToResolve));
         }
 
         public object Resolve(Type typeToResolve) {
@@ -41,7 +41,7 @@ namespace Model.Core.Container.Ioc {
 
         public TTypeToResolve ResolveUnregistered<TTypeToResolve>() {
             RegisteredObject unregisteredObject = new RegisteredObject(typeof(TTypeToResolve), typeof(TTypeToResolve), LifeCycle.Transient);
-            return (TTypeToResolve)GetInstance(unregisteredObject);
+            return (TTypeToResolve) GetInstance(unregisteredObject);
         }
 
         // public void Set<TType>(TType resolvedObject) { }

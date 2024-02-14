@@ -6,7 +6,7 @@ using Model.Core.Data;
 
 namespace Control {
     public class DependencyRegistrar {
-        public DependencyContainer Container { get; }
+        private DependencyContainer Container { get; }
 
         public DependencyRegistrar(DependencyContainer container) {
             Container = container;

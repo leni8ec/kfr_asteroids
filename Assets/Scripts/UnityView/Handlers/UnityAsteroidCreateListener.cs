@@ -17,7 +17,7 @@ namespace UnityView.Handlers {
         }
 
         public override void OnCreate(IEntity entity) {
-            AsteroidConfig.Size asteroidSize = ((Asteroid)entity).Size;
+            AsteroidConfig.Size asteroidSize = ((Asteroid) entity).Size;
             prefab = asteroidSize switch {
                 AsteroidConfig.Size.Large => largePrefab,
                 AsteroidConfig.Size.Medium => mediumPrefab,
