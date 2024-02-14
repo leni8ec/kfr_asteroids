@@ -2,10 +2,11 @@
 using Model.Core.Data.State;
 using Model.Core.Interface.Entity;
 using Model.Domain.Systems.Base;
+using Model.Domain.Systems.Interface;
 
 namespace Model.Domain.Systems {
     [UsedImplicitly]
-    public class ScoreSystem : SystemBase {
+    public class ScoreSystem : SystemBase, IScoreSystem {
         private ScoreSystemState State { get; }
 
         public ScoreSystem(ScoreSystemState state) {

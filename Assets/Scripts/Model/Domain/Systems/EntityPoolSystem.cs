@@ -5,10 +5,11 @@ using Model.Core.Data.State;
 using Model.Core.Pools;
 using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
+using Model.Domain.Systems.Interface;
 
 namespace Model.Domain.Systems {
     [UsedImplicitly]
-    public class EntityPoolSystem : SystemBase {
+    public class EntityPoolSystem : SystemBase, IEntityPoolSystem {
 
         public EntityPoolSystem(EntitiesState entities, BulletConfig bulletConfig, LaserConfig laserConfig,
             ObjectPointers<AsteroidConfig, AsteroidConfig.Size> asteroidConfigs, UfoConfig ufoConfig) {

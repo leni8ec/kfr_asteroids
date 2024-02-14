@@ -6,11 +6,12 @@ using Model.Core.Interface.Entity;
 using Model.Core.Pools;
 using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
+using Model.Domain.Systems.Interface;
 using UnityEngine;
 
 namespace Model.Domain.Systems {
     [UsedImplicitly]
-    public class CollisionSystem : SystemBase, IUpdateSystem {
+    public class CollisionSystem : SystemBase, ICollisionSystem, IUpdateSystem {
         private ICollider Player { get; }
 
         // Active entities in world

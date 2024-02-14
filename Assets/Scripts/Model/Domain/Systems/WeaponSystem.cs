@@ -5,11 +5,12 @@ using Model.Core.Interface.Entity;
 using Model.Core.Pools.Base;
 using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
+using Model.Domain.Systems.Interface;
 using UnityEngine;
 
 namespace Model.Domain.Systems {
     [UsedImplicitly]
-    public class WeaponSystem : SystemBase, IUpdateSystem {
+    public class WeaponSystem : SystemBase, IWeaponSystem, IUpdateSystem {
         private WeaponSystemState State { get; }
         private BulletConfig Ammo1Config { get; }
         private LaserConfig Ammo2Config { get; }

@@ -3,10 +3,11 @@ using Model.Core.Data.State;
 using Model.Core.Interface.Entity;
 using Model.Core.Pools;
 using Model.Domain.Systems.Base;
+using Model.Domain.Systems.Interface;
 
 namespace Model.Domain.Systems {
     [UsedImplicitly]
-    public class EntityUpdateSystem : SystemBase, IUpdateSystem {
+    public class EntityUpdateSystem : SystemBase, IEntityUpdateSystem, IUpdateSystem {
         private EntitiesState State { get; }
 
         public EntityUpdateSystem(EntitiesState entities) {

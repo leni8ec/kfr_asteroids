@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Model.Core.Container.Ioc;
-using Model.Domain.Systems;
 using Model.Domain.Systems.Base;
+using Model.Domain.Systems.Interface;
 
 namespace Model.Domain.Processors {
     public class SystemsProcessor {
@@ -17,16 +17,16 @@ namespace Model.Domain.Processors {
             systems = new Dictionary<Type, ISystem>();
             updateSystems = new List<IUpdateSystem>();
 
-            // Resolve Systems           Order of initialization:
-            Add<EntityPoolSystem>(); //    0. Pools (for entities)
-            Add<PlayerSystem>(); //        1. Player (player control)
-            Add<WeaponSystem>(); //        2. Weapon (spawn ammo)
-            Add<WorldSystem>(); //         3. World (spawn enemies)
-            Add<EntityUpdateSystem>(); //  4. Entities update
-            Add<CollisionSystem>(); //     5. Collision
-            Add<ScoreSystem>();
-            Add<AudioSystem>();
-            Add<GameStateSystem>(); //     [Last] NewGame event
+            // Resolve Systems            Order of initialization:
+            Add<IEntityPoolSystem>(); //    0. Pools (for entities)
+            Add<IPlayerSystem>(); //        1. Player (player control)
+            Add<IWeaponSystem>(); //        2. Weapon (spawn ammo)
+            Add<IWorldSystem>(); //         3. World (spawn enemies)
+            Add<IEntityUpdateSystem>(); //  4. Entities update
+            Add<ICollisionSystem>(); //     5. Collision
+            Add<IScoreSystem>();
+            Add<IAudioSystem>();
+            Add<IGameStateSystem>(); //     [Last] NewGame event
 
             // Called after all systems constructors is called
             Initialization();
@@ -38,7 +38,7 @@ namespace Model.Domain.Processors {
         }
 
         private void Add<T>() where T : ISystem {
-            ISystem system = container.ResolveUnregistered<T>();
+            ISystem system = container.Resolve<T>();
 
             // Fill systems
             systems.Add(typeof(T), system);

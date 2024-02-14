@@ -3,10 +3,11 @@ using Model.Core.Data.State;
 using Model.Core.Entity;
 using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
+using Model.Domain.Systems.Interface;
 
 namespace Model.Domain.Systems {
     [UsedImplicitly]
-    public class PlayerSystem : SystemBase {
+    public class PlayerSystem : SystemBase, IPlayerSystem {
         private Player Player { get; }
 
         public PlayerSystem(PlayerConfig config, EntitiesState entities) {

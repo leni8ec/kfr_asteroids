@@ -4,11 +4,12 @@ using Model.Core.Data.State;
 using Model.Core.Game;
 using Model.Core.Interface.Entity;
 using Model.Domain.Systems.Base;
+using Model.Domain.Systems.Interface;
 using UnityEngine;
 
 namespace Model.Domain.Systems {
     [UsedImplicitly]
-    public class GameStateSystem : SystemBase, IStartSystem {
+    public class GameStateSystem : SystemBase, IGameStateSystem, IStartSystem {
         private GameSystemState State { get; }
 
         // Events

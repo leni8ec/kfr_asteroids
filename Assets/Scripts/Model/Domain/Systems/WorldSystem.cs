@@ -10,12 +10,13 @@ using Model.Core.Interface.Entity;
 using Model.Core.Pools;
 using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
+using Model.Domain.Systems.Interface;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
 namespace Model.Domain.Systems {
     [UsedImplicitly]
-    public class WorldSystem : SystemBase, IUpdateSystem {
+    public class WorldSystem : SystemBase, IWorldSystem, IUpdateSystem {
         private WorldSystemState State { get; }
         private WorldConfig Config { get; }
 

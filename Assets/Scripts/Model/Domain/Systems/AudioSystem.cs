@@ -6,11 +6,12 @@ using Model.Core.Game;
 using Model.Core.Interface.Adapters;
 using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
+using Model.Domain.Systems.Interface;
 using UnityEngine;
 
 namespace Model.Domain.Systems {
     [UsedImplicitly]
-    public class AudioSystem : SystemBase {
+    public class AudioSystem : SystemBase, IAudioSystem {
         private SoundsConfig Config { get; }
 
         private ValueChange<GameStatus> GameStatus { get; }
