@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 
 namespace Model.Core.Container.Object {
+
     public abstract class CollectorBase<TObject> : ICollector {
         private readonly IDictionary<Type, TObject> objects = new Dictionary<Type, TObject>();
         public IDictionary<Type, TObject> Objects => objects;
@@ -32,10 +33,13 @@ namespace Model.Core.Container.Object {
     }
 
 
+    // todo: find a better naming for class
     /// <typeparam name="TPointer">Always is 'object'</typeparam>
     /// <typeparam name="TObject"></typeparam>
     public class TypeObjectPointers<TPointer, TObject> : IEnumerable<DictionaryEntry> {
 
+        // => there's no way to do it with generic 'Dictionary<,>' due to the need for implicit conversions IDictionary
+        // This cast is impossible: ObjectPointers<IConfigState, object> -> ObjectPointers<AsteroidConfigState, AsteroidConfig.Size>
         private readonly IDictionary typesPointers = new HybridDictionary();
         public int Count => typesPointers.Count;
 
@@ -61,7 +65,7 @@ namespace Model.Core.Container.Object {
 
     }
 
-
+    // todo: find a better naming for class
     public class ObjectPointers<TObject, TPointer> : IObjectPointers {
         private readonly IDictionary<TPointer, TObject> pointers = new Dictionary<TPointer, TObject>();
 
