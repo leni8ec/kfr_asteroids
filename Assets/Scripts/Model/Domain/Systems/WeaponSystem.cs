@@ -2,7 +2,6 @@
 using Model.Core.Data.State;
 using Model.Core.Entity;
 using Model.Core.Interface.Entity;
-using Model.Core.Pools;
 using Model.Core.Pools.Base;
 using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
@@ -31,10 +30,6 @@ namespace Model.Domain.Systems {
         public WeaponSystem(WeaponSystemState state, BulletConfig bulletConfig, LaserConfig laserConfig, EntitiesState entities) {
             State = state;
             Player = entities.player;
-
-            // Fill entities state
-            entities.ammo1Pool = new BulletPool(bulletConfig);
-            entities.ammo2Pool = new LaserPool(laserConfig);
 
             // Link properties
             Ammo1Pool = entities.ammo1Pool;

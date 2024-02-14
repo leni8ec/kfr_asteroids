@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using JetBrains.Annotations;
-using Model.Core.Container.Object;
 using Model.Core.Data.State;
 using Model.Core.Data.State.Base;
 using Model.Core.Entity;
@@ -32,20 +31,10 @@ namespace Model.Domain.Systems {
         private ValueChange<GameStatus> GameStatus { get; }
 
         public WorldSystem(WorldConfig config, WorldSystemState state,
-            ObjectPointers<AsteroidConfig, AsteroidConfig.Size> asteroidConfigs, UfoConfig ufoConfig,
             EntitiesState entities, GameSystemState gameSystemState, ICameraAdapter cameraAdapter) {
 
             Config = config;
             State = state;
-
-            // Fill entities state
-            entities.ufosPool = new UfoPool(ufoConfig);
-            entities.asteroidPools = new Dictionary<AsteroidConfig.Size, AsteroidPool> {
-                { AsteroidConfig.Size.Large, new AsteroidPool(asteroidConfigs.Get(AsteroidConfig.Size.Large)) },
-                { AsteroidConfig.Size.Medium, new AsteroidPool(asteroidConfigs.Get(AsteroidConfig.Size.Medium)) },
-                { AsteroidConfig.Size.Small, new AsteroidPool(asteroidConfigs.Get(AsteroidConfig.Size.Small)) }
-            };
-
 
             // Link properties
             Camera = cameraAdapter;
