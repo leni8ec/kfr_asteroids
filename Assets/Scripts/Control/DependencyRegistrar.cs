@@ -1,4 +1,5 @@
-﻿using Model.Core.Adapters;
+﻿using System;
+using Model.Core.Adapters;
 using Model.Core.Container.Ioc;
 using Model.Core.Container.Object;
 using Model.Core.Data;
@@ -19,13 +20,13 @@ namespace Control {
 
 
         private void RegisterCollector<T>(CollectorBase<T> collector) {
-            foreach (T collectorValue in collector.Values) {
-                Container.RegisterByInstanceType(collectorValue);
-            }
-            // Add pointer objects
-            if (collector.Pointers.Count == 0) return;
-            foreach (IObjectPointers pointerObjectsValue in collector.Pointers) {
-                Container.RegisterByInstanceType(pointerObjectsValue);
+            foreach ((Type type, T value) in collector.Objects)
+                Container.Register(type, value);
+
+            // Add ObjectPointers
+            if (!collector.IsPointersExists) return;
+            foreach ((object type, object value) in collector.Pointers) {
+                Container.Register((Type) type, value);
             }
         }
 

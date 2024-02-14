@@ -12,8 +12,11 @@ namespace UnityView.Data {
 
         public AdaptersCollector CreateCollector() {
             AdaptersCollector collector = new();
+
+            // => Use concrete adapter interfaces explicitly!
             collector.Add<ICameraAdapter>(camera);
             collector.Add<IAudioAdapter>(audio);
+
             return collector;
         }
 

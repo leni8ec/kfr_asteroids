@@ -19,20 +19,17 @@ namespace Model.Core.Container.Ioc {
             Register<TConcrete, TConcrete>(instance, lifeCycle);
         }
 
-        public void Register<TTypeToResolve, TConcrete>(TTypeToResolve instance, LifeCycle lifeCycle = LifeCycleDefault) {
-            registeredObjects.Add(new RegisteredObject(typeof(TTypeToResolve), typeof(TConcrete), lifeCycle, instance));
+        public void Register<TTypeToResolve, TConcrete>(TConcrete instance, LifeCycle lifeCycle = LifeCycleDefault) {
+            Register(typeof(TTypeToResolve), typeof(TConcrete), instance, lifeCycle);
         }
 
-        public void RegisterByInstanceType<TConcrete>(TConcrete instance, LifeCycle lifeCycle = LifeCycleDefault) {
-            Type instanceType = instance.GetType();
-            registeredObjects.Add(new RegisteredObject(instanceType, instanceType, lifeCycle, instance));
+        public void Register<TConcrete>(Type typeToResolve, TConcrete instance, LifeCycle lifeCycle = LifeCycleDefault) {
+            registeredObjects.Add(new RegisteredObject(typeToResolve, typeof(TConcrete), lifeCycle, instance));
         }
 
-        // todo: find better naming
-        public void RegisterByInstanceType2<TTypeToResolve>(TTypeToResolve instance, LifeCycle lifeCycle = LifeCycleDefault) {
-            registeredObjects.Add(new RegisteredObject(typeof(TTypeToResolve), instance.GetType(), lifeCycle, instance));
+        public void Register<TConcrete>(Type typeToResolve, Type typeConcrete, TConcrete instance, LifeCycle lifeCycle = LifeCycleDefault) {
+            registeredObjects.Add(new RegisteredObject(typeToResolve, typeConcrete, lifeCycle, instance));
         }
-
 
         public TTypeToResolve Resolve<TTypeToResolve>() {
             return (TTypeToResolve)ResolveObject(typeof(TTypeToResolve));
@@ -50,8 +47,8 @@ namespace Model.Core.Container.Ioc {
         // public void Set<TType>(TType resolvedObject) { }
 
         private object ResolveObject(Type typeToResolve) {
-            // RegisteredObject registeredObject = registeredObjects.FirstOrDefault(o => o.TypeToResolve == typeToResolve);
-            RegisteredObject registeredObject = registeredObjects.FirstOrDefault(o => typeToResolve.IsAssignableFrom(o.TypeToResolve)); // hack
+            // RegisteredObject registeredObject = registeredObjects.FirstOrDefault(o => typeToResolve.IsAssignableFrom(o.TypeToResolve)); // hack (not used)
+            RegisteredObject registeredObject = registeredObjects.FirstOrDefault(o => o.TypeToResolve == typeToResolve);
             if (registeredObject == null) {
                 throw new TypeNotRegisteredException($"The type {typeToResolve.Name} has not been registered");
             }

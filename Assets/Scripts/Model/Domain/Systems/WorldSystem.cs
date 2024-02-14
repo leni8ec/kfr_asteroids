@@ -7,7 +7,6 @@ using Model.Core.Entity;
 using Model.Core.Entity.Base;
 using Model.Core.Game;
 using Model.Core.Interface.Adapters;
-using Model.Core.Interface.Config;
 using Model.Core.Interface.Entity;
 using Model.Core.Pools;
 using Model.Core.Unity.Data.Config;
@@ -33,9 +32,8 @@ namespace Model.Domain.Systems {
         private ValueChange<GameStatus> GameStatus { get; }
 
         public WorldSystem(WorldConfig config, WorldSystemState state,
-            UfoConfig ufoConfig, ObjectPointers<IConfigData, object> asteroidConfigs, // todo: Resolve this
-            EntitiesState entities, GameSystemState gameSystemState,
-            ICameraAdapter cameraAdapter) {
+            ObjectPointers<AsteroidConfig, AsteroidConfig.Size> asteroidConfigs, UfoConfig ufoConfig,
+            EntitiesState entities, GameSystemState gameSystemState, ICameraAdapter cameraAdapter) {
 
             Config = config;
             State = state;
@@ -43,9 +41,9 @@ namespace Model.Domain.Systems {
             // Fill entities state
             entities.ufosPool = new UfoPool(ufoConfig);
             entities.asteroidPools = new Dictionary<AsteroidConfig.Size, AsteroidPool> {
-                { AsteroidConfig.Size.Large, new AsteroidPool((AsteroidConfig)asteroidConfigs.Get(AsteroidConfig.Size.Large)) }, // todo: Resolve this
-                { AsteroidConfig.Size.Medium, new AsteroidPool((AsteroidConfig)asteroidConfigs.Get(AsteroidConfig.Size.Medium)) },
-                { AsteroidConfig.Size.Small, new AsteroidPool((AsteroidConfig)asteroidConfigs.Get(AsteroidConfig.Size.Small)) }
+                { AsteroidConfig.Size.Large, new AsteroidPool(asteroidConfigs.Get(AsteroidConfig.Size.Large)) },
+                { AsteroidConfig.Size.Medium, new AsteroidPool(asteroidConfigs.Get(AsteroidConfig.Size.Medium)) },
+                { AsteroidConfig.Size.Small, new AsteroidPool(asteroidConfigs.Get(AsteroidConfig.Size.Small)) }
             };
 
 
