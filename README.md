@@ -22,4 +22,5 @@
 ---
 
 ### ➡️ Todo
-- Code cleanup (documentation)
+- Code cleanup (and some documentation)
+- Event System (purpose?)
