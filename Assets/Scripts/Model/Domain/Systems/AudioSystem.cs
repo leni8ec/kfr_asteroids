@@ -52,6 +52,7 @@ namespace Model.Domain.Systems {
         }
 
         private void PlaySound(AudioClip clip, bool forced = false) {
+            // todo: GameStatus.Value - remove from this
             if (!forced && (!Active || GameStatus.Value != Core.Game.GameStatus.Playing)) return;
             Adapter.PlaySound(clip);
         }

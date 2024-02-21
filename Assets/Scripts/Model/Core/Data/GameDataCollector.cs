@@ -6,6 +6,7 @@ namespace Model.Core.Data {
         public ConfigCollector Configs { get; }
         public StateCollector States { get; }
 
+        // todo: it's a god object for EntityView (presentation layer)
         public GameDataCollector(ConfigCollector configsCollector, StateCollector statesCollector) {
             Configs = configsCollector;
             States = statesCollector;

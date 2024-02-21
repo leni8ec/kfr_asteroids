@@ -16,6 +16,7 @@ namespace Model.Core.Pools.Base {
         private readonly IEntityFactory<TEntity> factory;
 
         private readonly Stack<TEntity> stack = new();
+        // todo: move from this?
         private readonly LinkedList<TEntity> active = new(); // use Linked List - as better performance for many add/remove events
         public IEnumerable<TEntity> Active => active;
 
@@ -46,7 +47,7 @@ namespace Model.Core.Pools.Base {
         /// </summary>
         private void Return(TEntity entity) {
             entity.State.Active.Value = false; // todo: move from this (or not)?
-            active.Remove(entity);
+            active.Remove(entity); // todo: investigate this (remove function is O(N)) !!!
             stack.Push(entity);
         }
 
