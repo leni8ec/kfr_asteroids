@@ -13,12 +13,15 @@ namespace UnityView.Data {
         [SerializeField] private AsteroidConfig asteroidLarge;
         [SerializeField] private AsteroidConfig asteroidMedium;
         [SerializeField] private AsteroidConfig asteroidSmall;
-
         [Space]
         [SerializeField] private UfoConfig ufo;
+
         [Space]
         [SerializeField] private WorldConfig world;
         [Space]
+        [SerializeField] private PoolsConfig pools;
+        [Space]
+
         [SerializeField] private SoundsConfig sounds;
 
         public ConfigCollector CreateCollector() {
@@ -33,6 +36,7 @@ namespace UnityView.Data {
 
             collector.Add(ufo);
             collector.Add(world);
+            collector.Add(pools);
             collector.Add(sounds);
 
             return collector;

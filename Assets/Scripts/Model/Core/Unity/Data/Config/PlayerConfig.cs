@@ -3,7 +3,7 @@ using Model.Core.Interface.Containers;
 using UnityEngine;
 
 namespace Model.Core.Unity.Data.Config {
-    [CreateAssetMenu(menuName = "Data/PlayerData")]
+    [CreateAssetMenu(menuName = "Configs/PlayerConfig")]
     public class PlayerConfig : ScriptableObject, IConfigData, IColliderRadiusContainer {
         public float speed = 3f;
         [Tooltip("in sec to full speed")]

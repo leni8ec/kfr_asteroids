@@ -6,7 +6,7 @@ using Model.Core.Unity.Data.Config;
 namespace Model.Core.Pools {
     public class BulletPool : EntityPool<Bullet, BulletAmmoState, BulletConfig> {
 
-        public BulletPool(BulletConfig config) : base(new EntityFactory<Bullet, BulletAmmoState, BulletConfig>(config)) { }
+        public BulletPool(BulletConfig config, int capacity) : base(new EntityFactory<Bullet, BulletAmmoState, BulletConfig>(config), capacity) { }
 
     }
 }

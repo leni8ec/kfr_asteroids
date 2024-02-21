@@ -15,18 +15,20 @@ namespace Model.Core.Pools.Base {
 
         private readonly IEntityFactory<TEntity> factory;
 
-        private readonly Stack<TEntity> stack = new();
+        private readonly Stack<TEntity> stack;
         // todo: move from this?
-        private readonly LinkedList<TEntity> active = new(); // use Linked List - as better performance for many add/remove events
-        public IEnumerable<TEntity> Active => active;
+        private readonly List<TEntity> active;
+        public IList<TEntity> Active => active;
 
         /// <summary>
         /// Don't in List mutable cases (don't safe to list changes)
         /// </summary>
         public int ActiveCount => active.Count;
 
-        protected EntityPool(IEntityFactory<TEntity> factory) {
+        protected EntityPool(IEntityFactory<TEntity> factory, int capacity) {
             this.factory = factory;
+            stack = new Stack<TEntity>(capacity);
+            active = new List<TEntity>(capacity);
         }
 
 
@@ -38,7 +40,7 @@ namespace Model.Core.Pools.Base {
 
             if (!entity.State.Active.Value) entity.State.Active.Value = true; // todo: move from this (or not)?
 
-            active.AddLast(entity);
+            active.Add(entity);
             return entity;
         }
 
@@ -47,7 +49,7 @@ namespace Model.Core.Pools.Base {
         /// </summary>
         private void Return(TEntity entity) {
             entity.State.Active.Value = false; // todo: move from this (or not)?
-            active.Remove(entity); // todo: investigate this (remove function is O(N)) !!!
+            active.Remove(entity); // Complexity: O(N)
             stack.Push(entity);
         }
 
@@ -56,11 +58,8 @@ namespace Model.Core.Pools.Base {
         /// Iterate for all active entities (safe for list changes during iteration)
         /// </summary>
         public void ForEachActive(Action<TEntity> action) {
-            LinkedListNode<TEntity> node = active.First;
-            while (node != null) {
-                LinkedListNode<TEntity> nextNode = node.Next;
-                action(node.Value);
-                node = nextNode;
+            for (int i = active.Count - 1; i >= 0; i--) {
+                action(active[i]);
             }
         }
 

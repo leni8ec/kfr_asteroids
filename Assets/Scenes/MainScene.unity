@@ -817,6 +817,7 @@ MonoBehaviour:
   asteroidSmall: {fileID: 11400000, guid: 7e7f9688c8450af49a7d06fc9e34a2f1, type: 2}
   ufo: {fileID: 11400000, guid: bf7c9cd7958928a44af33b695ca69406, type: 2}
   world: {fileID: 11400000, guid: 425174e9e332aac4484337ad063622fd, type: 2}
+  pools: {fileID: 11400000, guid: 93c89d39c38157e49a17b2e209572474, type: 2}
   sounds: {fileID: 11400000, guid: b910ddc8aaace124c9d4ec35f6bf78e4, type: 2}
 --- !u!1 &504463725
 GameObject:

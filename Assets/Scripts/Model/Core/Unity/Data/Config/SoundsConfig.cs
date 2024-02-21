@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace Model.Core.Unity.Data.Config {
-    [CreateAssetMenu(menuName = "Data/SoundsData")]
+    [CreateAssetMenu(menuName = "Configs/SoundsConfig")]
     public class SoundsConfig : ScriptableObject, IConfigData {
         public AudioClip playerMove;
         public AudioClip playerExplosion;

@@ -3,7 +3,7 @@ using Model.Core.Interface.Containers;
 using UnityEngine;
 
 namespace Model.Core.Unity.Data.Config {
-    [CreateAssetMenu(menuName = "Data/BulletData")]
+    [CreateAssetMenu(menuName = "Configs/BulletConfig")]
     public class BulletConfig : ScriptableObject, IConfigData, IColliderRadiusContainer {
         [Tooltip("shots per sec")]
         public float fireRate = 5;

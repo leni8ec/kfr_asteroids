@@ -3,7 +3,7 @@ using Model.Core.Interface.Containers;
 using UnityEngine;
 
 namespace Model.Core.Unity.Data.Config {
-    [CreateAssetMenu(menuName = "Data/LaserData")]
+    [CreateAssetMenu(menuName = "Configs/LaserConfig")]
     public class LaserConfig : ScriptableObject, IConfigData, IColliderRadiusContainer {
 
         [Tooltip("Max shots count")]

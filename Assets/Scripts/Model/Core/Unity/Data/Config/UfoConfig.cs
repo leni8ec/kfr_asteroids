@@ -3,7 +3,7 @@ using Model.Core.Interface.Containers;
 using UnityEngine;
 
 namespace Model.Core.Unity.Data.Config {
-    [CreateAssetMenu(menuName = "Data/UfoData")]
+    [CreateAssetMenu(menuName = "Configs/UfoConfig")]
     public class UfoConfig : ScriptableObject, IConfigData, IColliderRadiusContainer {
         public float startSpeed = 1;
         public float huntSpeed = 1.2f;

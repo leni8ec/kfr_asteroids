@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Model.Core.Unity.Data.Config {
 
-    [CreateAssetMenu(menuName = "Data/AsteroidData")]
+    [CreateAssetMenu(menuName = "Configs/AsteroidConfig")]
     public class AsteroidConfig : ScriptableObject, IConfigData, IColliderRadiusContainer {
         [Space]
         public Size size;
