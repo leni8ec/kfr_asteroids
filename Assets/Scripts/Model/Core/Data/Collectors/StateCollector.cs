@@ -6,7 +6,8 @@ namespace Model.Core.Data.Collectors {
     public class StateCollector : CollectorBase<IStateData> {
 
         public StateCollector() {
-            Add(new EntitiesState());
+            Add(new ActiveEntitiesState());
+            Add(new EntitiesManagersState());
             Add(new WorldSystemState());
             Add(new GameSystemState());
             Add(new ScoreSystemState());

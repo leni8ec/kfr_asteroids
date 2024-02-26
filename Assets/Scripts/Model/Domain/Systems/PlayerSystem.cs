@@ -10,7 +10,7 @@ namespace Model.Domain.Systems {
     public class PlayerSystem : SystemBase, IPlayerSystem {
         private Player Player { get; }
 
-        public PlayerSystem(PlayerConfig config, EntitiesState entities) {
+        public PlayerSystem(PlayerConfig config, ActiveEntitiesState entities) {
             // Fill entities state
             Player createdPlayer = CreatePlayer(config);
             entities.player = createdPlayer;

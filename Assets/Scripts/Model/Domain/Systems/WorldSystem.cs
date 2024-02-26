@@ -7,7 +7,7 @@ using Model.Core.Entity.Base;
 using Model.Core.Game;
 using Model.Core.Interface.Adapters;
 using Model.Core.Interface.Entity;
-using Model.Core.Pools;
+using Model.Core.Pool;
 using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
 using Model.Domain.Systems.Interface;
@@ -23,26 +23,33 @@ namespace Model.Domain.Systems {
         private Player Player { get; }
         private ICameraAdapter Camera { get; }
 
-        private BulletPool BulletPool { get; }
+        private EntitiesManager<Ufo, UfoState, UfoConfig> UfosManager { get; }
+        private Dictionary<AsteroidConfig.Size, EntitiesManager<Asteroid, AsteroidState, AsteroidConfig>> AsteroidsManagers { get; }
 
-        private UfoPool UfoPool { get; }
-        private Dictionary<AsteroidConfig.Size, AsteroidPool> AsteroidPools { get; }
+        private IEntitiesList<Bullet> ActiveBullets { get; }
+        private IEntitiesList<Ufo> ActiveUfos { get; }
+        private Dictionary<AsteroidConfig.Size, IEntitiesList<Asteroid>> ActiveAsteroidsDict { get; }
 
 
         private ValueChange<GameStatus> GameStatus { get; }
 
         public WorldSystem(WorldConfig config, WorldSystemState state,
-            EntitiesState entities, GameSystemState gameSystemState, ICameraAdapter cameraAdapter) {
+            ActiveEntitiesState activeEntities, EntitiesManagersState entitiesManagers, GameSystemState gameSystemState, ICameraAdapter cameraAdapter) {
 
             Config = config;
             State = state;
 
             // Link properties
             Camera = cameraAdapter;
-            Player = entities.player;
-            BulletPool = entities.ammo1Pool;
-            UfoPool = entities.ufosPool;
-            AsteroidPools = entities.asteroidPools;
+            Player = activeEntities.player;
+
+            UfosManager = entitiesManagers.ufos;
+            AsteroidsManagers = entitiesManagers.asteroidsManagers;
+
+            ActiveBullets = activeEntities.ammo1;
+            ActiveUfos = activeEntities.ufos;
+            ActiveAsteroidsDict = activeEntities.asteroidsDict;
+
             GameStatus = gameSystemState.Status;
 
             // Subscribe
@@ -65,9 +72,9 @@ namespace Model.Domain.Systems {
             Disable();
             State.Reset();
 
-            UfoPool.ForEachActive(Destroy);
-            foreach (AsteroidPool asteroidPool in AsteroidPools.Values)
-                asteroidPool.ForEachActive(Destroy);
+            ActiveUfos.ForEachSave(Destroy);
+            foreach (IEntitiesList<Asteroid> activeAsteroids in ActiveAsteroidsDict.Values)
+                activeAsteroids.ForEachSave(Destroy);
 
             return;
             void Destroy(IEntity entity) => entity.Destroy();
@@ -77,9 +84,9 @@ namespace Model.Domain.Systems {
             // Spawn
             if ((State.asteroidSpawnCountdown -= deltaTime) <= 0) {
                 // Check asteroids count limit
-                int totalActiveAsteroids = AsteroidPools[AsteroidConfig.Size.Large].ActiveCount
-                                           + AsteroidPools[AsteroidConfig.Size.Medium].ActiveCount
-                                           + AsteroidPools[AsteroidConfig.Size.Small].ActiveCount;
+                int totalActiveAsteroids = ActiveAsteroidsDict[AsteroidConfig.Size.Large].Count
+                                           + ActiveAsteroidsDict[AsteroidConfig.Size.Medium].Count
+                                           + ActiveAsteroidsDict[AsteroidConfig.Size.Small].Count;
                 if (totalActiveAsteroids < Config.asteroidsLimit) {
                     State.asteroidSpawnCountdown = 1 / Config.asteroidsSpawnRate;
                     SpawnAsteroid();
@@ -87,7 +94,7 @@ namespace Model.Domain.Systems {
             }
 
             if ((State.ufoSpawnCountdown -= deltaTime) <= 0) {
-                int totalActiveUfo = UfoPool.ActiveCount;
+                int totalActiveUfo = ActiveUfos.Count;
                 if (totalActiveUfo < Config.ufosLimit) {
                     State.ufoSpawnCountdown = 1 / Config.ufoSpawnRate;
                     SpawnUfo();
@@ -107,18 +114,20 @@ namespace Model.Domain.Systems {
 
         private void ProcessInfinityScreen() {
             Rect worldBorders = GetWorldLimits(Config.screenInfinityOutsideOffset);
-            void ProcessEntity(EntityBase entity) => ProcessEntityOutOfScreen(worldBorders, entity);
 
             // Player
             ProcessEntityOutOfScreen(worldBorders, Player);
 
             // Enemies
-            UfoPool.ForEachActive(ProcessEntity);
-            foreach (AsteroidPool asteroidPool in AsteroidPools.Values)
-                asteroidPool.ForEachActive(ProcessEntity);
+            ActiveUfos.ForEachSave(ProcessEntity);
+            foreach (IEntitiesList<Asteroid> activeAsteroids in ActiveAsteroidsDict.Values)
+                activeAsteroids.ForEachSave(ProcessEntity);
 
             // Bullets
-            BulletPool.ForEachActive(ProcessEntity);
+            ActiveBullets.ForEachSave(ProcessEntity);
+
+            return;
+            void ProcessEntity(EntityBase entity) => ProcessEntityOutOfScreen(worldBorders, entity);
         }
 
         private void ProcessEntityOutOfScreen(Rect worldBorders, EntityBase entity) {
@@ -135,7 +144,7 @@ namespace Model.Domain.Systems {
 
 
         private void SpawnAsteroid() {
-            Asteroid asteroid = AsteroidPools[AsteroidConfig.Size.Large].Take();
+            Asteroid asteroid = AsteroidsManagers[AsteroidConfig.Size.Large].TakeEntity();
             Vector3 spawnPoint = GetRandomSpawnPoint();
             Vector3 direction = GetRandomDirection(spawnPoint);
             asteroid.Transform.position = spawnPoint;
@@ -143,7 +152,7 @@ namespace Model.Domain.Systems {
         }
 
         private void SpawnUfo() {
-            Ufo ufo = UfoPool.Take();
+            Ufo ufo = UfosManager.TakeEntity();
             Vector3 spawnPoint = GetRandomSpawnPoint();
             Vector3 direction = GetRandomDirection(spawnPoint);
             ufo.Transform.position = spawnPoint;
@@ -200,7 +209,7 @@ namespace Model.Domain.Systems {
             Vector3 direction = Random.insideUnitCircle;
             float degreesDelta = 360f / destroyedAsteroid.DestroyedFragments;
             for (int i = 0; i < destroyedAsteroid.DestroyedFragments; i++) {
-                Asteroid newAsteroid = AsteroidPools[targetSize].Take();
+                Asteroid newAsteroid = AsteroidsManagers[targetSize].TakeEntity();
                 direction = Quaternion.AngleAxis(degreesDelta, Vector3.forward) * direction;
                 Vector3 spawnPoint = destroyedAsteroid.Transform.position + direction * 0.5f;
                 newAsteroid.Transform.position = spawnPoint;

@@ -13,12 +13,12 @@ namespace UnityView.GUI {
         public TextMeshProUGUI laserCount;
         public TextMeshProUGUI laserCountdown;
 
-        private EntitiesState entitiesState;
+        private ActiveEntitiesState entitiesState;
         private ScoreSystemState scoreSystemState;
         private WeaponSystemState weaponSystemState;
 
         private void Start() {
-            entitiesState = States.Get<EntitiesState>();
+            entitiesState = States.Get<ActiveEntitiesState>();
             scoreSystemState = States.Get<ScoreSystemState>();
             weaponSystemState = States.Get<WeaponSystemState>();
 

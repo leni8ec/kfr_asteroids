@@ -2,7 +2,7 @@
 using Model.Core.Entity.Base;
 using Model.Core.Interface.Config;
 
-namespace Model.Core.Pools.Base {
+namespace Model.Core.Pool {
     public class EntityFactory<TEntity, TState, TConfig> : IEntityFactory<TEntity>
         where TEntity : Entity<TState, TConfig>, new()
         where TState : EntityState, new()

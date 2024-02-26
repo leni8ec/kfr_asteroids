@@ -14,7 +14,7 @@ namespace Model.Core.Unity.Data.Config {
         public int ufosCapacity = 10;
         [Space]
         public int asteroidsLargeCapacity = 20;
-        public int asteroidsMiddleCapacity = 30;
+        public int asteroidsMediumCapacity = 30;
         public int asteroidsSmallCapacity = 50;
 
     }

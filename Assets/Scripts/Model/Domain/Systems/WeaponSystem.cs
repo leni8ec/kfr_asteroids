@@ -1,8 +1,8 @@
 ﻿using JetBrains.Annotations;
 using Model.Core.Data.State;
 using Model.Core.Entity;
-using Model.Core.Interface.Entity;
-using Model.Core.Pools.Base;
+using Model.Core.Interface.Base;
+using Model.Core.Pool;
 using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
 using Model.Domain.Systems.Interface;
@@ -15,8 +15,11 @@ namespace Model.Domain.Systems {
         private BulletConfig Ammo1Config { get; }
         private LaserConfig Ammo2Config { get; }
 
-        private EntityPool<Bullet, BulletAmmoState, BulletConfig> Ammo1Pool { get; }
-        private EntityPool<Laser, LaserAmmoState, LaserConfig> Ammo2Pool { get; }
+        private EntitiesManager<Bullet, BulletAmmoState, BulletConfig> Ammo1Manager { get; }
+        private EntitiesManager<Laser, LaserAmmoState, LaserConfig> Ammo2Manager { get; }
+
+        private IEntitiesList<Bullet> ActiveAmmo1 { get; }
+        private IEntitiesList<Laser> ActiveAmmo2 { get; }
 
         private float Fire1Delay => 1 / Ammo1Config.fireRate;
         private float Fire2Delay => 1 / Ammo2Config.fireRate;
@@ -28,13 +31,17 @@ namespace Model.Domain.Systems {
 
         private Player Player { get; }
 
-        public WeaponSystem(WeaponSystemState state, BulletConfig bulletConfig, LaserConfig laserConfig, EntitiesState entities) {
+        public WeaponSystem(WeaponSystemState state, BulletConfig bulletConfig, LaserConfig laserConfig,
+            ActiveEntitiesState activeEntities, EntitiesManagersState entitiesManagers) {
             State = state;
-            Player = entities.player;
+            Player = activeEntities.player;
+
+            ActiveAmmo1 = activeEntities.ammo1;
+            ActiveAmmo2 = activeEntities.ammo2;
 
             // Link properties
-            Ammo1Pool = entities.ammo1Pool;
-            Ammo2Pool = entities.ammo2Pool;
+            Ammo1Manager = entitiesManagers.ammo1;
+            Ammo2Manager = entitiesManagers.ammo2;
 
             Ammo1Config = bulletConfig;
             Ammo2Config = laserConfig;
@@ -54,11 +61,11 @@ namespace Model.Domain.Systems {
             State.Reset();
 
             // Destroy Ammo
-            Ammo1Pool.ForEachActive(DestroyEntity);
-            Ammo2Pool.ForEachActive(DestroyEntity);
+            ActiveAmmo1.ForEachSave(Destroy);
+            ActiveAmmo2.ForEachSave(Destroy);
 
             return;
-            void DestroyEntity(IEntity entity) => entity.Destroy();
+            void Destroy(IDestroy entity) => entity.Destroy();
         }
 
         public void Upd(float deltaTime) {
@@ -90,14 +97,14 @@ namespace Model.Domain.Systems {
         }
 
         private void SpawnBullet() {
-            Bullet bullet = Ammo1Pool.Take();
+            Bullet bullet = Ammo1Manager.TakeEntity();
             Transform playerTransform = Player.Transform;
             bullet.Set(Player.WeaponWorldPosition, playerTransform.up);
             bullet.Fire();
         }
 
         private void SpawnLaser() {
-            Laser laser = Ammo2Pool.Take();
+            Laser laser = Ammo2Manager.TakeEntity();
             Transform playerTransform = Player.Transform;
             laser.Set(playerTransform.position, playerTransform.up);
             laser.Fire();

@@ -16,8 +16,8 @@ namespace Control.View {
             States = states;
 
             FireCommand = new FireCommand(States.Get<WeaponSystemState>());
-            MoveCommand = new MoveCommand(States.Get<EntitiesState>().player.State);
-            RotateCommand = new RotateCommand(States.Get<EntitiesState>().player.State);
+            MoveCommand = new MoveCommand(States.Get<ActiveEntitiesState>().player.State);
+            RotateCommand = new RotateCommand(States.Get<ActiveEntitiesState>().player.State);
             ContinueCommand = new ContinueCommand(States.Get<GameSystemState>());
         }
 

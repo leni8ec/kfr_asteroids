@@ -18,7 +18,7 @@ namespace Model.Domain.Systems {
         private IAudioAdapter Adapter { get; }
         private ValueChange<bool> PlayerActiveState { get; }
 
-        public AudioSystem(SoundsConfig config, GameSystemState gameSystemState, EntitiesState entities, IAudioAdapter audioAdapter) {
+        public AudioSystem(SoundsConfig config, GameSystemState gameSystemState, ActiveEntitiesState entities, IAudioAdapter audioAdapter) {
             Config = config;
             GameStatus = gameSystemState.Status;
             PlayerActiveState = entities.player.State.Active;

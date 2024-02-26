@@ -3,7 +3,6 @@ using JetBrains.Annotations;
 using Model.Core.Data.State;
 using Model.Core.Entity;
 using Model.Core.Interface.Entity;
-using Model.Core.Pools;
 using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
 using Model.Domain.Systems.Interface;
@@ -12,13 +11,7 @@ using UnityEngine;
 namespace Model.Domain.Systems {
     [UsedImplicitly]
     public class CollisionSystem : SystemBase, ICollisionSystem, IUpdateSystem {
-        private ICollider Player { get; }
-
-        // Active entities in world
-        private Dictionary<AsteroidConfig.Size, AsteroidPool> AsteroidPools { get; }
-        private IEnumerable<Ufo> Ufos { get; }
-        private IEnumerable<Bullet> Bullets { get; }
-        private IEnumerable<Laser> Lasers { get; }
+        public ActiveEntitiesState Entities { get; }
 
         // Events
         public delegate void PlayerHitEventHandler(ICollider enemy);
@@ -28,13 +21,8 @@ namespace Model.Domain.Systems {
         public static event EnemyHitEventHandler EnemyHitEvent;
 
 
-        public CollisionSystem(EntitiesState entities) {
-            // Link properties
-            Player = entities.player;
-            AsteroidPools = entities.asteroidPools;
-            Ufos = entities.ufosPool.Active;
-            Bullets = entities.ammo1Pool.Active;
-            Lasers = entities.ammo2Pool.Active;
+        public CollisionSystem(ActiveEntitiesState entities) {
+            Entities = entities;
 
             // Game state events
             GameStateSystem.NewGameEvent += Enable;
@@ -42,10 +30,10 @@ namespace Model.Domain.Systems {
         }
 
         public void Upd(float deltaTime) {
-            IEnumerator<Asteroid> asteroidsLargeEnum = AsteroidPools[AsteroidConfig.Size.Large].Active.GetEnumerator();
-            IEnumerator<Asteroid> asteroidsMediumEnum = AsteroidPools[AsteroidConfig.Size.Medium].Active.GetEnumerator();
-            IEnumerator<Asteroid> asteroidsSmallEnum = AsteroidPools[AsteroidConfig.Size.Small].Active.GetEnumerator();
-            IEnumerator<Ufo> ufosEnum = Ufos.GetEnumerator();
+            IEnumerator<Asteroid> asteroidsLargeEnum = Entities.asteroidsDict[AsteroidConfig.Size.Large].GetEnumerator();
+            IEnumerator<Asteroid> asteroidsMediumEnum = Entities.asteroidsDict[AsteroidConfig.Size.Medium].GetEnumerator();
+            IEnumerator<Asteroid> asteroidsSmallEnum = Entities.asteroidsDict[AsteroidConfig.Size.Small].GetEnumerator();
+            IEnumerator<Ufo> ufosEnum = Entities.ufos.GetEnumerator();
 
             do {
                 ICollider enemy;
@@ -58,7 +46,7 @@ namespace Model.Domain.Systems {
 
                 // Check bullets
                 bool toBreak = false;
-                foreach (ICollider ammo in Bullets) {
+                foreach (ICollider ammo in Entities.ammo1) {
                     if (IsIntersect(enemy, ammo)) {
                         EnemyHitEvent?.Invoke(enemy, ammo);
                         toBreak = true;
@@ -68,7 +56,7 @@ namespace Model.Domain.Systems {
                 if (toBreak) break;
 
                 // Check laser
-                foreach (Laser laser in Lasers) {
+                foreach (Laser laser in Entities.ammo2) {
                     float enemyDistance = Vector2.Distance(enemy.Pos, laser.Pos);
                     // Check laser distance limit
                     if (laser.MaxDistance + laser.ColliderRadius < enemyDistance - enemy.ColliderRadius) continue;
@@ -86,7 +74,7 @@ namespace Model.Domain.Systems {
                 if (toBreak) break;
 
                 // Check player (latest, after bullets)
-                if (IsIntersect(enemy, Player)) {
+                if (IsIntersect(enemy, Entities.player)) {
                     PlayerHitEvent?.Invoke(enemy);
                     break;
                 }

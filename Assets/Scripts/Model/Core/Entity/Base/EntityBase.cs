@@ -8,10 +8,10 @@ namespace Model.Core.Entity.Base {
         public abstract Transform Transform { get; }
 
         public delegate void CreateEventHandler(EntityBase entity);
-        public delegate void DisposeEventHandler();
+        public delegate void DestroyEventHandler();
 
         public static event CreateEventHandler StaticCreateEvent;
-        public event DisposeEventHandler DestroyEvent;
+        public event DestroyEventHandler DestroyEvent;
 
 
         protected void CreateInternal() {

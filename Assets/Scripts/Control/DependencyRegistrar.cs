@@ -23,7 +23,7 @@ namespace Control {
 
         private void RegisterSystems() {
             // Resolve Systems            Order of initialization:
-            Container.Register<IEntityPoolSystem, EntityPoolSystem>();
+            Container.Register<IEntitiesSystem, EntitiesSystem>();
             Container.Register<IPlayerSystem, PlayerSystem>();
             Container.Register<IWeaponSystem, WeaponSystem>();
             Container.Register<IWorldSystem, WorldSystem>();

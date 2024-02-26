@@ -18,7 +18,7 @@ namespace Model.Domain.Processors {
             updateSystems = new List<IUpdateSystem>();
 
             // Resolve Systems            Order of initialization:
-            Add<IEntityPoolSystem>(); //    0. Pools (for entities)
+            Add<IEntitiesSystem>(); //      0. Entities managers
             Add<IPlayerSystem>(); //        1. Player (player control)
             Add<IWeaponSystem>(); //        2. Weapon (spawn ammo)
             Add<IWorldSystem>(); //         3. World (spawn enemies)
