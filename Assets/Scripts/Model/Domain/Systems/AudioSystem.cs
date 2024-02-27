@@ -11,21 +11,25 @@ using UnityEngine;
 
 namespace Model.Domain.Systems {
     [UsedImplicitly]
-    public class AudioSystem : SystemBase, IAudioSystem {
+    public class AudioSystem : SystemBase, IAudioSystem, ICreateSystem {
         private SoundsConfig Config { get; }
-
-        private ValueChange<GameStatus> GameStatus { get; }
         private IAudioAdapter Adapter { get; }
-        private ValueChange<bool> PlayerActiveState { get; }
 
-        public AudioSystem(SoundsConfig config, GameSystemState gameSystemState, ActiveEntitiesState entities, IAudioAdapter audioAdapter) {
+        private ActiveEntitiesState Entities { get; }
+        private ValueChange<bool> PlayerActiveState { get; set; }
+
+        public AudioSystem(SoundsConfig config, GameSystemState gameSystemState, IAudioAdapter audioAdapter, ActiveEntitiesState entities) {
             Config = config;
-            GameStatus = gameSystemState.Status;
-            PlayerActiveState = entities.player.State.Active;
-
             Adapter = audioAdapter;
+            Entities = entities;
 
             SubscribeEvents();
+        }
+
+        public void Create() {
+            Entities.player.State.Active.Changed += active => {
+                if (!active) PlaySound(Config.playerExplosion, true);
+            };
         }
 
         private void SubscribeEvents() {
@@ -45,15 +49,12 @@ namespace Model.Domain.Systems {
             };
 
             Ufo.ExplosionEvent += () => PlaySound(Config.explosionMedium);
-
-            PlayerActiveState.Changed += active => {
-                if (!active) PlaySound(Config.playerExplosion, true);
-            };
         }
 
+
         private void PlaySound(AudioClip clip, bool forced = false) {
-            // todo: GameStatus.Value - remove from this
-            if (!forced && (!Active || GameStatus.Value != Core.Game.GameStatus.Playing)) return;
+            if (!forced && !Active) return;
+
             Adapter.PlaySound(clip);
         }
 

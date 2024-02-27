@@ -18,6 +18,7 @@ namespace Model.Domain.Processors {
             updateSystems = new List<IUpdateSystem>();
 
             // Resolve Systems              Order of initialization:
+            Add<IAudioSystem>(); //            -1. Audio System (temp hack for disable sounds on GameOver)
             Add<IEntitiesSystem>(); //          0. Entities managers
             Add<IPlayerSystem>(); //            1. Player (player control)
             Add<IWeaponSystem>(); //            2. Weapon (spawn ammo)
@@ -26,7 +27,6 @@ namespace Model.Domain.Processors {
             Add<IEntityUpdateSystem>(); //      5. Entities update
             Add<ICollisionSystem>(); //         6. Collision
             Add<IScoreSystem>();
-            Add<IAudioSystem>();
             Add<IGameStateSystem>(); //         [Last] NewGame event
 
             // Called after all systems constructors is called
