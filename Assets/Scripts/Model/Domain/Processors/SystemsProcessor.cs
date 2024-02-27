@@ -6,7 +6,6 @@ using Model.Domain.Systems.Interface;
 
 namespace Model.Domain.Processors {
     public class SystemsProcessor {
-        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
         private readonly DependencyContainer container;
         private readonly Dictionary<Type, ISystem> systems;
         private readonly List<IUpdateSystem> updateSystems;

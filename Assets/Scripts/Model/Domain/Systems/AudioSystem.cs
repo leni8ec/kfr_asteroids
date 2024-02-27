@@ -1,8 +1,6 @@
 ﻿using JetBrains.Annotations;
 using Model.Core.Data.State;
-using Model.Core.Data.State.Base;
 using Model.Core.Entity;
-using Model.Core.Game;
 using Model.Core.Interface.Adapters;
 using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
@@ -14,9 +12,7 @@ namespace Model.Domain.Systems {
     public class AudioSystem : SystemBase, IAudioSystem, ICreateSystem {
         private SoundsConfig Config { get; }
         private IAudioAdapter Adapter { get; }
-
         private ActiveEntitiesState Entities { get; }
-        private ValueChange<bool> PlayerActiveState { get; set; }
 
         public AudioSystem(SoundsConfig config, GameSystemState gameSystemState, IAudioAdapter audioAdapter, ActiveEntitiesState entities) {
             Config = config;
