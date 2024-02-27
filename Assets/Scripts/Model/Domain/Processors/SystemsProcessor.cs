@@ -22,8 +22,9 @@ namespace Model.Domain.Processors {
             Add<IPlayerSystem>(); //        1. Player (player control)
             Add<IWeaponSystem>(); //        2. Weapon (spawn ammo)
             Add<IWorldSystem>(); //         3. World (spawn enemies)
-            Add<IEntityUpdateSystem>(); //  4. Entities update
-            Add<ICollisionSystem>(); //     5. Collision
+            Add<IInfinityScreenSystem>();// 4. Infinity screen
+            Add<IEntityUpdateSystem>(); //  5. Entities update
+            Add<ICollisionSystem>(); //     6. Collision
             Add<IScoreSystem>();
             Add<IAudioSystem>();
             Add<IGameStateSystem>(); //     [Last] NewGame event

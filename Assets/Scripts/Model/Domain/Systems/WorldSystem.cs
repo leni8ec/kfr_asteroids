@@ -3,7 +3,6 @@ using JetBrains.Annotations;
 using Model.Core.Data.State;
 using Model.Core.Data.State.Base;
 using Model.Core.Entity;
-using Model.Core.Entity.Base;
 using Model.Core.Game;
 using Model.Core.Interface.Adapters;
 using Model.Core.Interface.Entity;
@@ -17,8 +16,8 @@ using Vector3 = UnityEngine.Vector3;
 namespace Model.Domain.Systems {
     [UsedImplicitly]
     public class WorldSystem : SystemBase, IWorldSystem, IUpdateSystem {
-        private WorldSystemState State { get; }
         private WorldConfig Config { get; }
+        private WorldSystemState State { get; }
 
         private Player Player { get; }
         private ICameraAdapter Camera { get; }
@@ -26,7 +25,6 @@ namespace Model.Domain.Systems {
         private EntitiesManager<Ufo, UfoState, UfoConfig> UfosManager { get; }
         private Dictionary<AsteroidConfig.Size, EntitiesManager<Asteroid, AsteroidState, AsteroidConfig>> AsteroidsManagers { get; }
 
-        private IEntitiesList<Bullet> ActiveBullets { get; }
         private IEntitiesList<Ufo> ActiveUfos { get; }
         private Dictionary<AsteroidConfig.Size, IEntitiesList<Asteroid>> ActiveAsteroidsDict { get; }
 
@@ -46,7 +44,6 @@ namespace Model.Domain.Systems {
             UfosManager = entitiesManagers.ufos;
             AsteroidsManagers = entitiesManagers.asteroidsManagers;
 
-            ActiveBullets = activeEntities.ammo1;
             ActiveUfos = activeEntities.ufos;
             ActiveAsteroidsDict = activeEntities.asteroidsDict;
 
@@ -101,45 +98,6 @@ namespace Model.Domain.Systems {
                 }
             }
 
-            ProcessInfinityScreen();
-        }
-
-
-        private Rect GetWorldLimits(float screenOffset) {
-            Vector2 min = Camera.ScreenToWorldPoint(Vector3.zero);
-            Vector2 max = Camera.ScreenToWorldPoint(new Vector3(Camera.ScreenWidth, Camera.ScreenHeight));
-            Rect limits = new(min.x - screenOffset, min.y - screenOffset, max.x - min.x + screenOffset * 2, max.y - min.y + screenOffset * 2);
-            return limits;
-        }
-
-        private void ProcessInfinityScreen() {
-            Rect worldBorders = GetWorldLimits(Config.screenInfinityOutsideOffset);
-
-            // Player
-            ProcessEntityOutOfScreen(worldBorders, Player);
-
-            // Enemies
-            ActiveUfos.ForEachSave(ProcessEntity);
-            foreach (IEntitiesList<Asteroid> activeAsteroids in ActiveAsteroidsDict.Values)
-                activeAsteroids.ForEachSave(ProcessEntity);
-
-            // Bullets
-            ActiveBullets.ForEachSave(ProcessEntity);
-
-            return;
-            void ProcessEntity(EntityBase entity) => ProcessEntityOutOfScreen(worldBorders, entity);
-        }
-
-        private void ProcessEntityOutOfScreen(Rect worldBorders, EntityBase entity) {
-            Vector3 pos = entity.Transform.position;
-            if (worldBorders.Contains(pos)) return;
-
-            if (pos.x < worldBorders.x) pos.x = worldBorders.xMax;
-            else if (pos.y < worldBorders.y) pos.y = worldBorders.yMax;
-            else if (pos.x > worldBorders.xMax) pos.x = worldBorders.x;
-            else if (pos.y > worldBorders.yMax) pos.y = worldBorders.y;
-
-            entity.Transform.position = pos;
         }
 
 
@@ -162,7 +120,7 @@ namespace Model.Domain.Systems {
 
 
         private Vector3 GetRandomSpawnPoint() {
-            Rect worldBorders = GetWorldLimits(Config.screenSpawnOutsideOffset);
+            Rect worldBorders = Camera.GetWorldLimits(Config.screenSpawnOutsideOffset);
 
             Vector2 vector = new(Random.value, Random.value);
             Vector2 pos = new(worldBorders.x + worldBorders.width * vector.x, worldBorders.y + worldBorders.height * vector.y);
