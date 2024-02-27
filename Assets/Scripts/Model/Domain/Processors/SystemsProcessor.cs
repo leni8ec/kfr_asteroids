@@ -17,17 +17,17 @@ namespace Model.Domain.Processors {
             systems = new Dictionary<Type, ISystem>();
             updateSystems = new List<IUpdateSystem>();
 
-            // Resolve Systems            Order of initialization:
-            Add<IEntitiesSystem>(); //      0. Entities managers
-            Add<IPlayerSystem>(); //        1. Player (player control)
-            Add<IWeaponSystem>(); //        2. Weapon (spawn ammo)
-            Add<IWorldSystem>(); //         3. World (spawn enemies)
-            Add<IInfinityScreenSystem>();// 4. Infinity screen
-            Add<IEntityUpdateSystem>(); //  5. Entities update
-            Add<ICollisionSystem>(); //     6. Collision
+            // Resolve Systems              Order of initialization:
+            Add<IEntitiesSystem>(); //          0. Entities managers
+            Add<IPlayerSystem>(); //            1. Player (player control)
+            Add<IWeaponSystem>(); //            2. Weapon (spawn ammo)
+            Add<IEnemiesSystem>(); //           3. Enemies (spawn enemies)
+            Add<IInfinityScreenSystem>(); //    4. Infinity screen
+            Add<IEntityUpdateSystem>(); //      5. Entities update
+            Add<ICollisionSystem>(); //         6. Collision
             Add<IScoreSystem>();
             Add<IAudioSystem>();
-            Add<IGameStateSystem>(); //     [Last] NewGame event
+            Add<IGameStateSystem>(); //         [Last] NewGame event
 
             // Called after all systems constructors is called
             Initialization();

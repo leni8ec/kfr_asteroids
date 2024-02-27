@@ -8,7 +8,7 @@ namespace Model.Core.Data.Collectors {
         public StateCollector() {
             Add(new ActiveEntitiesState());
             Add(new EntitiesManagersState());
-            Add(new WorldSystemState());
+            Add(new EnemiesSystemState());
             Add(new GameSystemState());
             Add(new ScoreSystemState());
             Add(new WeaponSystemState());

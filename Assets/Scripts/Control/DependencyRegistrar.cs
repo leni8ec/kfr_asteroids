@@ -26,7 +26,7 @@ namespace Control {
             Container.Register<IEntitiesSystem, EntitiesSystem>();
             Container.Register<IPlayerSystem, PlayerSystem>();
             Container.Register<IWeaponSystem, WeaponSystem>();
-            Container.Register<IWorldSystem, WorldSystem>();
+            Container.Register<IEnemiesSystem, EnemiesSystem>();
             Container.Register<IInfinityScreenSystem, InfinityScreenSystem>();
             Container.Register<IEntityUpdateSystem, EntityUpdateSystem>();
             Container.Register<ICollisionSystem, CollisionSystem>();

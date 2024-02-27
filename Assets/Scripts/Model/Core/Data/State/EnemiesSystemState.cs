@@ -1,7 +1,7 @@
 ﻿using Model.Core.Interface.State;
 
 namespace Model.Core.Data.State {
-    public class WorldSystemState : IStateData {
+    public class EnemiesSystemState : IStateData {
 
         public float asteroidSpawnCountdown;
         public float ufoSpawnCountdown;

@@ -15,9 +15,9 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace Model.Domain.Systems {
     [UsedImplicitly]
-    public class WorldSystem : SystemBase, IWorldSystem, IUpdateSystem {
-        private WorldConfig Config { get; }
-        private WorldSystemState State { get; }
+    public class EnemiesSystem : SystemBase, IEnemiesSystem, IUpdateSystem {
+        private WorldConfig WorldConfig { get; }
+        private EnemiesSystemState State { get; }
 
         private Player Player { get; }
         private ICameraAdapter Camera { get; }
@@ -31,10 +31,10 @@ namespace Model.Domain.Systems {
 
         private ValueChange<GameStatus> GameStatus { get; }
 
-        public WorldSystem(WorldConfig config, WorldSystemState state,
+        public EnemiesSystem(WorldConfig worldConfig, EnemiesSystemState state,
             ActiveEntitiesState activeEntities, EntitiesManagersState entitiesManagers, GameSystemState gameSystemState, ICameraAdapter cameraAdapter) {
 
-            Config = config;
+            WorldConfig = worldConfig;
             State = state;
 
             // Link properties
@@ -61,8 +61,8 @@ namespace Model.Domain.Systems {
         private void Play() {
             Enable();
 
-            State.asteroidSpawnCountdown = 1 / Config.asteroidsSpawnRate;
-            State.ufoSpawnCountdown = 1 / Config.ufoSpawnRate;
+            State.asteroidSpawnCountdown = 1 / WorldConfig.asteroidsSpawnRate;
+            State.ufoSpawnCountdown = 1 / WorldConfig.ufoSpawnRate;
         }
 
         private void Reset() {
@@ -84,16 +84,16 @@ namespace Model.Domain.Systems {
                 int totalActiveAsteroids = ActiveAsteroidsDict[AsteroidConfig.Size.Large].Count
                                            + ActiveAsteroidsDict[AsteroidConfig.Size.Medium].Count
                                            + ActiveAsteroidsDict[AsteroidConfig.Size.Small].Count;
-                if (totalActiveAsteroids < Config.asteroidsLimit) {
-                    State.asteroidSpawnCountdown = 1 / Config.asteroidsSpawnRate;
+                if (totalActiveAsteroids < WorldConfig.asteroidsLimit) {
+                    State.asteroidSpawnCountdown = 1 / WorldConfig.asteroidsSpawnRate;
                     SpawnAsteroid();
                 }
             }
 
             if ((State.ufoSpawnCountdown -= deltaTime) <= 0) {
                 int totalActiveUfo = ActiveUfos.Count;
-                if (totalActiveUfo < Config.ufosLimit) {
-                    State.ufoSpawnCountdown = 1 / Config.ufoSpawnRate;
+                if (totalActiveUfo < WorldConfig.ufosLimit) {
+                    State.ufoSpawnCountdown = 1 / WorldConfig.ufoSpawnRate;
                     SpawnUfo();
                 }
             }
@@ -120,7 +120,7 @@ namespace Model.Domain.Systems {
 
 
         private Vector3 GetRandomSpawnPoint() {
-            Rect worldBorders = Camera.GetWorldLimits(Config.screenSpawnOutsideOffset);
+            Rect worldBorders = Camera.GetWorldLimits(WorldConfig.screenSpawnOutsideOffset);
 
             Vector2 vector = new(Random.value, Random.value);
             Vector2 pos = new(worldBorders.x + worldBorders.width * vector.x, worldBorders.y + worldBorders.height * vector.y);
