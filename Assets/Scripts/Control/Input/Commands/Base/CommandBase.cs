@@ -1,6 +1,6 @@
-﻿using Model.Core.Interface.State;
+﻿using Model.Core.Data.State.Base;
 
-namespace Model.Core.Input.Commands.Base {
+namespace Control.Input.Commands.Base {
     public abstract class CommandBase<TState> : ICommand where TState : IStateData {
         protected TState State { get; }
 

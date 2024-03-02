@@ -1,6 +1,6 @@
 ﻿using Model.Core.Container.Object;
 using Model.Core.Data.State;
-using Model.Core.Interface.State;
+using Model.Core.Data.State.Base;
 
 namespace Model.Core.Data.Collectors {
     public class StateCollector : CollectorBase<IStateData> {

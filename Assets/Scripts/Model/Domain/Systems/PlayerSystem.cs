@@ -1,7 +1,7 @@
 ﻿using JetBrains.Annotations;
 using Model.Core.Data.State;
+using Model.Core.Data.Unity.Config;
 using Model.Core.Entity;
-using Model.Core.Unity.Data.Config;
 using Model.Domain.Systems.Base;
 using Model.Domain.Systems.Interface;
 

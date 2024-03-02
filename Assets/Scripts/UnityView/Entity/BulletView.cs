@@ -1,6 +1,6 @@
 ﻿using Model.Core.Data.State;
+using Model.Core.Data.Unity.Config;
 using Model.Core.Entity;
-using Model.Core.Unity.Data.Config;
 using UnityView.Entity.Base;
 
 namespace UnityView.Entity {

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using Model.Core.Data.State.Base;
+using Model.Core.Data.Unity.Config;
 using Model.Core.Entity;
-using Model.Core.Interface.State;
 using Model.Core.Pool;
-using Model.Core.Unity.Data.Config;
 
 namespace Model.Core.Data.State {
     public class ActiveEntitiesState : IStateData {

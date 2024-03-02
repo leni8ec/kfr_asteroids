@@ -1,8 +1,8 @@
-﻿using Model.Core.Interface.Config;
+﻿using Model.Core.Data.Unity.Config.Base;
 using Model.Core.Interface.Containers;
 using UnityEngine;
 
-namespace Model.Core.Unity.Data.Config {
+namespace Model.Core.Data.Unity.Config {
     [CreateAssetMenu(menuName = "Configs/UfoConfig")]
     public class UfoConfig : ScriptableObject, IConfigData, IColliderRadiusContainer {
         public float startSpeed = 1;

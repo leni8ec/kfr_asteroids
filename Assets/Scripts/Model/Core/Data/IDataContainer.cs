@@ -1,7 +1,7 @@
-﻿using Model.Core.Interface.Config;
-using Model.Core.Interface.State;
+﻿using Model.Core.Data.State.Base;
+using Model.Core.Data.Unity.Config.Base;
 
-namespace Model.Core.Interface.Containers {
+namespace Model.Core.Data {
     public interface IDataContainer<out TState, out TConfig>
         where TState : IStateData, new()
         where TConfig : IConfigData {

@@ -1,4 +1,4 @@
-﻿using Model.Core.Interface.State;
+﻿using Model.Core.Data.State.Base;
 
 namespace Model.Core.Data.State {
     public class EnemiesSystemState : IStateData {

@@ -1,6 +1,6 @@
 ﻿using Model.Core.Container.Object;
 using Model.Core.Data.Collectors;
-using Model.Core.Unity.Data.Config;
+using Model.Core.Data.Unity.Config;
 using UnityEngine;
 
 namespace UnityView.Data {

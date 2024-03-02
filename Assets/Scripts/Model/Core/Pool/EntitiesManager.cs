@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Model.Core.Data.State.Base;
+using Model.Core.Data.Unity.Config.Base;
 using Model.Core.Entity.Base;
-using Model.Core.Interface.Config;
 
 namespace Model.Core.Pool {
     // todo: Find better naming?

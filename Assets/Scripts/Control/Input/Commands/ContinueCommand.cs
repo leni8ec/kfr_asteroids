@@ -1,7 +1,7 @@
-﻿using Model.Core.Data.State;
-using Model.Core.Input.Commands.Base;
+﻿using Control.Input.Commands.Base;
+using Model.Core.Data.State;
 
-namespace Model.Core.Input.Commands {
+namespace Control.Input.Commands {
     public class ContinueCommand : CommandBase<GameSystemState> {
         public ContinueCommand(GameSystemState state) : base(state) { }
 

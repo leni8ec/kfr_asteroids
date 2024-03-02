@@ -1,6 +1,4 @@
-﻿using Model.Core.Interface.State;
-
-namespace Model.Core.Data.State.Base {
+﻿namespace Model.Core.Data.State.Base {
     /// <summary>
     /// Empty State. Used for new prototype entities
     /// </summary>

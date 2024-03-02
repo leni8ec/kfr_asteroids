@@ -1,7 +1,7 @@
-﻿using Model.Core.Interface.Config;
+﻿using Model.Core.Data.Unity.Config.Base;
 using UnityEngine;
 
-namespace Model.Core.Unity.Data.Config {
+namespace Model.Core.Data.Unity.Config {
     [CreateAssetMenu(menuName = "Configs/WorldConfig")]
     public class WorldConfig : ScriptableObject, IConfigData {
         [Tooltip("Max asteroids count (in any sizes)")]

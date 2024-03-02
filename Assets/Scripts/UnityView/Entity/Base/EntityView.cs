@@ -1,6 +1,7 @@
-﻿using Model.Core.Data.State.Base;
+﻿using Model.Core.Data;
+using Model.Core.Data.State.Base;
+using Model.Core.Data.Unity.Config.Base;
 using Model.Core.Entity.Base;
-using Model.Core.Interface.Config;
 using Model.Core.Interface.Containers;
 using Model.Core.Interface.Entity;
 using UnityEngine;

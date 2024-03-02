@@ -1,5 +1,5 @@
 ﻿using System;
-using Model.Core.Interface.State;
+using Model.Core.Data.State.Base;
 
 namespace Model.Core.Data.State {
     public class WeaponSystemState : IStateData {

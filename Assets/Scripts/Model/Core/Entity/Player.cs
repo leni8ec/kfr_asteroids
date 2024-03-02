@@ -1,7 +1,7 @@
 ﻿using Model.Core.Data.State;
+using Model.Core.Data.Unity.Config;
 using Model.Core.Entity.Base;
 using Model.Core.Interface.Entity;
-using Model.Core.Unity.Data.Config;
 using UnityEngine;
 
 namespace Model.Core.Entity {

@@ -1,8 +1,8 @@
-﻿using Model.Core.Interface.Config;
+﻿using Model.Core.Data.Unity.Config.Base;
 using Model.Core.Interface.Containers;
 using UnityEngine;
 
-namespace Model.Core.Unity.Data.Config {
+namespace Model.Core.Data.Unity.Config {
     [CreateAssetMenu(menuName = "Configs/BulletConfig")]
     public class BulletConfig : ScriptableObject, IConfigData, IColliderRadiusContainer {
         [Tooltip("shots per sec")]

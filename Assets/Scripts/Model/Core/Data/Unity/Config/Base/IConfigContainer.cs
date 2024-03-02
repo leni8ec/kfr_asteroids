@@ -1,6 +1,6 @@
-﻿using Model.Core.Interface.State;
+﻿using Model.Core.Data.State.Base;
 
-namespace Model.Core.Interface.Config {
+namespace Model.Core.Data.Unity.Config.Base {
     public interface IConfigContainer<out T> where T : IStateData {
         public T Data { get; }
     }

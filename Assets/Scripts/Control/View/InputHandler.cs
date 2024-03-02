@@ -1,6 +1,6 @@
+using Control.Input.Commands;
 using Model.Core.Data.Collectors;
 using Model.Core.Data.State;
-using Model.Core.Input.Commands;
 
 namespace Control.View {
 

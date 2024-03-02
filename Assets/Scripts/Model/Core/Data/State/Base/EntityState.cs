@@ -1,5 +1,4 @@
-﻿using Model.Core.Interface.State;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Model.Core.Data.State.Base {
     public abstract class EntityState : IStateData {

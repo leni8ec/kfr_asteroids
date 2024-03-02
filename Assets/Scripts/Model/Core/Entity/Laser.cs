@@ -1,8 +1,8 @@
 ﻿using System;
 using Model.Core.Data.State;
+using Model.Core.Data.Unity.Config;
 using Model.Core.Entity.Base;
 using Model.Core.Interface.Entity;
-using Model.Core.Unity.Data.Config;
 
 namespace Model.Core.Entity {
     public class Laser : Ammo<LaserAmmoState, LaserConfig>, ILaser {
