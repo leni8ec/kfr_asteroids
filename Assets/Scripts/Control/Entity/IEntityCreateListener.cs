@@ -1,6 +1,6 @@
 ﻿using Model.Core.Interface.Entity;
 
-namespace Control.Model {
+namespace Control.Entity {
     public interface IEntityCreateListener {
 
         void OnCreate(IEntity entity);

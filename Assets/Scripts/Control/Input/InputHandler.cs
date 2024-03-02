@@ -2,7 +2,7 @@ using Control.Input.Commands;
 using Model.Core.Data.Collectors;
 using Model.Core.Data.State;
 
-namespace Control.View {
+namespace Control.Input {
 
     public class InputHandler {
         private StateCollector States { get; }

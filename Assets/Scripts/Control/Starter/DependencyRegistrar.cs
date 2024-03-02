@@ -6,7 +6,7 @@ using Model.Core.Data;
 using Model.Domain.Systems;
 using Model.Domain.Systems.Interface;
 
-namespace Control {
+namespace Control.Starter {
     public class DependencyRegistrar {
         private DependencyContainer Container { get; }
 

@@ -3,7 +3,7 @@ using Model.Core.Container.Ioc;
 using Model.Core.Data;
 using Model.Domain.Processors;
 
-namespace Control {
+namespace Control.Starter {
     public class Bootstrapper {
         // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
         private readonly DependencyContainer dependencyContainer;

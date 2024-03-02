@@ -1,4 +1,4 @@
-﻿using Control.View;
+﻿using Control.Input;
 using UnityEngine.InputSystem;
 using UnityView.Base;
 

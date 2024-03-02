@@ -4,7 +4,7 @@ using Model.Core.Entity.Base;
 using Model.Core.Interface.Entity;
 using UnityEngine;
 
-namespace Control.Model {
+namespace Control.Entity {
     public class EntitiesCreateHandler {
 
         private readonly Dictionary<Type, IEntityCreateListener> listeners;
