@@ -1,6 +1,6 @@
-using Control.Collectors;
-using Control.Collectors.Base;
-using Model.Core.Adapters;
+using Model.Adapters;
+using Presenter.Collectors;
+using Presenter.Collectors.Base;
 using UnityEngine;
 using UnityView.Adapters;
 

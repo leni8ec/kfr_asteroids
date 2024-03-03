@@ -1,4 +1,4 @@
-﻿using Model.Core.Data.State;
+﻿using Model.Data.State;
 using TMPro;
 using UnityView.Base;
 

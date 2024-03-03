@@ -1,5 +1,5 @@
-﻿using Model.Core.Data.State;
-using Model.Core.Entity;
+﻿using Model.Data.State;
+using Model.Entity;
 using TMPro;
 using UnityEngine;
 using UnityView.Base;

@@ -1,5 +1,5 @@
-﻿using Model.Core.Data.State;
-using Model.Core.Game;
+﻿using Model.Data.State;
+using Model.Game;
 using UnityEngine;
 using UnityView.Base;
 

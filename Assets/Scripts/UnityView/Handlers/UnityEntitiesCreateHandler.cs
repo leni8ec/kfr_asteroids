@@ -1,5 +1,5 @@
-﻿using Control.Handlers;
-using Model.Core.Entity;
+﻿using Model.Entity;
+using Presenter.Handlers;
 using UnityView.Collectors;
 using UnityView.Entity;
 

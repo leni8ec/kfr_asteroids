@@ -1,5 +1,5 @@
-﻿using Control.Handlers;
-using Model.Core.Entity.Interface;
+﻿using Model.Entity.Interface;
+using Presenter.Handlers;
 using UnityEngine;
 using UnityView.Entity.Base;
 using Object = UnityEngine.Object;

@@ -1,6 +1,6 @@
-﻿using Control.Collectors;
-using Control.Collectors.Base;
-using Model.Core.Data.Unity.Config;
+﻿using Model.Data.Unity.Config;
+using Presenter.Collectors;
+using Presenter.Collectors.Base;
 using UnityEngine;
 
 namespace UnityView.Collectors {

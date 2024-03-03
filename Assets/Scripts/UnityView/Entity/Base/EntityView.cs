@@ -1,7 +1,7 @@
-﻿using Model.Core.Data.State.Base;
-using Model.Core.Data.Unity.Config.Base;
-using Model.Core.Entity.Base;
-using Model.Core.Entity.Interface;
+﻿using Model.Data.State.Base;
+using Model.Data.Unity.Config.Base;
+using Model.Entity.Base;
+using Model.Entity.Interface;
 using UnityEngine;
 
 namespace UnityView.Entity.Base {

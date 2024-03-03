@@ -1,4 +1,4 @@
-﻿using Model.Core.Entity.Interface;
+﻿using Model.Entity.Interface;
 using UnityEngine;
 
 namespace UnityView.Entity.Base {

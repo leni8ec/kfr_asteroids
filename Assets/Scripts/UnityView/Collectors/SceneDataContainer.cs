@@ -1,4 +1,4 @@
-﻿using Control.Collectors;
+﻿using Presenter.Collectors;
 using UnityEngine;
 
 namespace UnityView.Collectors {
