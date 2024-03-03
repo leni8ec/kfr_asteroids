@@ -1,9 +1,9 @@
 ﻿using Model.Entity;
-using Presenter.Handlers;
+using Presenter.Binders;
 using UnityView.Collectors;
 using UnityView.Entity;
 
-namespace UnityView.Handlers {
+namespace UnityView.Binders {
     public class UnityEntitiesCreateHandler {
 
         public UnityEntitiesCreateHandler(UnityPrefabCollector prefab) {

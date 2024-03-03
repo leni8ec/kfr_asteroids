@@ -4,7 +4,7 @@ using Model.Entity.Base;
 using Model.Entity.Interface;
 using UnityEngine;
 
-namespace Presenter.Handlers {
+namespace Presenter.Binders {
     public class EntitiesCreateHandler {
 
         private readonly Dictionary<Type, IEntityCreateListener> listeners;

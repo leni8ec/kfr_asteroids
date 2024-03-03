@@ -1,8 +1,8 @@
 using Presenter.Collectors;
 using Presenter.Starter;
 using UnityEngine;
+using UnityView.Binders;
 using UnityView.Collectors;
-using UnityView.Handlers;
 
 namespace UnityView {
 

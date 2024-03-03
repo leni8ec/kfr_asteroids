@@ -4,7 +4,7 @@ using Model.Entity.Interface;
 using UnityEngine;
 using UnityView.Entity;
 
-namespace UnityView.Handlers {
+namespace UnityView.Binders {
     public class UnityAsteroidCreateListener : UnityEntityCreateListener<AsteroidView> {
         private readonly GameObject largePrefab;
         private readonly GameObject mediumPrefab;

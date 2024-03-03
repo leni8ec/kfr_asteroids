@@ -1,10 +1,10 @@
 ﻿using Model.Entity.Interface;
-using Presenter.Handlers;
+using Presenter.Binders;
 using UnityEngine;
 using UnityView.Entity.Base;
 using Object = UnityEngine.Object;
 
-namespace UnityView.Handlers {
+namespace UnityView.Binders {
     public class UnityEntityCreateListener<TEntityView> : IEntityCreateListener where TEntityView : IEntityView {
 
         protected GameObject prefab;
