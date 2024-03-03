@@ -1,4 +1,4 @@
-using Model.Core.Interface.Adapters;
+using Model.Core.Adapters;
 using UnityEngine;
 using UnityView.Base;
 

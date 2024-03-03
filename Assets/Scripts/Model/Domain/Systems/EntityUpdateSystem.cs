@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
+using Model.Core.Data.EntityPool;
 using Model.Core.Data.State;
 using Model.Core.Entity;
-using Model.Core.Interface.Entity;
-using Model.Core.Pool;
+using Model.Core.Entity.Interface;
 using Model.Domain.Systems.Base;
 using Model.Domain.Systems.Interface;
 
@@ -26,7 +25,7 @@ namespace Model.Domain.Systems {
 
             // Update Enemies
             State.ufos.ForEachSave(UpdEntity);
-            foreach (EntitiesList<Asteroid> asteroids in State.asteroidsDict.Values)
+            foreach (EntityList<Asteroid> asteroids in State.asteroidsDict.Values)
                 asteroids.ForEachSave(UpdEntity);
 
             // Update Ammo

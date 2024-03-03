@@ -1,9 +1,7 @@
-﻿using Model.Core.Data;
-using Model.Core.Data.State.Base;
+﻿using Model.Core.Data.State.Base;
 using Model.Core.Data.Unity.Config.Base;
 using Model.Core.Entity.Base;
-using Model.Core.Interface.Containers;
-using Model.Core.Interface.Entity;
+using Model.Core.Entity.Interface;
 using UnityEngine;
 
 namespace UnityView.Entity.Base {
@@ -13,7 +11,7 @@ namespace UnityView.Entity.Base {
         where TConfig : IConfigData {
 
         protected TEntity Entity { get; private set; } //      use in 'View'
-        private IDataContainer<TState, TConfig> Data => Entity; //    use internal only
+        private IEntityDataContainer<TState, TConfig> Data => Entity; //    use internal only
 
         public GameObject GameObject { get; private set; }
         public Transform Transform { get; private set; }

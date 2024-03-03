@@ -1,10 +1,7 @@
-using Control;
+using Control.Collectors;
 using Control.Starter;
-using Model.Core.Adapters;
-using Model.Core.Data;
-using Model.Core.Data.Collectors;
 using UnityEngine;
-using UnityView.Data;
+using UnityView.Collectors;
 using UnityView.Handlers;
 
 namespace UnityView {
@@ -14,14 +11,14 @@ namespace UnityView {
     /// </summary>
     public class UnityBootstrapper : MonoBehaviour {
         [Space]
-        [SerializeField] private SceneData sceneData;
+        [SerializeField] private SceneDataContainer sceneData;
 
         private Bootstrapper bootstrapper;
 
         private void Awake() {
             // Data - init first
             StateCollector states = new();
-            GameDataCollector data = new(sceneData.config.CreateCollector(), states);
+            GameDataContainer data = new(sceneData.config.CreateCollector(), states);
             AdaptersCollector adaptersCollector = sceneData.adapter.CreateCollector();
 
             // Fill entities state

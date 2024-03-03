@@ -1,11 +1,9 @@
-﻿using Model.Core.Data;
-using Model.Core.Data.State.Base;
+﻿using Model.Core.Data.State.Base;
 using Model.Core.Data.Unity.Config.Base;
-using Model.Core.Interface.Containers;
 using UnityEngine;
 
 namespace Model.Core.Entity.Base {
-    public abstract class Entity<TState, TConfig> : EntityBase, IDataContainer<TState, TConfig>
+    public abstract class Entity<TState, TConfig> : EntityBase, IEntityDataContainer<TState, TConfig>
         where TState : EntityState, new()
         where TConfig : IConfigData {
 

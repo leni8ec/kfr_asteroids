@@ -1,20 +1,22 @@
-﻿using Model.Core.Adapters;
-using Model.Core.Container.Ioc;
-using Model.Core.Data;
+﻿using Control.Collectors;
+using Control.Services.DI.Ioc;
 using Model.Domain.Processors;
 
 namespace Control.Starter {
     public class Bootstrapper {
-        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
-        private readonly DependencyContainer dependencyContainer;
-        private readonly SystemsProcessor systemsProcessor;
+        private readonly ISystemsProcessor systemsProcessor;
 
-        public Bootstrapper(GameDataCollector gameData, AdaptersCollector adapters) {
-            dependencyContainer = new DependencyContainer();
-            DependencyRegistrar dependencyRegistrar = new(dependencyContainer);
-            dependencyRegistrar.RegisterDependencies(gameData, adapters);
+        public Bootstrapper(GameDataContainer gameData, AdaptersCollector adapters) {
+            IDependencyContainer dependencyContainer = new DependencyContainer();
+            DependencyRegistry dependencyRegistry = new(dependencyContainer);
+            dependencyRegistry.RegisterDependencies(gameData, adapters);
 
-            systemsProcessor = new SystemsProcessor(dependencyContainer);
+            systemsProcessor = new SystemsProcessor();
+            
+            SystemsRegistry systemsRegistry = new(systemsProcessor, dependencyContainer);
+            systemsRegistry.AddSystems();
+
+            systemsProcessor.Initialization();
         }
 
         public void Upd(float deltaTime) {

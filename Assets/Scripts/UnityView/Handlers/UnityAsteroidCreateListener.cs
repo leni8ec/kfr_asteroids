@@ -1,6 +1,6 @@
 ﻿using Model.Core.Data.Unity.Config;
 using Model.Core.Entity;
-using Model.Core.Interface.Entity;
+using Model.Core.Entity.Interface;
 using UnityEngine;
 using UnityView.Entity;
 

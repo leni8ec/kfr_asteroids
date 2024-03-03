@@ -1,5 +1,5 @@
-﻿using Model.Core.Data.State.Base;
-using Model.Core.Interface.Containers;
+﻿using Model.Core.Data.Containers;
+using Model.Core.Data.State.Base;
 using UnityEngine;
 
 namespace Model.Core.Data.State {

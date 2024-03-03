@@ -1,5 +1,5 @@
+using Control.Collectors;
 using Control.Input.Commands;
-using Model.Core.Data.Collectors;
 using Model.Core.Data.State;
 
 namespace Control.Input {

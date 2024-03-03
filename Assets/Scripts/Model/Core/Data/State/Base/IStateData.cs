@@ -1,4 +1,4 @@
-﻿using Model.Core.Interface.Base;
+﻿using Model.Core.Behavior;
 
 namespace Model.Core.Data.State.Base {
 

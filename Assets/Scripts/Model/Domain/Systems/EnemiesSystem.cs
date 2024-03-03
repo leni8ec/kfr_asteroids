@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using JetBrains.Annotations;
+using Model.Core.Adapters;
+using Model.Core.Data.EntityPool;
 using Model.Core.Data.State;
 using Model.Core.Data.State.Base;
 using Model.Core.Data.Unity.Config;
 using Model.Core.Entity;
+using Model.Core.Entity.Interface;
 using Model.Core.Game;
-using Model.Core.Interface.Adapters;
-using Model.Core.Interface.Entity;
-using Model.Core.Pool;
 using Model.Domain.Systems.Base;
 using Model.Domain.Systems.Interface;
 using UnityEngine;

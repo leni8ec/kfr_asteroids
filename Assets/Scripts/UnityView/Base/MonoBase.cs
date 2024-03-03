@@ -1,10 +1,10 @@
-﻿using Model.Core.Data.Collectors;
+﻿using Control.Collectors;
 using UnityEngine;
-using UnityView.Data;
+using UnityView.Collectors;
 
 namespace UnityView.Base {
     public class MonoBase : MonoBehaviour {
-        protected static SceneData SceneData => SceneData.self;
+        protected static SceneDataContainer SceneData => SceneDataContainer.self;
         protected static StateCollector States => SceneData.States;
     }
 }

@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 using Model.Core.Data.State;
 using Model.Core.Data.Unity.Config;
 using Model.Core.Entity;
-using Model.Core.Interface.Entity;
+using Model.Core.Entity.Interface;
 using Model.Domain.Systems.Base;
 using Model.Domain.Systems.Interface;
 using UnityEngine;

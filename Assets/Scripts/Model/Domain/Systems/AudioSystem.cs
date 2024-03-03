@@ -1,8 +1,8 @@
 ﻿using JetBrains.Annotations;
+using Model.Core.Adapters;
 using Model.Core.Data.State;
 using Model.Core.Data.Unity.Config;
 using Model.Core.Entity;
-using Model.Core.Interface.Adapters;
 using Model.Domain.Systems.Base;
 using Model.Domain.Systems.Interface;
 using UnityEngine;

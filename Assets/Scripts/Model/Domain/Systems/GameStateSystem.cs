@@ -1,8 +1,8 @@
 ﻿using System;
 using JetBrains.Annotations;
 using Model.Core.Data.State;
+using Model.Core.Entity.Interface;
 using Model.Core.Game;
-using Model.Core.Interface.Entity;
 using Model.Domain.Systems.Base;
 using Model.Domain.Systems.Interface;
 using UnityEngine;
