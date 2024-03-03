@@ -7,13 +7,14 @@
 ---
 
 ### ✅ Architecture used (design patterns)
-- **MVC** - base architecture pattern (also to be able to Client/Server case?)
-- **IoC, DI**  (`DependencyContainer`)
-- **Factory Method** - create new entities (use in Pool)
+- **MVP** (SC) - base architecture pattern (Supervising Controller)
+- **Data** (`state`, `config`) is split from **Logic** (`systems`)
+- **IoC, DI** - dependency injection 
 - **Object Pool** - spawn and reuse entities
-- **Command pattern** - input
-- **Adapter pattern** - view implementations for some model objects (`camera`, `audio`)
-- The **Data** (`state`, `config`) is split from **Logic** (`systems`)
+- **Factory Method** - create new entities (used with Pool)
+- **Command pattern** - handle input
+- **Adapter pattern** - view (unity objects) implementation for some model objects (`camera`, `audio`)
+
 
 ### 🔲 Unity
 - **Scriptable objects** (for config)
@@ -22,5 +23,6 @@
 ---
 
 ### ➡️ Todo
-- Code cleanup (and some documentation)
 - Event System (purpose?)
+- Code cleanup (and some documentation)
+
