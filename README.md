@@ -24,6 +24,12 @@
 ---
 
 ### ➡️ Todo
-- Event System (purpose?)
-- Code cleanup (and some documentation)
+- Event System - purpose?
+- UnityView - need to refactoring
+- Code cleanup (add docs)
 
+---
+
+### 🔗 Sources©️
+- Graphics: https://opengameart.org/content/asteroids-vector-style-sprites
+- Audio: https://www.classicgaming.cc/classics/asteroids/sounds
