@@ -28,15 +28,14 @@ namespace UnityView.Entity.Base {
 
         /// <summary>
         /// Called when entity is created.
-        /// <para>- After entity data (state and config) - is set.</para>
-        /// <para>- After 'Awake' and before 'Start'</para>
+        /// <para> - After entity data (state and config) - is set.</para>
+        /// <para> - After 'Awake' and before 'Start'</para>
         /// </summary>
         public void Create(IEntity entity) {
             Entity = (TEntity) entity;
             State.Transform = Transform;
 
-            // Game object state (active by default)
-            State.Active.Value = true;
+            // Subscribe to entity active state changes
             State.Active.Changed += active => GameObject.SetActive(active);
 
             SubscribeEvents();

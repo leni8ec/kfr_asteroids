@@ -9,9 +9,9 @@ namespace Presenter.Input.Commands {
         /// <param name="rotateValue"> Left: -1, Right: 1 </param>
         public void Execute(bool activeFlag, float rotateValue) {
             if (activeFlag) {
-                State.RotateState.Value = rotateValue < 0 ? -1 : 1;
+                State.Rotate.Value = rotateValue < 0 ? -1 : 1;
             } else {
-                State.RotateState.Value = 0;
+                State.Rotate.Value = 0;
             }
         }
 

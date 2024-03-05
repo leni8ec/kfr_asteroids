@@ -31,7 +31,7 @@ namespace Core.Systems {
 
         private void ContinueFlagChangedHandler(bool toContinue) {
             if (toContinue) NewGame();
-            State.ContinueFlag.Value = false;
+            State.ContinueFlag.Reset();
         }
 
         private void PlayerHitHandler(ICollider enemy) {
@@ -39,14 +39,14 @@ namespace Core.Systems {
         }
 
         private void NewGame() {
-            if (State.Status.Value == GameStatus.Playing) return;
+            if (State.Status == GameStatus.Playing) return;
             State.Status.Value = GameStatus.Playing;
             NewGameEvent?.Invoke();
             Debug.Log("New Game");
         }
 
         private void GameOver() {
-            if (State.Status.Value == GameStatus.End) return;
+            if (State.Status == GameStatus.End) return;
             State.Status.Value = GameStatus.End;
             GameOverEvent?.Invoke();
             Debug.Log("Game Over");

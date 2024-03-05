@@ -4,6 +4,7 @@ using Core.Systems.Interface;
 using JetBrains.Annotations;
 using Model.Adapters;
 using Model.Data.EntityPool;
+using Model.Data.Reactive;
 using Model.Data.State;
 using Model.Data.State.Base;
 using Model.Data.Unity.Config;
@@ -29,7 +30,7 @@ namespace Core.Systems {
         private Dictionary<AsteroidConfig.Size, IEntitiesList<Asteroid>> ActiveAsteroidsDict { get; }
 
 
-        private ValueChange<GameStatus> GameStatus { get; }
+        private IReactiveProperty<GameStatus> GameStatus { get; }
 
         public EnemiesSystem(WorldConfig worldConfig, EnemiesSystemState state,
             ActiveEntitiesState activeEntities, EntitiesManagersState entitiesManagers, GameSystemState gameSystemState, ICameraAdapter cameraAdapter) {

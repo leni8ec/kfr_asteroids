@@ -6,7 +6,7 @@ namespace Presenter.Input.Commands {
         public MoveCommand(PlayerState state) : base(state) { }
 
         public void Execute(bool activeFlag) {
-            State.MoveState.Value = activeFlag;
+            State.Move.Value = activeFlag;
         }
 
     }

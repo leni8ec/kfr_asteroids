@@ -12,7 +12,7 @@ namespace Model.Entity {
 
         public override void Upd(float deltaTime) {
             // Moving
-            if (State.MoveState.Value) {
+            if (State.Move) {
                 if (State.inertialTime < 1) {
                     State.inertialTime = Mathf.Min(1, State.inertialTime + deltaTime * (1 / Config.accelerationInertia));
                     State.inertialSpeed = Mathf.Lerp(0, Config.speed, State.inertialTime);
@@ -27,7 +27,7 @@ namespace Model.Entity {
             if (State.inertialTime > 0) {
                 // transform.Translate(transform.up * (config.speed * deltaTime));
                 Vector3 direction;
-                if (State.MoveState.Value) {
+                if (State.Move) {
                     direction = Vector3.Lerp(State.lastDirection, Transform.up, deltaTime / Config.leftOverInertia); // leftover inertia
                 } else {
                     direction = State.lastDirection; // don't change direction without acceleration
@@ -41,8 +41,8 @@ namespace Model.Entity {
 
 
             // Rotation
-            if (State.RotateState.Value != 0) {
-                Transform.Rotate(0, 0, Config.rotationSpeed * deltaTime * State.RotateState.Value);
+            if (State.Rotate.Value != 0) {
+                Transform.Rotate(0, 0, Config.rotationSpeed * deltaTime * State.Rotate.Value);
             }
 
             // Calculate speed

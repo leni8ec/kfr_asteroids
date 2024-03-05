@@ -1,12 +1,13 @@
-﻿using UnityEngine;
+﻿using Model.Data.Reactive;
+using UnityEngine;
 
 namespace Model.Data.State.Base {
     public abstract class EntityState : IStateData {
 
         /// <summary>
-        /// Entity active state (don't reset value in 'Reset')
+        /// Entity active state (`true` by default)
         /// </summary>
-        public ValueChange<bool> Active { get; } = new();
+        public ReactiveProperty<bool> Active { get; } = new(true);
 
         public Transform Transform { get; set; }
 
@@ -21,5 +22,6 @@ namespace Model.Data.State.Base {
         }
 
         protected abstract void OnReset();
+
     }
 }

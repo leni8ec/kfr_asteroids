@@ -1,4 +1,5 @@
-﻿using Model.Data.State.Base;
+﻿using Model.Data.Reactive;
+using Model.Data.State.Base;
 using UnityEngine;
 
 namespace Model.Data.State {
@@ -11,14 +12,14 @@ namespace Model.Data.State {
         /// <para> 'false' - Idle </para>
         /// <para> 'true' - Movement </para>
         /// </summary>
-        public ValueChange<bool> MoveState { get; } = new();
+        public ReactiveProperty<bool> Move { get; } = new();
         /// <summary>
         /// States (int):
         /// <para> 0 - Empty </para>
         /// <para> -1 - Right </para>
         /// <para> 1 - Left </para>
         /// </summary>
-        public ValueChange<int> RotateState { get; } = new();
+        public ReactiveProperty<int> Rotate { get; } = new();
 
         #endregion
 
@@ -35,8 +36,8 @@ namespace Model.Data.State {
 
 
         protected override void OnReset() {
-            MoveState.Reset();
-            RotateState.Reset();
+            Move.Reset();
+            Rotate.Reset();
             inertialSpeed = default;
             inertialTime = default;
             lastDirection = default;

@@ -14,7 +14,7 @@ namespace UnityView.Entity {
         [SerializeField] private AudioSource moveAudio;
 
         protected override void SubscribeEvents() {
-            State.MoveState.Changed += OnMoveStateChanged;
+            State.Move.Changed += OnMoveStateChanged;
         }
 
         private void OnMoveStateChanged(bool moveFlag) {
