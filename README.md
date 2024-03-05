@@ -7,8 +7,9 @@
 ---
 
 ### ✅ Architecture used (design patterns)
-- **MVP** (SC) - base architecture pattern (Supervising Controller)
+- **MVP** (SC) - base architecture pattern (supervising controller)
 - **Data** (`state`, `config`) is split from **Logic** (`systems`)
+- **Reactive properties** - simple realization
 - **IoC, DI** - dependency injection 
 - **Object Pool** - spawn and reuse entities
 - **Factory Method** - create new entities (used with Pool)
