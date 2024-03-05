@@ -8,14 +8,17 @@ namespace Presenter.Starter {
 
         public Bootstrapper(GameDataContainer gameData, AdaptersCollector adapters) {
             IDependencyContainer dependencyContainer = new DependencyContainer();
-            DependencyRegistry dependencyRegistry = new(dependencyContainer);
-            dependencyRegistry.RegisterDependencies(gameData, adapters);
 
-            systemsProcessor = new SystemsProcessor();
-            
-            SystemsRegistry systemsRegistry = new(systemsProcessor, dependencyContainer);
-            systemsRegistry.AddSystems();
+            new DependencyRegistry(dependencyContainer)
+                .RegisterDependencies(gameData, adapters);
 
+            new SystemsRegistry(dependencyContainer)
+                .ObtainSystems(systemsProcessor = new SystemsProcessor());
+
+            Init();
+        }
+
+        private void Init() {
             systemsProcessor.Initialization();
         }
 
