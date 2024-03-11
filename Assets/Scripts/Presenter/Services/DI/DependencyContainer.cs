@@ -19,22 +19,26 @@ namespace Presenter.Services.DI {
         }
 
 
-        public void Register<TConcrete>(TConcrete instance, LifeCycle lifeCycle = LifeCycleDefault) {
-            Register<TConcrete, TConcrete>(instance, lifeCycle);
+        // Predefined instances
+
+        public void Register<TConcrete>(TConcrete instance) {
+            Register<TConcrete, TConcrete>(instance);
         }
 
-        public void Register<TTypeToResolve, TConcrete>(TConcrete instance, LifeCycle lifeCycle = LifeCycleDefault) {
-            Register(typeof(TTypeToResolve), typeof(TConcrete), instance, lifeCycle);
+        public void Register<TTypeToResolve, TConcrete>(TConcrete instance) {
+            Register(typeof(TTypeToResolve), typeof(TConcrete), instance);
         }
 
-        public void Register<TConcrete>(Type typeToResolve, TConcrete instance, LifeCycle lifeCycle = LifeCycleDefault) {
-            registeredObjects.Add(new RegisteredObject(typeToResolve, typeof(TConcrete), lifeCycle, instance));
+        public void Register<TConcrete>(Type typeToResolve, TConcrete instance) {
+            Register(typeToResolve, typeof(TConcrete), instance);
         }
 
-        public void Register<TConcrete>(Type typeToResolve, Type typeConcrete, TConcrete instance, LifeCycle lifeCycle = LifeCycleDefault) {
-            registeredObjects.Add(new RegisteredObject(typeToResolve, typeConcrete, lifeCycle, instance));
+        public void Register<TConcrete>(Type typeToResolve, Type typeConcrete, TConcrete instance) {
+            registeredObjects.Add(new RegisteredObject(typeToResolve, typeConcrete, LifeCycle.Singleton, instance));
         }
 
+
+        // Resolvers
 
         public TTypeToResolve Resolve<TTypeToResolve>() {
             return (TTypeToResolve) ResolveObject(typeof(TTypeToResolve));
