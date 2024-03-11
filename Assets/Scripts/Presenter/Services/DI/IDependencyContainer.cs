@@ -1,6 +1,6 @@
 using System;
 
-namespace Presenter.Services.DI.Ioc {
+namespace Presenter.Services.DI {
     public interface IDependencyContainer {
 
         void Register<TConcrete>(LifeCycle lifeCycle = default);

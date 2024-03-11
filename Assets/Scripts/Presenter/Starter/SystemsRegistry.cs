@@ -1,7 +1,7 @@
 ﻿using Core.Processors;
 using Core.Systems.Base;
 using Core.Systems.Interface;
-using Presenter.Services.DI.Ioc;
+using Presenter.Services.DI;
 
 namespace Presenter.Starter {
     public class SystemsRegistry {

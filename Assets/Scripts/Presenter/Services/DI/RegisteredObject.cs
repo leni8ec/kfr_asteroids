@@ -1,6 +1,6 @@
 using System;
 
-namespace Presenter.Services.DI.Ioc {
+namespace Presenter.Services.DI {
     public class RegisteredObject {
 
         public Type TypeToResolve { get; }

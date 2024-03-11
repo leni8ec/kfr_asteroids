@@ -1,4 +1,4 @@
-namespace Presenter.Services.DI.Ioc {
+namespace Presenter.Services.DI {
     public enum LifeCycle {
         Singleton,
         Transient

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Presenter.Services.DI.Ioc {
+namespace Presenter.Services.DI {
     public class DependencyContainer : IDependencyContainer {
 
         private readonly IList<RegisteredObject> registeredObjects = new List<RegisteredObject>();

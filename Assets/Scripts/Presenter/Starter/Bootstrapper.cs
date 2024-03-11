@@ -1,6 +1,6 @@
 ﻿using Core.Processors;
 using Presenter.Collectors;
-using Presenter.Services.DI.Ioc;
+using Presenter.Services.DI;
 
 namespace Presenter.Starter {
     public class Bootstrapper {

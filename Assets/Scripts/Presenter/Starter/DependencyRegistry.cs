@@ -3,7 +3,7 @@ using Core.Systems;
 using Core.Systems.Interface;
 using Presenter.Collectors;
 using Presenter.Collectors.Base;
-using Presenter.Services.DI.Ioc;
+using Presenter.Services.DI;
 
 namespace Presenter.Starter {
     public class DependencyRegistry {
