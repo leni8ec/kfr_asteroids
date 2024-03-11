@@ -46,15 +46,15 @@ namespace Core.Systems {
         }
 
         private void ProcessEntityOutOfScreen(Rect worldBorders, EntityBase entity) {
-            Vector3 pos = entity.Transform.position;
-            if (worldBorders.Contains(pos)) return;
+            Vector3 newPos = entity.Position;
+            if (worldBorders.Contains(newPos)) return;
 
-            if (pos.x < worldBorders.x) pos.x = worldBorders.xMax;
-            else if (pos.y < worldBorders.y) pos.y = worldBorders.yMax;
-            else if (pos.x > worldBorders.xMax) pos.x = worldBorders.x;
-            else if (pos.y > worldBorders.yMax) pos.y = worldBorders.y;
+            if (newPos.x < worldBorders.x) newPos.x = worldBorders.xMax;
+            else if (newPos.y < worldBorders.y) newPos.y = worldBorders.yMax;
+            else if (newPos.x > worldBorders.xMax) newPos.x = worldBorders.x;
+            else if (newPos.y > worldBorders.yMax) newPos.y = worldBorders.y;
 
-            entity.Transform.position = pos;
+            entity.Position = newPos;
         }
 
 

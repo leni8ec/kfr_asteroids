@@ -11,7 +11,12 @@ namespace Model.Entity.Base {
         public TConfig Config { get; private set; }
 
         // Sugar
-        public override Transform Transform => State.Transform;
+        protected Transform Transform => State.Transform;
+
+        public override Vector3 Position { get => Transform.position; set => Transform.position = value; }
+        public override Vector3 Rotation { get => Transform.eulerAngles; set => Transform.eulerAngles = value; }
+        public override Vector3 Forward => Transform.up;
+
 
         public void Create(TConfig config) {
             Config = config;

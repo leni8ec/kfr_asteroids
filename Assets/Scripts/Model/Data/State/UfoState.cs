@@ -1,5 +1,6 @@
 ﻿using Model.Data.Containers;
 using Model.Data.State.Base;
+using Model.Entity.Base;
 using UnityEngine;
 
 namespace Model.Data.State {
@@ -8,7 +9,7 @@ namespace Model.Data.State {
         public bool huntState;
         public float huntCountdown;
 
-        public Transform target;
+        public EntityBase target;
         public Vector3 Direction { get; set; }
 
 

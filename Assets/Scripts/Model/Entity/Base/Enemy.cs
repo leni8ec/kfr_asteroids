@@ -8,7 +8,8 @@ namespace Model.Entity.Base {
         where TState : EntityState, IDirectionContainer, new()
         where TConfig : IConfigData, IColliderRadiusContainer {
 
-        public virtual void Set(Vector3 direction) {
+        public void Init(Vector3 position, Vector3 direction) {
+            State.Transform.position = position;
             State.Direction = direction;
         }
 

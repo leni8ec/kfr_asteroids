@@ -4,8 +4,18 @@ using UnityEngine;
 namespace Model.Entity.Base {
     public abstract class EntityBase : IEntity {
 
-        // Sugar
-        public abstract Transform Transform { get; }
+        /// <summary>
+        /// The world space position
+        /// </summary>
+        public abstract Vector3 Position { get; set; }
+        /// <summary>
+        /// The world space rotation as Euler angles in degrees
+        /// </summary>
+        public abstract Vector3 Rotation { get; set; }
+        /// <summary>
+        /// The world space forward direction of entity (transform.up)
+        /// </summary>
+        public abstract Vector3 Forward { get; }
 
         public delegate void CreateEventHandler(EntityBase entity);
         public delegate void DestroyEventHandler();

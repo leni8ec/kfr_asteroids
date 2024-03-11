@@ -21,7 +21,7 @@ namespace Model.Entity {
             ExplosionEvent?.Invoke();
         }
 
-        public void SetTarget(Transform target) {
+        public void SetTarget(EntityBase target) {
             State.target = target;
             State.huntCountdown = Config.huntDelay;
         }
@@ -38,7 +38,7 @@ namespace Model.Entity {
                     State.huntState = true;
                     Hunt();
                 }
-                Vector3 huntDirection = -(Transform.position - State.target.position).normalized;
+                Vector3 huntDirection = -(Transform.position - State.target.Position).normalized;
                 Transform.Translate(huntDirection * (Config.huntSpeed * deltaTime));
             }
         }

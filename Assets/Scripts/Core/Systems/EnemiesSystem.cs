@@ -6,7 +6,6 @@ using Model.Adapters;
 using Model.Data.EntityPool;
 using Model.Data.Reactive;
 using Model.Data.State;
-using Model.Data.State.Base;
 using Model.Data.Unity.Config;
 using Model.Entity;
 using Model.Entity.Interface;
@@ -106,17 +105,15 @@ namespace Core.Systems {
             Asteroid asteroid = AsteroidsManagers[AsteroidConfig.Size.Large].TakeEntity();
             Vector3 spawnPoint = GetRandomSpawnPoint();
             Vector3 direction = GetRandomDirection(spawnPoint);
-            asteroid.Transform.position = spawnPoint;
-            asteroid.Set(direction);
+            asteroid.Init(spawnPoint, direction);
         }
 
         private void SpawnUfo() {
             Ufo ufo = UfosManager.TakeEntity();
             Vector3 spawnPoint = GetRandomSpawnPoint();
             Vector3 direction = GetRandomDirection(spawnPoint);
-            ufo.Transform.position = spawnPoint;
-            ufo.Set(direction);
-            ufo.SetTarget(Player.Transform);
+            ufo.Init(spawnPoint, direction);
+            ufo.SetTarget(Player);
         }
 
 
@@ -170,9 +167,8 @@ namespace Core.Systems {
             for (int i = 0; i < destroyedAsteroid.DestroyedFragments; i++) {
                 Asteroid newAsteroid = AsteroidsManagers[targetSize].TakeEntity();
                 direction = Quaternion.AngleAxis(degreesDelta, Vector3.forward) * direction;
-                Vector3 spawnPoint = destroyedAsteroid.Transform.position + direction * 0.5f;
-                newAsteroid.Transform.position = spawnPoint;
-                newAsteroid.Set(direction);
+                Vector3 spawnPoint = destroyedAsteroid.Position + direction * 0.5f;
+                newAsteroid.Init(spawnPoint, direction);
             }
         }
 

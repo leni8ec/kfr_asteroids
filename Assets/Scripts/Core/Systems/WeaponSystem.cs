@@ -6,7 +6,6 @@ using Model.Data.EntityPool;
 using Model.Data.State;
 using Model.Data.Unity.Config;
 using Model.Entity;
-using UnityEngine;
 
 namespace Core.Systems {
     [UsedImplicitly]
@@ -98,15 +97,13 @@ namespace Core.Systems {
 
         private void SpawnBullet() {
             Bullet bullet = Ammo1Manager.TakeEntity();
-            Transform playerTransform = Player.Transform;
-            bullet.Set(Player.WeaponWorldPosition, playerTransform.up);
+            bullet.Set(Player.WeaponWorldPosition, Player.Forward);
             bullet.Fire();
         }
 
         private void SpawnLaser() {
             Laser laser = Ammo2Manager.TakeEntity();
-            Transform playerTransform = Player.Transform;
-            laser.Set(playerTransform.position, playerTransform.up);
+            laser.Set(Player.Position, Player.Forward);
             laser.Fire();
         }
     }

@@ -29,11 +29,11 @@ namespace UnityView.GUI {
             Player player = entitiesState.player;
             if (player == null) return; // if player doesn't initialized
 
-            Transform playerTransform = player.Transform;
-            Vector3 playerPosition = playerTransform.position;
+            Vector3 playerRotation = player.Rotation;   
+            Vector3 playerPosition = player.Position;
 
             coords.SetText($"Coords: [{playerPosition.x:F1}:{playerPosition.y:F1}]");
-            angle.SetText($"Angle: {playerTransform.eulerAngles.z:F0}");
+            angle.SetText($"Angle: {playerRotation.z:F0}");
             speed.SetText($"Speed: {entitiesState.player.State.speed:N}");
             laserCount.SetText($"Laser Count: {weaponSystemState.laserShotsCount}");
             laserCountdown.SetText($"Laser Countdown: {weaponSystemState.laserShotCountdownDuration:0.00}");
