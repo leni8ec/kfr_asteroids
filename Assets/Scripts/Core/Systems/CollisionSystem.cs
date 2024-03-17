@@ -11,7 +11,7 @@ using UnityEngine;
 namespace Core.Systems {
     [UsedImplicitly]
     public class CollisionSystem : SystemBase, ICollisionSystem, IUpdateSystem {
-        public ActiveEntitiesState Entities { get; }
+        private ActiveEntitiesState Entities { get; }
 
         // Events
         public delegate void PlayerHitEventHandler(ICollider enemy);
@@ -30,10 +30,10 @@ namespace Core.Systems {
         }
 
         public void Upd(float deltaTime) {
-            IEnumerator<Asteroid> asteroidsLargeEnum = Entities.asteroidsDict[AsteroidConfig.Size.Large].GetEnumerator();
-            IEnumerator<Asteroid> asteroidsMediumEnum = Entities.asteroidsDict[AsteroidConfig.Size.Medium].GetEnumerator();
-            IEnumerator<Asteroid> asteroidsSmallEnum = Entities.asteroidsDict[AsteroidConfig.Size.Small].GetEnumerator();
-            IEnumerator<Ufo> ufosEnum = Entities.ufos.GetEnumerator();
+            using IEnumerator<Asteroid> asteroidsLargeEnum = Entities.asteroidsDict[AsteroidConfig.Size.Large].GetEnumerator();
+            using IEnumerator<Asteroid> asteroidsMediumEnum = Entities.asteroidsDict[AsteroidConfig.Size.Medium].GetEnumerator();
+            using IEnumerator<Asteroid> asteroidsSmallEnum = Entities.asteroidsDict[AsteroidConfig.Size.Small].GetEnumerator();
+            using IEnumerator<Ufo> ufosEnum = Entities.ufos.GetEnumerator();
 
             do {
                 ICollider enemy;
@@ -80,11 +80,6 @@ namespace Core.Systems {
                 }
 
             } while (true);
-
-            asteroidsLargeEnum.Dispose();
-            asteroidsMediumEnum.Dispose();
-            asteroidsSmallEnum.Dispose();
-            ufosEnum.Dispose();
         }
 
         private bool IsIntersect(ICollider collider1, ICollider collider2) {
