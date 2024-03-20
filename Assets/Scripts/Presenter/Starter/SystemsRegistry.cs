@@ -1,5 +1,5 @@
-﻿using Core.Processors;
-using Core.Systems.Base;
+﻿using Core.Framework.Systems;
+using Core.Framework.Systems.Cluster;
 using Core.Systems.Interface;
 using Presenter.Services.DI;
 
@@ -11,23 +11,23 @@ namespace Presenter.Starter {
             this.container = container;
         }
 
-        public void ObtainSystems(ISystemsProcessor processor) {
+        public void ObtainSystems(ISystemsCluster cluster) {
             // Resolve Systems                      Order of initialization:
-            Add<IAudioSystem>(processor); //            -1. Audio System (temp hack for disable sounds on GameOver)
-            Add<IEntitiesSystem>(processor); //          0. Entities managers
-            Add<IPlayerSystem>(processor); //            1. Player (player control)
-            Add<IWeaponSystem>(processor); //            2. Weapon (spawn ammo)
-            Add<IEnemiesSystem>(processor); //           3. Enemies (spawn enemies)
-            Add<IInfinityScreenSystem>(processor); //    4. Infinity screen
-            Add<IEntityUpdateSystem>(processor); //      5. Entities update
-            Add<ICollisionSystem>(processor); //         6. Collision
-            Add<IScoreSystem>(processor);
-            Add<IGameStateSystem>(processor); //         [Last] NewGame event
+            Add<IAudioSystem>(cluster); //            -1. Audio System (temp hack for disable sounds on GameOver)
+            Add<IEntitiesSystem>(cluster); //          0. Entities managers
+            Add<IPlayerSystem>(cluster); //            1. Player (player control)
+            Add<IWeaponSystem>(cluster); //            2. Weapon (spawn ammo)
+            Add<IEnemiesSystem>(cluster); //           3. Enemies (spawn enemies)
+            Add<IInfinityScreenSystem>(cluster); //    4. Infinity screen
+            Add<IEntityUpdateSystem>(cluster); //      5. Entities update
+            Add<ICollisionSystem>(cluster); //         6. Collision
+            Add<IScoreSystem>(cluster);
+            Add<IGameStateSystem>(cluster); //         [Last] NewGame event
         }
 
-        private void Add<T>(ISystemsProcessor processor) where T : ISystem {
+        private void Add<T>(ISystemsCluster cluster) where T : ISystem {
             T system = container.Resolve<T>();
-            processor.Add(system);
+            cluster.Add(system);
         }
 
     }

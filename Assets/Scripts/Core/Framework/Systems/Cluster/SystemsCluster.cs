@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Core.Systems.Base;
 
-namespace Core.Processors {
+namespace Core.Framework.Systems.Cluster {
 
-    public class SystemsProcessor : ISystemsProcessor {
+    public class SystemsCluster : ISystemsCluster {
         private readonly Dictionary<Type, ISystem> systems;
         private readonly List<IUpdateSystem> updateSystems;
 
-        public SystemsProcessor() {
+        public SystemsCluster() {
             systems = new Dictionary<Type, ISystem>();
             updateSystems = new List<IUpdateSystem>();
 

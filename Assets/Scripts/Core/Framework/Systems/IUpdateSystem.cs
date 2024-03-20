@@ -1,4 +1,4 @@
-﻿namespace Core.Systems.Base {
+﻿namespace Core.Framework.Systems {
     public interface IUpdateSystem : ISystem {
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace Core.Systems.Base {
+﻿namespace Core.Framework.Systems {
     public abstract class SystemBase : ISystem {
 
         public bool Active { get; private set; }

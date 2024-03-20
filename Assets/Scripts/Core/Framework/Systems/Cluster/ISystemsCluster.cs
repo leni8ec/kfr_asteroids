@@ -1,7 +1,5 @@
-using Core.Systems.Base;
-
-namespace Core.Processors {
-    public interface ISystemsProcessor {
+namespace Core.Framework.Systems.Cluster {
+    public interface ISystemsCluster {
 
         public void Add<T>(T system) where T : ISystem;
 
